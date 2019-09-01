@@ -49,6 +49,12 @@ const navBarItems: Array<navItem> = [
     useExact: true,
   },
   {
+    value: "DeFi",
+    to: "/defi",
+    icon: "check-square",
+    LinkComponent: withRouter(NavLink),
+  },
+  {
     value: "Interface",
     icon: "box",
     subItems: [
@@ -117,15 +123,7 @@ const navBarItems: Array<navItem> = [
     to: "/gallery",
     icon: "image",
     LinkComponent: withRouter(NavLink),
-  },
-  {
-    icon: "file-text",
-    value: "Documentation",
-    to:
-      process.env.NODE_ENV === "production"
-        ? "https://tabler.github.io/tabler-react/documentation"
-        : "/documentation",
-  },
+  }
 ];
 
 const accountDropdownProps = {

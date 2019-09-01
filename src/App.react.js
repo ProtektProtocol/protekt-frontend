@@ -25,6 +25,7 @@ import ChartsPage from "./interface/ChartsPage.react";
 import GalleryPage from "./GalleryPage.react";
 import MapCardsPage from "./components/MapCardsPage.react";
 import BlogPage from "./components/BlogPage.react";
+import DefiPage from "./components/DefiPage.react";
 
 import "tabler-react/dist/Tabler.css";
 
@@ -43,6 +44,7 @@ function App(props: Props): React.Node {
           <Route exact path="/500" component={Error500} />
           <Route exact path="/503" component={Error503} />
           <Route exact path="/blog" component={BlogPage} />
+          <Route exact path="/defi" component={DefiPage} />
           <Route exact path="/cards" component={CardsDesignPage} />
           <Route exact path="/charts" component={ChartsPage} />
           <Route exact path="/email" component={Email} />
