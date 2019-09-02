@@ -23,8 +23,9 @@ import "tabler-react/dist/Tabler.css";
 type Props = {||};
 
 function App(props: Props): React.Node {
-  console.log(props.location.pathname);
   console.log(props)
+  console.log(props.location.pathname);
+
 
 
   return (

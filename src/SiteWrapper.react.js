@@ -72,7 +72,7 @@ class SiteWrapper extends React.Component<Props, State> {
         headerProps={{
           href: "/",
           alt: "DeFi Whale",
-          imageURL: "./static/logo_400x400.png",
+          imageURL: "/static/logo_400x400.png",
           navItems: [
             (
               <Nav.Item type="div" className="d-none d-md-flex">
