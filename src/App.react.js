@@ -23,6 +23,10 @@ import "tabler-react/dist/Tabler.css";
 type Props = {||};
 
 function App(props: Props): React.Node {
+  console.log(this.props.location.pathname);
+  console.log(this.props)
+
+
   return (
     <React.StrictMode>
       <Router>
