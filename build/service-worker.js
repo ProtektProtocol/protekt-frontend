@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/3.6.3/workbox-sw.js");
 
 importScripts(
-  "/defi-whale-website/precache-manifest.e305661033a90c6823a82347d6533f1e.js"
+  "/defi-whale-website/precache-manifest.1fd7e20009127a87edbe8d9b38b29848.js"
 );
 
 workbox.clientsClaim();
