@@ -27,7 +27,7 @@ function App(props: Props): React.Node {
     <React.StrictMode>
       <Router>
         <Switch>
-          <Route exact path="/" component={DefiPage} />
+          <Route path="/" component={DefiPage} />
           <Route path="/defi" component={DefiPage} />
           <Route path="/about" component={AboutPage} />
           <Route path="/stable" component={StablecoinReportPage} />
@@ -41,7 +41,7 @@ function App(props: Props): React.Node {
           <Route path="/404" component={Error404} />
           <Route path="/500" component={Error500} />
           <Route path="/503" component={Error503} />
-          <Redirect to="/defi"/>
+          <Redirect to="/"/>
           <Route component={Error404} />
         </Switch>
       </Router>
