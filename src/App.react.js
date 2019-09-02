@@ -31,7 +31,7 @@ function App(props: Props): React.Node {
     <React.StrictMode>
       <Router>
         <Switch>
-          <Route exact path="/defi-whale-website" component={DefiPage} />
+          <Route exact path="/" component={DefiPage} />
           <Route path="/400" component={Error400} />
           <Route path="/401" component={Error401} />
           <Route path="/403" component={Error403} />
