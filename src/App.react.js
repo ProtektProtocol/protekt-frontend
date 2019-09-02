@@ -41,7 +41,6 @@ function App(props: Props): React.Node {
           <Route path="/404" component={Error404} />
           <Route path="/500" component={Error500} />
           <Route path="/503" component={Error503} />
-          <Redirect to="/"/>
           <Route component={Error404} />
         </Switch>
       </Router>
