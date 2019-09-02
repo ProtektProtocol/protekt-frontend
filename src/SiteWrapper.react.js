@@ -105,7 +105,7 @@ class SiteWrapper extends React.Component<Props, State> {
           copyright: (
             <React.Fragment>
               Copyright © 2019
-              <a href="https://twitter.com/DeFiWhale"> DeFi Whale</a>. All rights reserved.
+              <a href="https://twitter.com/DeFiWhale" target="_blank"> DeFi Whale</a>. All rights reserved.
             </React.Fragment>
           ),
           nav: (
