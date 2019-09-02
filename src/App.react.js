@@ -40,7 +40,7 @@ function App(props: Props): React.Node {
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/profile" component={ProfilePage} />
           <Route exact path="/register" component={RegisterPage} />
-          <Redirect to='/defi' />
+          <Route exact path="/" component={DefiPage} />
           <Route component={Error404} />
         </Switch>
       </Router>
