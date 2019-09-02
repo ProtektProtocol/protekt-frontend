@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from "react";
-import { NavLink, withRouter } from "react-router-dom";
+import { NavLink, withRouter, Link } from "react-router-dom";
 
 import {
   // Site,
@@ -113,7 +113,7 @@ class SiteWrapper extends React.Component<Props, State> {
               <Grid.Col auto={true}>
                 <List className="list-inline list-inline-dots mb-0">
                   <List.Item className="list-inline-item">
-                    <a href="/about">About</a>
+                    <Link to="/about">About</Link>
                   </List.Item>
                 </List>
               </Grid.Col>
