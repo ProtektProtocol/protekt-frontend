@@ -4,7 +4,7 @@
   "version": "0.0.0",
   "private": true,
   "main": "build/index.html",
-  "homepage": "https://corbinpage.github.io/defi",
+  "homepage": "https://corbinpage.github.io/defi-whale-website",
   "license": "MIT",
   "dependencies": {
     "airtable": "^0.7.1",
