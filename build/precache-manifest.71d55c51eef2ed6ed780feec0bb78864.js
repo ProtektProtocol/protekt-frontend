@@ -1,10 +1,10 @@
 self.__precacheManifest = [
   {
-    "revision": "e14c0f5e3d367693fa699906a02119c6",
-    "url": "/defi-whale-website/static/media/2checkout.e14c0f5e.svg"
+    "revision": "625866342c77dcf827cdc22d004c6227",
+    "url": "/defi-whale-website/static/media/zm.62586634.svg"
   },
   {
-    "revision": "2fd623f1a8e43e983713",
+    "revision": "0fcbfe5780a20c633624",
     "url": "/defi-whale-website/static/css/main.076fb58a.chunk.css"
   },
   {
@@ -16,12 +16,16 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/do.d8ab6db9.svg"
   },
   {
-    "revision": "c0dd7a94429b1adbc138",
-    "url": "/defi-whale-website/static/js/2.d1806664.chunk.js"
+    "revision": "7952d36753cf93e27b1d",
+    "url": "/defi-whale-website/static/js/2.4fc3d9b2.chunk.js"
   },
   {
     "revision": "f2a4363b794cd6532749f37aafcf80b2",
     "url": "/defi-whale-website/static/media/aol-explorer.f2a4363b.svg"
+  },
+  {
+    "revision": "2bbe801cebc095f84c7d92574ec7214d",
+    "url": "/defi-whale-website/static/media/chrome.2bbe801c.svg"
   },
   {
     "revision": "ead509aef9d7ac89dc55069b4c0acbfd",
@@ -32,16 +36,16 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/android-browser.e1d3686c.svg"
   },
   {
-    "revision": "2bbe801cebc095f84c7d92574ec7214d",
-    "url": "/defi-whale-website/static/media/chrome.2bbe801c.svg"
+    "revision": "f66d5a061976c8b9bf6e852d9d1e2de7",
+    "url": "/defi-whale-website/static/media/dolphin.f66d5a06.svg"
   },
   {
     "revision": "870087fd8e511c411e5baed4005d5bb7",
     "url": "/defi-whale-website/static/media/chromium.870087fd.svg"
   },
   {
-    "revision": "f66d5a061976c8b9bf6e852d9d1e2de7",
-    "url": "/defi-whale-website/static/media/dolphin.f66d5a06.svg"
+    "revision": "abda4ac163b5c9be7f993273f229b735",
+    "url": "/defi-whale-website/static/media/edge.abda4ac1.svg"
   },
   {
     "revision": "57c3e539655a13da5d3207594f0b78ed",
@@ -58,10 +62,6 @@ self.__precacheManifest = [
   {
     "revision": "438992de4e83d2123b1d9cdf8bb4bd03",
     "url": "/defi-whale-website/static/media/opera.438992de.svg"
-  },
-  {
-    "revision": "abda4ac163b5c9be7f993273f229b735",
-    "url": "/defi-whale-website/static/media/edge.abda4ac1.svg"
   },
   {
     "revision": "1751c6d6fbb09e086eaf46c3897268d7",
@@ -92,10 +92,6 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/al.1c4942df.svg"
   },
   {
-    "revision": "fb98f0e65ec013a1920944ecc3826df3",
-    "url": "/defi-whale-website/static/media/aq.fb98f0e6.svg"
-  },
-  {
     "revision": "fd948d03374b46e183d93dbd3709705c",
     "url": "/defi-whale-website/static/media/ao.fd948d03.svg"
   },
@@ -104,8 +100,8 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/ar.2ed2ee2a.svg"
   },
   {
-    "revision": "b853c2ebc123eab5abe5e71a6b329863",
-    "url": "/defi-whale-website/static/media/au.b853c2eb.svg"
+    "revision": "fb98f0e65ec013a1920944ecc3826df3",
+    "url": "/defi-whale-website/static/media/aq.fb98f0e6.svg"
   },
   {
     "revision": "3301f616c5f32ad07226366d2882d9cd",
@@ -118,6 +114,10 @@ self.__precacheManifest = [
   {
     "revision": "ba2d1e5e6f743781569d6b671077db3c",
     "url": "/defi-whale-website/static/media/az.ba2d1e5e.svg"
+  },
+  {
+    "revision": "b853c2ebc123eab5abe5e71a6b329863",
+    "url": "/defi-whale-website/static/media/au.b853c2eb.svg"
   },
   {
     "revision": "a441d8da7d266c9b9d315d06ee5fb429",
@@ -140,24 +140,24 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/bg.bc04745d.svg"
   },
   {
-    "revision": "a5c508b2ab0cdb85d5f22d40d2c3b97b",
-    "url": "/defi-whale-website/static/media/bl.a5c508b2.svg"
+    "revision": "f88288fa14a3979b34582b6018a62e35",
+    "url": "/defi-whale-website/static/media/bf.f88288fa.svg"
   },
   {
     "revision": "805f2682e67e457f15d50fb7576fd477",
     "url": "/defi-whale-website/static/media/bh.805f2682.svg"
   },
   {
-    "revision": "ea52986c752328b2ca8ce558cab8a98f",
-    "url": "/defi-whale-website/static/media/bj.ea52986c.svg"
+    "revision": "a5c508b2ab0cdb85d5f22d40d2c3b97b",
+    "url": "/defi-whale-website/static/media/bl.a5c508b2.svg"
   },
   {
     "revision": "bc8085f9a17e392f05c127dc50293578",
     "url": "/defi-whale-website/static/media/bi.bc8085f9.svg"
   },
   {
-    "revision": "f88288fa14a3979b34582b6018a62e35",
-    "url": "/defi-whale-website/static/media/bf.f88288fa.svg"
+    "revision": "ea52986c752328b2ca8ce558cab8a98f",
+    "url": "/defi-whale-website/static/media/bj.ea52986c.svg"
   },
   {
     "revision": "4cac15edfcf9d342d21a46e5ee9cb2c2",
@@ -168,12 +168,12 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/bs.421969c2.svg"
   },
   {
-    "revision": "8ecb0b8e0257d3d0654dc7efd84da4c5",
-    "url": "/defi-whale-website/static/media/bw.8ecb0b8e.svg"
-  },
-  {
     "revision": "58761e89669c1387b966f11c2c1ddca3",
     "url": "/defi-whale-website/static/media/bv.58761e89.svg"
+  },
+  {
+    "revision": "8ecb0b8e0257d3d0654dc7efd84da4c5",
+    "url": "/defi-whale-website/static/media/bw.8ecb0b8e.svg"
   },
   {
     "revision": "af259017cdf3bcf91fa79f3639fff3fc",
@@ -184,28 +184,20 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/cc.ec7f3820.svg"
   },
   {
-    "revision": "020e3d1ee345ac631a4b463b073b57b7",
-    "url": "/defi-whale-website/static/media/cd.020e3d1e.svg"
+    "revision": "f75250a7950f5fb23779d262fd0da81d",
+    "url": "/defi-whale-website/static/media/cf.f75250a7.svg"
   },
   {
     "revision": "497d91d1318438d0b128595d371d351e",
     "url": "/defi-whale-website/static/media/cg.497d91d1.svg"
   },
   {
+    "revision": "020e3d1ee345ac631a4b463b073b57b7",
+    "url": "/defi-whale-website/static/media/cd.020e3d1e.svg"
+  },
+  {
     "revision": "d51618940f7f8df58cae92f4acb930fd",
     "url": "/defi-whale-website/static/media/ch.d5161894.svg"
-  },
-  {
-    "revision": "f75250a7950f5fb23779d262fd0da81d",
-    "url": "/defi-whale-website/static/media/cf.f75250a7.svg"
-  },
-  {
-    "revision": "17f2e2c9827f7a093f9b94921ed16638",
-    "url": "/defi-whale-website/static/media/cm.17f2e2c9.svg"
-  },
-  {
-    "revision": "869edc7171502fe62f15951ab9ab51ea",
-    "url": "/defi-whale-website/static/media/ck.869edc71.svg"
   },
   {
     "revision": "9d5227cbd7309dd8801518e8f3d9a7de",
@@ -214,6 +206,14 @@ self.__precacheManifest = [
   {
     "revision": "1334b221487d5b445f6802ddd024a5c8",
     "url": "/defi-whale-website/static/media/ci.1334b221.svg"
+  },
+  {
+    "revision": "869edc7171502fe62f15951ab9ab51ea",
+    "url": "/defi-whale-website/static/media/ck.869edc71.svg"
+  },
+  {
+    "revision": "17f2e2c9827f7a093f9b94921ed16638",
+    "url": "/defi-whale-website/static/media/cm.17f2e2c9.svg"
   },
   {
     "revision": "433d22ad5949ca9376e7fee2398cf908",
@@ -232,10 +232,6 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/cu.050058cb.svg"
   },
   {
-    "revision": "5180dbe51ead0d4850f3cc2db94d4cf9",
-    "url": "/defi-whale-website/static/media/cx.5180dbe5.svg"
-  },
-  {
     "revision": "6b6994926cbbd25d691d0d029999492a",
     "url": "/defi-whale-website/static/media/cv.6b699492.svg"
   },
@@ -244,20 +240,24 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/cw.07a0d3f9.svg"
   },
   {
-    "revision": "f4c086cc100130afc0642dc7bf1357de",
-    "url": "/defi-whale-website/static/media/dj.f4c086cc.svg"
-  },
-  {
-    "revision": "44761537674d28555c1985159c2b2e88",
-    "url": "/defi-whale-website/static/media/dk.44761537.svg"
+    "revision": "5180dbe51ead0d4850f3cc2db94d4cf9",
+    "url": "/defi-whale-website/static/media/cx.5180dbe5.svg"
   },
   {
     "revision": "01e89f77d4cd293951a32164b25ced60",
     "url": "/defi-whale-website/static/media/de.01e89f77.svg"
   },
   {
+    "revision": "f4c086cc100130afc0642dc7bf1357de",
+    "url": "/defi-whale-website/static/media/dj.f4c086cc.svg"
+  },
+  {
     "revision": "6731f87258db1b3310d7c8b86efa97e6",
     "url": "/defi-whale-website/static/media/cz.6731f872.svg"
+  },
+  {
+    "revision": "44761537674d28555c1985159c2b2e88",
+    "url": "/defi-whale-website/static/media/dk.44761537.svg"
   },
   {
     "revision": "333db1efebf7b037389acd563050c357",
@@ -268,60 +268,60 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/ee.57f366b0.svg"
   },
   {
-    "revision": "70738db67657a95db078a19581859e69",
-    "url": "/defi-whale-website/static/media/er.70738db6.svg"
-  },
-  {
     "revision": "e4f13505f93239f55cf1bf1615297172",
     "url": "/defi-whale-website/static/media/eh.e4f13505.svg"
   },
   {
-    "revision": "31aa0fc0721b95431f4b0dda48307c50",
-    "url": "/defi-whale-website/static/media/et.31aa0fc0.svg"
+    "revision": "70738db67657a95db078a19581859e69",
+    "url": "/defi-whale-website/static/media/er.70738db6.svg"
   },
   {
     "revision": "17beaf811c76ebaa6bcfdb8b5e8a7325",
     "url": "/defi-whale-website/static/media/eu.17beaf81.svg"
   },
   {
-    "revision": "58bcc4aff2131cf9d6eee5e30ec6fd62",
-    "url": "/defi-whale-website/static/media/fi.58bcc4af.svg"
+    "revision": "31aa0fc0721b95431f4b0dda48307c50",
+    "url": "/defi-whale-website/static/media/et.31aa0fc0.svg"
   },
   {
-    "revision": "dc9ed815f9a4bc59036c5fb3ef3aecca",
-    "url": "/defi-whale-website/static/media/fo.dc9ed815.svg"
+    "revision": "58bcc4aff2131cf9d6eee5e30ec6fd62",
+    "url": "/defi-whale-website/static/media/fi.58bcc4af.svg"
   },
   {
     "revision": "2bd7d4dffe1fd474663f05041e95e46a",
     "url": "/defi-whale-website/static/media/fm.2bd7d4df.svg"
   },
   {
-    "revision": "a933214c8977a7009219775519a584b4",
-    "url": "/defi-whale-website/static/media/gb-eng.a933214c.svg"
+    "revision": "dc9ed815f9a4bc59036c5fb3ef3aecca",
+    "url": "/defi-whale-website/static/media/fo.dc9ed815.svg"
   },
   {
     "revision": "a178bcfbbbc26cb995fa19241b7a12a2",
     "url": "/defi-whale-website/static/media/fr.a178bcfb.svg"
   },
   {
-    "revision": "33442fb979e8f4f40b093bb4d6a39a7e",
-    "url": "/defi-whale-website/static/media/ga.33442fb9.svg"
-  },
-  {
     "revision": "772350bf81e7b44332b5585cd15dfa3c",
     "url": "/defi-whale-website/static/media/gb-sct.772350bf.svg"
+  },
+  {
+    "revision": "a933214c8977a7009219775519a584b4",
+    "url": "/defi-whale-website/static/media/gb-eng.a933214c.svg"
+  },
+  {
+    "revision": "33442fb979e8f4f40b093bb4d6a39a7e",
+    "url": "/defi-whale-website/static/media/ga.33442fb9.svg"
   },
   {
     "revision": "91974b40e86c4b9db2b9bd6ec533bfa7",
     "url": "/defi-whale-website/static/media/mozilla.91974b40.svg"
   },
   {
-    "revision": "dc91764d503d73913f176521a3303166",
-    "url": "/defi-whale-website/static/media/aw.dc91764d.svg"
-  },
-  {
     "revision": "e18a59539f200660f10252a72f54ae08",
     "url": "/defi-whale-website/static/media/as.e18a5953.svg"
+  },
+  {
+    "revision": "dc91764d503d73913f176521a3303166",
+    "url": "/defi-whale-website/static/media/aw.dc91764d.svg"
   },
   {
     "revision": "fc7b82902896e1b59928e29ac9b75914",
@@ -356,12 +356,12 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/bm.6339387e.svg"
   },
   {
-    "revision": "a8df755f8fdc9111d7b737b33529db81",
-    "url": "/defi-whale-website/static/media/af.a8df755f.svg"
-  },
-  {
     "revision": "ee79ab6acab3d05faeb0df7db2689a2e",
     "url": "/defi-whale-website/static/media/safari.ee79ab6a.svg"
+  },
+  {
+    "revision": "a8df755f8fdc9111d7b737b33529db81",
+    "url": "/defi-whale-website/static/media/af.a8df755f.svg"
   },
   {
     "revision": "39149c620356690eaf75a6a32dfba374",
@@ -400,20 +400,20 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/webmoney.c77724f3.svg"
   },
   {
-    "revision": "a09152e75acbfee13fe82e13c54a77ad",
-    "url": "/defi-whale-website/static/media/visa.a09152e7.svg"
-  },
-  {
     "revision": "4082e1b1ac8f311463c064a0875a8e5a",
     "url": "/defi-whale-website/static/media/westernunion.4082e1b1.svg"
   },
   {
-    "revision": "5c559c4c11d8fda02a9f9e86e1615b41",
-    "url": "/defi-whale-website/static/media/webmoney-dark.5c559c4c.svg"
+    "revision": "a09152e75acbfee13fe82e13c54a77ad",
+    "url": "/defi-whale-website/static/media/visa.a09152e7.svg"
   },
   {
     "revision": "f6a55e1d4fc96499269717a964bc3984",
     "url": "/defi-whale-website/static/media/visa-dark.f6a55e1d.svg"
+  },
+  {
+    "revision": "5c559c4c11d8fda02a9f9e86e1615b41",
+    "url": "/defi-whale-website/static/media/webmoney-dark.5c559c4c.svg"
   },
   {
     "revision": "012caff4df8cce6f2ea751366a4d0804",
@@ -432,16 +432,16 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/switch-dark.54599ad9.svg"
   },
   {
-    "revision": "77c6af283968828069b3720792640fa9",
-    "url": "/defi-whale-website/static/media/stripe.77c6af28.svg"
-  },
-  {
     "revision": "025afc3556434d9a218b3de9ae6aab11",
     "url": "/defi-whale-website/static/media/stripe-dark.025afc35.svg"
   },
   {
     "revision": "48f113984b06dd75617b37d6d764a02b",
     "url": "/defi-whale-website/static/media/square.48f11398.svg"
+  },
+  {
+    "revision": "77c6af283968828069b3720792640fa9",
+    "url": "/defi-whale-website/static/media/stripe.77c6af28.svg"
   },
   {
     "revision": "17da28b916977064d74363481913b58b",
@@ -452,10 +452,6 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/skrill.b0d31271.svg"
   },
   {
-    "revision": "4db9c83cfd89dfc89536c33d2065ae16",
-    "url": "/defi-whale-website/static/media/square-dark.4db9c83c.svg"
-  },
-  {
     "revision": "f7fcc525735b4166573bc49f7c418161",
     "url": "/defi-whale-website/static/media/solo.f7fcc525.svg"
   },
@@ -464,28 +460,32 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/skrill-dark.a1a4a38c.svg"
   },
   {
-    "revision": "c962e60b37391f1d7dd0a0ffacad256b",
-    "url": "/defi-whale-website/static/media/sage.c962e60b.svg"
+    "revision": "4db9c83cfd89dfc89536c33d2065ae16",
+    "url": "/defi-whale-website/static/media/square-dark.4db9c83c.svg"
   },
   {
     "revision": "1560c69d3cf081291eb13f477dc9e043",
     "url": "/defi-whale-website/static/media/sage-dark.1560c69d.svg"
   },
   {
-    "revision": "057164517322929b8b277ef36a63da87",
-    "url": "/defi-whale-website/static/media/payza.05716451.svg"
+    "revision": "c962e60b37391f1d7dd0a0ffacad256b",
+    "url": "/defi-whale-website/static/media/sage.c962e60b.svg"
   },
   {
     "revision": "aaf8d63fe0f20e267e21c89f0824edbf",
     "url": "/defi-whale-website/static/media/payza-dark.aaf8d63f.svg"
   },
   {
-    "revision": "80265cc7c79041d66e9437374b08894c",
-    "url": "/defi-whale-website/static/media/payu-dark.80265cc7.svg"
+    "revision": "057164517322929b8b277ef36a63da87",
+    "url": "/defi-whale-website/static/media/payza.05716451.svg"
   },
   {
     "revision": "ece9e63914c3f788968b357cf6189e95",
     "url": "/defi-whale-website/static/media/payu.ece9e639.svg"
+  },
+  {
+    "revision": "80265cc7c79041d66e9437374b08894c",
+    "url": "/defi-whale-website/static/media/payu-dark.80265cc7.svg"
   },
   {
     "revision": "aa9749d2dbfa5fce884c050157002e4f",
@@ -512,12 +512,12 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/paymill-dark.d8737b88.svg"
   },
   {
-    "revision": "321bd555c37290b6a89acc1922a3e3ad",
-    "url": "/defi-whale-website/static/media/paybox-dark.321bd555.svg"
-  },
-  {
     "revision": "46f8af3b7129313668e112509e361f0d",
     "url": "/defi-whale-website/static/media/paybox.46f8af3b.svg"
+  },
+  {
+    "revision": "321bd555c37290b6a89acc1922a3e3ad",
+    "url": "/defi-whale-website/static/media/paybox-dark.321bd555.svg"
   },
   {
     "revision": "72f763a2ab7a69dcd6f92a1f448ff251",
@@ -532,20 +532,20 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/ogone.8832c251.svg"
   },
   {
-    "revision": "5fa709fb52bd0947dc6ddd33eab567fc",
-    "url": "/defi-whale-website/static/media/ogone-dark.5fa709fb.svg"
-  },
-  {
     "revision": "7df16d088d2d3fafc742fc011ab39191",
     "url": "/defi-whale-website/static/media/monero.7df16d08.svg"
   },
   {
-    "revision": "63736caca924eb35fb9104d4f432cfb0",
-    "url": "/defi-whale-website/static/media/neteller-dark.63736cac.svg"
-  },
-  {
     "revision": "798e0b4b9b2b5b2a6966e3160c8652d1",
     "url": "/defi-whale-website/static/media/neteller.798e0b4b.svg"
+  },
+  {
+    "revision": "5fa709fb52bd0947dc6ddd33eab567fc",
+    "url": "/defi-whale-website/static/media/ogone-dark.5fa709fb.svg"
+  },
+  {
+    "revision": "63736caca924eb35fb9104d4f432cfb0",
+    "url": "/defi-whale-website/static/media/neteller-dark.63736cac.svg"
   },
   {
     "revision": "29d40dee70c67525aa54c6d462843f4a",
@@ -596,16 +596,16 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/ukash.7a542b9e.svg"
   },
   {
+    "revision": "89b7d2ae90e9df97aa9e3a9940bac2c1",
+    "url": "/defi-whale-website/static/media/ukash-dark.89b7d2ae.svg"
+  },
+  {
     "revision": "285de38e64669e7d6fdb6b88092a7adb",
     "url": "/defi-whale-website/static/media/unionpay.285de38e.svg"
   },
   {
     "revision": "22beb1a2dc02dd5b8ecd72b776937af0",
     "url": "/defi-whale-website/static/media/unionpay-dark.22beb1a2.svg"
-  },
-  {
-    "revision": "89b7d2ae90e9df97aa9e3a9940bac2c1",
-    "url": "/defi-whale-website/static/media/ukash-dark.89b7d2ae.svg"
   },
   {
     "revision": "2a87d23fcf628021ed81203dc2305938",
@@ -624,36 +624,36 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/paysafecard-dark.2a3832c3.svg"
   },
   {
-    "revision": "44f32f32a552d578ccb68df55740c84b",
-    "url": "/defi-whale-website/static/media/ripple.44f32f32.svg"
-  },
-  {
-    "revision": "0db2bc557a5ea15b0ba7f83b463776d3",
-    "url": "/defi-whale-website/static/media/paysafecard.0db2bc55.svg"
-  },
-  {
-    "revision": "8d95de50838be9eb99e9db6eb23a3610",
-    "url": "/defi-whale-website/static/media/payoneer-dark.8d95de50.svg"
-  },
-  {
     "revision": "e460ab6b6da17bf959f8d123cfeb4e2e",
     "url": "/defi-whale-website/static/media/payoneer.e460ab6b.svg"
+  },
+  {
+    "revision": "44f32f32a552d578ccb68df55740c84b",
+    "url": "/defi-whale-website/static/media/ripple.44f32f32.svg"
   },
   {
     "revision": "0d91ff8fa73e4822b3df8578f6f90708",
     "url": "/defi-whale-website/static/media/maestro-dark.0d91ff8f.svg"
   },
   {
+    "revision": "8d95de50838be9eb99e9db6eb23a3610",
+    "url": "/defi-whale-website/static/media/payoneer-dark.8d95de50.svg"
+  },
+  {
+    "revision": "0db2bc557a5ea15b0ba7f83b463776d3",
+    "url": "/defi-whale-website/static/media/paysafecard.0db2bc55.svg"
+  },
+  {
     "revision": "31a202b40107161647c50fac56384c29",
     "url": "/defi-whale-website/static/media/maestro.31a202b4.svg"
   },
   {
-    "revision": "3a666a1e1aeba0c533c35132129e65db",
-    "url": "/defi-whale-website/static/media/klarna-dark.3a666a1e.svg"
-  },
-  {
     "revision": "c05b3bbaa7150d0b60d6dfa8c602f70f",
     "url": "/defi-whale-website/static/media/klarna.c05b3bba.svg"
+  },
+  {
+    "revision": "3a666a1e1aeba0c533c35132129e65db",
+    "url": "/defi-whale-website/static/media/klarna-dark.3a666a1e.svg"
   },
   {
     "revision": "7f0e39ad58186b6fdbe5878970192668",
@@ -688,24 +688,24 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/eway-dark.bbf15466.svg"
   },
   {
-    "revision": "2cf523cd335b115a5678b068b56c3011",
-    "url": "/defi-whale-website/static/media/feather-webfont.2cf523cd.woff"
+    "revision": "3684cf8229ff28f3054fa1d2a6095077",
+    "url": "/defi-whale-website/static/media/verisign.3684cf82.svg"
   },
   {
     "revision": "1f0c2c56a34c8dce6fdbeaa80579e2c4",
     "url": "/defi-whale-website/static/media/verisign-dark.1f0c2c56.svg"
   },
   {
-    "revision": "3684cf8229ff28f3054fa1d2a6095077",
-    "url": "/defi-whale-website/static/media/verisign.3684cf82.svg"
-  },
-  {
-    "revision": "b1695f2bf43376465adea7252ec7837f",
-    "url": "/defi-whale-website/static/media/mastercard-dark.b1695f2b.svg"
+    "revision": "2cf523cd335b115a5678b068b56c3011",
+    "url": "/defi-whale-website/static/media/feather-webfont.2cf523cd.woff"
   },
   {
     "revision": "a6684d9315e2ded55b8ee33df8c370d5",
     "url": "/defi-whale-website/static/media/mastercard.a6684d93.svg"
+  },
+  {
+    "revision": "b1695f2bf43376465adea7252ec7837f",
+    "url": "/defi-whale-website/static/media/mastercard-dark.b1695f2b.svg"
   },
   {
     "revision": "00f5c21f4be89a46de82c69e6259781c",
@@ -720,24 +720,24 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/sepa-dark.3834e619.svg"
   },
   {
-    "revision": "37695b626fb35b01215987cd7865ca7b",
-    "url": "/defi-whale-website/static/media/directdebit.37695b62.svg"
-  },
-  {
     "revision": "bf510996f9f817b97d4618a413373998",
     "url": "/defi-whale-website/static/media/directdebit-dark.bf510996.svg"
+  },
+  {
+    "revision": "37695b626fb35b01215987cd7865ca7b",
+    "url": "/defi-whale-website/static/media/directdebit.37695b62.svg"
   },
   {
     "revision": "b60982772ca2538902574c9790def63b",
     "url": "/defi-whale-website/static/media/coinkite.b6098277.svg"
   },
   {
-    "revision": "f50deb17e6e13ff02fe1f4c149d3166c",
-    "url": "/defi-whale-website/static/media/coinkite-dark.f50deb17.svg"
-  },
-  {
     "revision": "b8e9cbc7ac23b572497cd2115bcf71c6",
     "url": "/defi-whale-website/static/media/feather-webfont.b8e9cbc7.ttf"
+  },
+  {
+    "revision": "f50deb17e6e13ff02fe1f4c149d3166c",
+    "url": "/defi-whale-website/static/media/coinkite-dark.f50deb17.svg"
   },
   {
     "revision": "eb61d075dbf8722029027b09b39cc3a8",
@@ -772,16 +772,16 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/alipay-dark.b6a651d2.svg"
   },
   {
-    "revision": "625866342c77dcf827cdc22d004c6227",
-    "url": "/defi-whale-website/static/media/zm.62586634.svg"
-  },
-  {
     "revision": "e223cee52ee80138dfc25a1885c83186",
     "url": "/defi-whale-website/static/media/zw.e223cee5.svg"
   },
   {
-    "revision": "2fd623f1a8e43e983713",
-    "url": "/defi-whale-website/static/js/main.a21f606b.chunk.js"
+    "revision": "e14c0f5e3d367693fa699906a02119c6",
+    "url": "/defi-whale-website/static/media/2checkout.e14c0f5e.svg"
+  },
+  {
+    "revision": "0fcbfe5780a20c633624",
+    "url": "/defi-whale-website/static/js/main.acd0b7f3.chunk.js"
   },
   {
     "revision": "65d58d809466b33a779ff1b029046730",
@@ -816,28 +816,16 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/vn.0b7571b8.svg"
   },
   {
-    "revision": "6f48a1b9488fe66e13887fb43304c009",
-    "url": "/defi-whale-website/static/media/ve.6f48a1b9.svg"
-  },
-  {
     "revision": "f3912357d0a5339a1f402efefc89a8e7",
     "url": "/defi-whale-website/static/media/vc.f3912357.svg"
-  },
-  {
-    "revision": "a7e91b404efc4ad91c1360efd8e9cb4a",
-    "url": "/defi-whale-website/static/media/uy.a7e91b40.svg"
   },
   {
     "revision": "791dfbdae7960b7482e949dfac7c829a",
     "url": "/defi-whale-website/static/media/uz.791dfbda.svg"
   },
   {
-    "revision": "acc88be0743859f3c1d499c3117cfdcd",
-    "url": "/defi-whale-website/static/media/ua.acc88be0.svg"
-  },
-  {
-    "revision": "a1fa2de39f9fdbd1e48a965bf697d700",
-    "url": "/defi-whale-website/static/media/um.a1fa2de3.svg"
+    "revision": "6f48a1b9488fe66e13887fb43304c009",
+    "url": "/defi-whale-website/static/media/ve.6f48a1b9.svg"
   },
   {
     "revision": "2382ea7ec7cc55bfe1cc7a3ea8326989",
@@ -848,8 +836,20 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/ug.1e070275.svg"
   },
   {
+    "revision": "a1fa2de39f9fdbd1e48a965bf697d700",
+    "url": "/defi-whale-website/static/media/um.a1fa2de3.svg"
+  },
+  {
+    "revision": "a7e91b404efc4ad91c1360efd8e9cb4a",
+    "url": "/defi-whale-website/static/media/uy.a7e91b40.svg"
+  },
+  {
     "revision": "7baefd1c21ecb97a0a48a0d738bf79dc",
     "url": "/defi-whale-website/static/media/tw.7baefd1c.svg"
+  },
+  {
+    "revision": "acc88be0743859f3c1d499c3117cfdcd",
+    "url": "/defi-whale-website/static/media/ua.acc88be0.svg"
   },
   {
     "revision": "d5c9c20a3cfbf0c135ea7d58d29684f5",
@@ -868,10 +868,6 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/tt.f09daa6d.svg"
   },
   {
-    "revision": "f563fdae9a3ca98f28a3c4c03a6d766f",
-    "url": "/defi-whale-website/static/media/tl.f563fdae.svg"
-  },
-  {
     "revision": "fa884203b4e844943f89c290c02ea246",
     "url": "/defi-whale-website/static/media/to.fa884203.svg"
   },
@@ -880,16 +876,20 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/tn.ef273685.svg"
   },
   {
+    "revision": "f563fdae9a3ca98f28a3c4c03a6d766f",
+    "url": "/defi-whale-website/static/media/tl.f563fdae.svg"
+  },
+  {
     "revision": "22d4831b30e7a7ffa78d23628db3bdab",
     "url": "/defi-whale-website/static/media/tk.22d4831b.svg"
   },
   {
-    "revision": "ffb94e65905ea7a299e8ee52944abef1",
-    "url": "/defi-whale-website/static/media/bitpay.ffb94e65.svg"
-  },
-  {
     "revision": "243a362ebddb29c473ace764e5b11e6b",
     "url": "/defi-whale-website/static/media/cirrus-dark.243a362e.svg"
+  },
+  {
+    "revision": "ffb94e65905ea7a299e8ee52944abef1",
+    "url": "/defi-whale-website/static/media/bitpay.ffb94e65.svg"
   },
   {
     "revision": "8c0a0fa2bc07c9102ff49218b0ca9145",
@@ -904,100 +904,100 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/bitpay-dark.f86a15da.svg"
   },
   {
-    "revision": "b96ee5428e8c67d6b1fc8bf73925af34",
-    "url": "/defi-whale-website/static/media/tg.b96ee542.svg"
-  },
-  {
-    "revision": "6e78609075a295f1627cd785a2005837",
-    "url": "/defi-whale-website/static/media/bancontact-dark.6e786090.svg"
-  },
-  {
     "revision": "b6533ad31f2b20a30bba38b0f2de1d9b",
     "url": "/defi-whale-website/static/media/tj.b6533ad3.svg"
   },
   {
-    "revision": "adc24fb28bb1688520b8ee3272929644",
-    "url": "/defi-whale-website/static/media/tf.adc24fb2.svg"
-  },
-  {
-    "revision": "b89abdaf46ce1b76d1f382de92ed7c0e",
-    "url": "/defi-whale-website/static/media/americanexpress.b89abdaf.svg"
-  },
-  {
-    "revision": "b178a57fcddb6156a5ec639d1b5d5a24",
-    "url": "/defi-whale-website/static/media/amazon-dark.b178a57f.svg"
+    "revision": "b96ee5428e8c67d6b1fc8bf73925af34",
+    "url": "/defi-whale-website/static/media/tg.b96ee542.svg"
   },
   {
     "revision": "c2ea2d77ce452a928487e9d62737ad4c",
     "url": "/defi-whale-website/static/media/americanexpress-dark.c2ea2d77.svg"
   },
   {
+    "revision": "5c500045ab6cd762cd5f9abd393c2577",
+    "url": "/defi-whale-website/static/media/amazon.5c500045.svg"
+  },
+  {
+    "revision": "6e78609075a295f1627cd785a2005837",
+    "url": "/defi-whale-website/static/media/bancontact-dark.6e786090.svg"
+  },
+  {
+    "revision": "b178a57fcddb6156a5ec639d1b5d5a24",
+    "url": "/defi-whale-website/static/media/amazon-dark.b178a57f.svg"
+  },
+  {
+    "revision": "b89abdaf46ce1b76d1f382de92ed7c0e",
+    "url": "/defi-whale-website/static/media/americanexpress.b89abdaf.svg"
+  },
+  {
     "revision": "079a252552085195fa1e74c55965d960",
     "url": "/defi-whale-website/static/media/td.079a2525.svg"
   },
   {
-    "revision": "5c500045ab6cd762cd5f9abd393c2577",
-    "url": "/defi-whale-website/static/media/amazon.5c500045.svg"
+    "revision": "adc24fb28bb1688520b8ee3272929644",
+    "url": "/defi-whale-website/static/media/tf.adc24fb2.svg"
   },
   {
     "revision": "0fedea0746db6aa80b93dc14293c1754",
     "url": "/defi-whale-website/static/media/sy.0fedea07.svg"
   },
   {
-    "revision": "b3c0a20f217b35d1cf1111736130dac8",
-    "url": "/defi-whale-website/static/media/vi.b3c0a20f.svg"
+    "revision": "0c7c9ffcd96a318fe1ed195441a6c2a9",
+    "url": "/defi-whale-website/static/media/ss.0c7c9ffc.svg"
   },
   {
     "revision": "230410b519c6205157002ce21ff8d629",
     "url": "/defi-whale-website/static/media/st.230410b5.svg"
   },
   {
-    "revision": "0c7c9ffcd96a318fe1ed195441a6c2a9",
-    "url": "/defi-whale-website/static/media/ss.0c7c9ffc.svg"
-  },
-  {
-    "revision": "3bdb1de25c626c766b62e2c1cca11ea9",
-    "url": "/defi-whale-website/static/media/so.3bdb1de2.svg"
+    "revision": "b3c0a20f217b35d1cf1111736130dac8",
+    "url": "/defi-whale-website/static/media/vi.b3c0a20f.svg"
   },
   {
     "revision": "65cdb1de480732b66f6a3675f49f2596",
     "url": "/defi-whale-website/static/media/sr.65cdb1de.svg"
   },
   {
-    "revision": "835d44f65482fc4d92251cb9eba71fa2",
-    "url": "/defi-whale-website/static/media/sl.835d44f6.svg"
-  },
-  {
-    "revision": "4dc603d122f3ede3b07bfb751ee3a59c",
-    "url": "/defi-whale-website/static/media/sn.4dc603d1.svg"
+    "revision": "3bdb1de25c626c766b62e2c1cca11ea9",
+    "url": "/defi-whale-website/static/media/so.3bdb1de2.svg"
   },
   {
     "revision": "f44daf851804e866328d76cdd0b99074",
     "url": "/defi-whale-website/static/media/sk.f44daf85.svg"
   },
   {
+    "revision": "4dc603d122f3ede3b07bfb751ee3a59c",
+    "url": "/defi-whale-website/static/media/sn.4dc603d1.svg"
+  },
+  {
     "revision": "8331157c241082c3ad0f499b47737ac2",
     "url": "/defi-whale-website/static/media/sj.8331157c.svg"
+  },
+  {
+    "revision": "835d44f65482fc4d92251cb9eba71fa2",
+    "url": "/defi-whale-website/static/media/sl.835d44f6.svg"
   },
   {
     "revision": "72f83c2946a14767d764c53baca31a7b",
     "url": "/defi-whale-website/static/media/si.72f83c29.svg"
   },
   {
-    "revision": "22475f5224df5500aa75813ba7608a23",
-    "url": "/defi-whale-website/static/media/se.22475f52.svg"
-  },
-  {
     "revision": "22b0739e53b62deb793917e7ba4c1892",
     "url": "/defi-whale-website/static/media/sg.22b0739e.svg"
   },
   {
-    "revision": "a14badd55e756d1248fb262f896a6a84",
-    "url": "/defi-whale-website/static/media/sd.a14badd5.svg"
+    "revision": "22475f5224df5500aa75813ba7608a23",
+    "url": "/defi-whale-website/static/media/se.22475f52.svg"
   },
   {
     "revision": "fdc11a48b5b254f92ffc220dc1935963",
     "url": "/defi-whale-website/static/media/sc.fdc11a48.svg"
+  },
+  {
+    "revision": "a14badd55e756d1248fb262f896a6a84",
+    "url": "/defi-whale-website/static/media/sd.a14badd5.svg"
   },
   {
     "revision": "115ce3e59fc48f4e9307e69329ed0a85",
@@ -1044,6 +1044,10 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/sa.67b058ae.svg"
   },
   {
+    "revision": "2f7d308e80bd8a87fa1d2c63aa74fc5a",
+    "url": "/defi-whale-website/static/media/tc.2f7d308e.svg"
+  },
+  {
     "revision": "20a4d7413504b137c05f202bbf385e9b",
     "url": "/defi-whale-website/static/media/qa.20a4d741.svg"
   },
@@ -1052,20 +1056,16 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/sx.d23d1807.svg"
   },
   {
-    "revision": "2f7d308e80bd8a87fa1d2c63aa74fc5a",
-    "url": "/defi-whale-website/static/media/tc.2f7d308e.svg"
-  },
-  {
     "revision": "1519b6c631d063c9e495cd9f3dfd0f66",
     "url": "/defi-whale-website/static/media/un.1519b6c6.svg"
   },
   {
-    "revision": "0557592eea5bfc7ac4a3e3d41bde1e1c",
-    "url": "/defi-whale-website/static/media/pw.0557592e.svg"
-  },
-  {
     "revision": "f3eb4474892199b59c8ca7272069e6ba",
     "url": "/defi-whale-website/static/media/sm.f3eb4474.svg"
+  },
+  {
+    "revision": "0557592eea5bfc7ac4a3e3d41bde1e1c",
+    "url": "/defi-whale-website/static/media/pw.0557592e.svg"
   },
   {
     "revision": "baff56e3fdcd57bc731c02c4878e7441",
@@ -1080,6 +1080,10 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/ps.225ede35.svg"
   },
   {
+    "revision": "e489537c791c5a57f554f17b21b02868",
+    "url": "/defi-whale-website/static/media/pr.e489537c.svg"
+  },
+  {
     "revision": "3b3121b285747fdd0ca17486e084c675",
     "url": "/defi-whale-website/static/media/vg.3b3121b2.svg"
   },
@@ -1088,20 +1092,16 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/pt.e129260b.svg"
   },
   {
-    "revision": "e489537c791c5a57f554f17b21b02868",
-    "url": "/defi-whale-website/static/media/pr.e489537c.svg"
-  },
-  {
-    "revision": "a2dc66505c31b7096ba48bac4557855c",
-    "url": "/defi-whale-website/static/media/pm.a2dc6650.svg"
-  },
-  {
     "revision": "d2132088d8448cd731e7047c1e432bf2",
     "url": "/defi-whale-website/static/media/tm.d2132088.svg"
   },
   {
     "revision": "bf813bfe31876e1a07e61f7ecdafd5a6",
     "url": "/defi-whale-website/static/media/pn.bf813bfe.svg"
+  },
+  {
+    "revision": "a2dc66505c31b7096ba48bac4557855c",
+    "url": "/defi-whale-website/static/media/pm.a2dc6650.svg"
   },
   {
     "revision": "2257cff690948088abf92a799e89544e",
@@ -1144,12 +1144,12 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/pa.91076135.svg"
   },
   {
-    "revision": "03d7410ae73601f5ec7122019a2ab888",
-    "url": "/defi-whale-website/static/media/nz.03d7410a.svg"
-  },
-  {
     "revision": "e6bfaa15b7678d8441d4106e06376792",
     "url": "/defi-whale-website/static/media/nu.e6bfaa15.svg"
+  },
+  {
+    "revision": "03d7410ae73601f5ec7122019a2ab888",
+    "url": "/defi-whale-website/static/media/nz.03d7410a.svg"
   },
   {
     "revision": "f2afa5b9c3bb5ff4eac025d6a9e3e5ff",
@@ -1196,24 +1196,28 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/my.aae5bd9c.svg"
   },
   {
-    "revision": "e343afe8028575ea736d2677db4f7744",
-    "url": "/defi-whale-website/static/media/mv.e343afe8.svg"
-  },
-  {
     "revision": "974b9e6c380a062b6504150999965d5f",
     "url": "/defi-whale-website/static/media/mu.974b9e6c.svg"
+  },
+  {
+    "revision": "e343afe8028575ea736d2677db4f7744",
+    "url": "/defi-whale-website/static/media/mv.e343afe8.svg"
   },
   {
     "revision": "6b3d082dde2cd6355e7dd6194b258da7",
     "url": "/defi-whale-website/static/media/mr.6b3d082d.svg"
   },
   {
+    "revision": "e02afe0476bb357aebde18136fda06e0",
+    "url": "/defi-whale-website/static/media/bo.e02afe04.svg"
+  },
+  {
     "revision": "4c4286cd431a0194e7d35bcc875537b7",
     "url": "/defi-whale-website/static/media/mq.4c4286cd.svg"
   },
   {
-    "revision": "e02afe0476bb357aebde18136fda06e0",
-    "url": "/defi-whale-website/static/media/bo.e02afe04.svg"
+    "revision": "e6d7c5a4187b1fd8ab643d0e5d2f5bd1",
+    "url": "/defi-whale-website/static/media/mm.e6d7c5a4.svg"
   },
   {
     "revision": "36f1d6f2d8b53af76065ce17e6189104",
@@ -1224,12 +1228,12 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/mn.cfd48e45.svg"
   },
   {
-    "revision": "e6d7c5a4187b1fd8ab643d0e5d2f5bd1",
-    "url": "/defi-whale-website/static/media/mm.e6d7c5a4.svg"
-  },
-  {
     "revision": "be076fd925ea2dd5a74f6a552166ba71",
     "url": "/defi-whale-website/static/media/ml.be076fd9.svg"
+  },
+  {
+    "revision": "0c0da5f0631b226d95fd57929b9e4b4b",
+    "url": "/defi-whale-website/static/media/mg.0c0da5f0.svg"
   },
   {
     "revision": "29cb0cb257ce61901ab1d97c97200be9",
@@ -1240,20 +1244,20 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/mh.a3bb001b.svg"
   },
   {
-    "revision": "0c0da5f0631b226d95fd57929b9e4b4b",
-    "url": "/defi-whale-website/static/media/mg.0c0da5f0.svg"
+    "revision": "a178bcfbbbc26cb995fa19241b7a12a2",
+    "url": "/defi-whale-website/static/media/mf.a178bcfb.svg"
   },
   {
     "revision": "4241d3ff964cfdb68da07bb0f78520f4",
     "url": "/defi-whale-website/static/media/mc.4241d3ff.svg"
   },
   {
-    "revision": "a178bcfbbbc26cb995fa19241b7a12a2",
-    "url": "/defi-whale-website/static/media/mf.a178bcfb.svg"
-  },
-  {
     "revision": "83353fa9cde68c8e128f85724e743e75",
     "url": "/defi-whale-website/static/media/lv.83353fa9.svg"
+  },
+  {
+    "revision": "8c27c49311f54ab8d011b8eacf6c63cb",
+    "url": "/defi-whale-website/static/media/ma.8c27c493.svg"
   },
   {
     "revision": "ededce3248f5c7f3e52a48bcfa55ac01",
@@ -1264,28 +1268,24 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/lu.06956a13.svg"
   },
   {
-    "revision": "8c27c49311f54ab8d011b8eacf6c63cb",
-    "url": "/defi-whale-website/static/media/ma.8c27c493.svg"
-  },
-  {
-    "revision": "5485e606cf2dcf18e30b88581f14a459",
-    "url": "/defi-whale-website/static/media/lr.5485e606.svg"
+    "revision": "14b63eab7de31bd29ffcdc4002433cd6",
+    "url": "/defi-whale-website/static/media/lt.14b63eab.svg"
   },
   {
     "revision": "700ddad000d732b2603dcde0195ea3e7",
     "url": "/defi-whale-website/static/media/ls.700ddad0.svg"
   },
   {
-    "revision": "14b63eab7de31bd29ffcdc4002433cd6",
-    "url": "/defi-whale-website/static/media/lt.14b63eab.svg"
-  },
-  {
-    "revision": "fc2d0f07ea618d781e800bd8cd49d92c",
-    "url": "/defi-whale-website/static/media/nf.fc2d0f07.svg"
+    "revision": "5485e606cf2dcf18e30b88581f14a459",
+    "url": "/defi-whale-website/static/media/lr.5485e606.svg"
   },
   {
     "revision": "6c2940dae95d15b98cf38bcf44816d21",
     "url": "/defi-whale-website/static/media/lc.6c2940da.svg"
+  },
+  {
+    "revision": "fc2d0f07ea618d781e800bd8cd49d92c",
+    "url": "/defi-whale-website/static/media/nf.fc2d0f07.svg"
   },
   {
     "revision": "4981974031355cb8cb9fa6ae351ec6cf",
@@ -1294,6 +1294,10 @@ self.__precacheManifest = [
   {
     "revision": "bdfc4ab5e964e3466fcf31b5ec4bf87b",
     "url": "/defi-whale-website/static/media/la.bdfc4ab5.svg"
+  },
+  {
+    "revision": "8b73c710b4a9a2c91ed2683bd2ba2a41",
+    "url": "/defi-whale-website/static/media/ms.8b73c710.svg"
   },
   {
     "revision": "cffcad7981a89128ffef6ec871c5ef96",
@@ -1312,16 +1316,12 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/kp.b2729dfa.svg"
   },
   {
-    "revision": "7ab9462c3019492674aa27c5f42df7f1",
-    "url": "/defi-whale-website/static/media/kn.7ab9462c.svg"
-  },
-  {
-    "revision": "8b73c710b4a9a2c91ed2683bd2ba2a41",
-    "url": "/defi-whale-website/static/media/ms.8b73c710.svg"
-  },
-  {
     "revision": "cd351374021fde2537ae578691612f30",
     "url": "/defi-whale-website/static/media/km.cd351374.svg"
+  },
+  {
+    "revision": "7ab9462c3019492674aa27c5f42df7f1",
+    "url": "/defi-whale-website/static/media/kn.7ab9462c.svg"
   },
   {
     "revision": "fbe824dcd1ef2519d2d21f189a345c2a",
@@ -1388,24 +1388,28 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/in.2d667fbb.svg"
   },
   {
-    "revision": "f0a4f4f6d893038aa99ccbcb7f6e5271",
-    "url": "/defi-whale-website/static/media/lk.f0a4f4f6.svg"
-  },
-  {
     "revision": "9b7a06b9a821841e7a5fd0f3e3ab8cc4",
     "url": "/defi-whale-website/static/media/om.9b7a06b9.svg"
-  },
-  {
-    "revision": "d609c4e7bbb267cc920b9bfacdf8c553",
-    "url": "/defi-whale-website/static/media/ie.d609c4e7.svg"
   },
   {
     "revision": "0ea7e9dad5f9fce9cdee314eea294da8",
     "url": "/defi-whale-website/static/media/il.0ea7e9da.svg"
   },
   {
+    "revision": "f0a4f4f6d893038aa99ccbcb7f6e5271",
+    "url": "/defi-whale-website/static/media/lk.f0a4f4f6.svg"
+  },
+  {
+    "revision": "d609c4e7bbb267cc920b9bfacdf8c553",
+    "url": "/defi-whale-website/static/media/ie.d609c4e7.svg"
+  },
+  {
     "revision": "2b983496dce81d0805a0d92443e8000c",
     "url": "/defi-whale-website/static/media/ni.2b983496.svg"
+  },
+  {
+    "revision": "529db212e9de897dc2dd42f4ad7f8fd3",
+    "url": "/defi-whale-website/static/media/kz.529db212.svg"
   },
   {
     "revision": "ee020a0f5bc9d6586b97f9a9dfea47a0",
@@ -1416,10 +1420,6 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/hu.a8abaf37.svg"
   },
   {
-    "revision": "529db212e9de897dc2dd42f4ad7f8fd3",
-    "url": "/defi-whale-website/static/media/kz.529db212.svg"
-  },
-  {
     "revision": "3d726baafa62f8f9fee22363226fb75c",
     "url": "/defi-whale-website/static/media/hn.3d726baa.svg"
   },
@@ -1428,12 +1428,12 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/hm.b43f3857.svg"
   },
   {
-    "revision": "19884f0c27b6b1a57a12fdb7b682eed2",
-    "url": "/defi-whale-website/static/media/im.19884f0c.svg"
-  },
-  {
     "revision": "fb606eb1063380a1c9d858161cf5f0a7",
     "url": "/defi-whale-website/static/media/hk.fb606eb1.svg"
+  },
+  {
+    "revision": "19884f0c27b6b1a57a12fdb7b682eed2",
+    "url": "/defi-whale-website/static/media/im.19884f0c.svg"
   },
   {
     "revision": "19bcfc3477c49626f2f9e4291e3f81bd",
@@ -1488,40 +1488,40 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/gm.9423800e.svg"
   },
   {
-    "revision": "2e0c61df4402b9748b394cf508f1a0c7",
-    "url": "/defi-whale-website/static/media/io.2e0c61df.svg"
-  },
-  {
     "revision": "d02c42ea2b63c1131bb36da347ac3490",
     "url": "/defi-whale-website/static/media/gl.d02c42ea.svg"
   },
   {
-    "revision": "d4b35e14b2cdd6bb630a7b2c8902d7b7",
-    "url": "/defi-whale-website/static/media/gh.d4b35e14.svg"
-  },
-  {
-    "revision": "4ea8e1590ad37f3d4fb8c58c7906a73c",
-    "url": "/defi-whale-website/static/media/gf.4ea8e159.svg"
+    "revision": "2e0c61df4402b9748b394cf508f1a0c7",
+    "url": "/defi-whale-website/static/media/io.2e0c61df.svg"
   },
   {
     "revision": "c9543d40b95a35ff339fe78d6184b6d1",
     "url": "/defi-whale-website/static/media/gi.c9543d40.svg"
   },
   {
+    "revision": "d4b35e14b2cdd6bb630a7b2c8902d7b7",
+    "url": "/defi-whale-website/static/media/gh.d4b35e14.svg"
+  },
+  {
     "revision": "d339aeb27fefd04b3c8238b7d8f26473",
     "url": "/defi-whale-website/static/media/gg.d339aeb2.svg"
+  },
+  {
+    "revision": "4ea8e1590ad37f3d4fb8c58c7906a73c",
+    "url": "/defi-whale-website/static/media/gf.4ea8e159.svg"
   },
   {
     "revision": "334a8275142fd63934abf3a8f8c5a913",
     "url": "/defi-whale-website/static/media/ge.334a8275.svg"
   },
   {
-    "revision": "c17d779e8552e59c9ef032f0a432fcfb",
-    "url": "/defi-whale-website/static/media/gd.c17d779e.svg"
-  },
-  {
     "revision": "5638bbd9874edd22c39b0c4a54b1de21",
     "url": "/defi-whale-website/static/media/gb.5638bbd9.svg"
+  },
+  {
+    "revision": "c17d779e8552e59c9ef032f0a432fcfb",
+    "url": "/defi-whale-website/static/media/gd.c17d779e.svg"
   },
   {
     "revision": "2831a6dd51c5a036e31203cd6faef1f7",
@@ -1556,11 +1556,11 @@ self.__precacheManifest = [
     "url": "/defi-whale-website/static/media/mx.184d53d1.svg"
   },
   {
-    "revision": "c0dd7a94429b1adbc138",
+    "revision": "7952d36753cf93e27b1d",
     "url": "/defi-whale-website/static/css/2.1feb4640.chunk.css"
   },
   {
-    "revision": "1e47bee6cca19d8562362b1552478c57",
+    "revision": "91eefe6b28353dfd383e76a63514c42c",
     "url": "/defi-whale-website/index.html"
   }
 ];
