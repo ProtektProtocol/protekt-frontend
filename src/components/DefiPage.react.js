@@ -7,7 +7,7 @@ import ResourceCard from "./ResourceCard";
 import SiteWrapper from "../SiteWrapper.react";
 
 let db = new Airtable({
-  apiKey: 'keyHbjU0hdcEpQAaG'
+  apiKey: 'keyJQeSri1rnEEExD' // Read Only Access
 }).base('appo80bRGTFlzqUgk');
 
 function getDeFiResources() {
