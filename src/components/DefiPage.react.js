@@ -71,12 +71,14 @@ class DefiPage extends React.Component<{}> {
       if (err) { console.error(err); return; }
 
       let items = records.map(function(record) {
+        console.log(record.get('SummaryImage') ? record.get('SummaryImage')[0]['url'] : './demo/photos/david-klaasen-54203-500.jpg')
+
         return {
           title: record.get('Title'),
           description: record.get('Description'),
           link: record.get('Link'),
-          // imageUrl: record.get('SummaryImage')
-          imageUrl: "./demo/photos/david-klaasen-54203-500.jpg"
+          imageUrl: record.get('SummaryImage') ? record.get('SummaryImage')[0]['url'] : './demo/photos/david-klaasen-54203-500.jpg'
+          // imageUrl: "./demo/photos/david-klaasen-54203-500.jpg"
         }
       });
       thisComponent.setState({
@@ -100,25 +102,25 @@ class DefiPage extends React.Component<{}> {
   }
 
   render(): React.Node {
-    return this.state.items.length === 0 ?
-      (
-        <SiteWrapper>
-          <Page.Content title="🐳 Top DeFi Resources">
-            <Grid.Row alignItems="center">
-              <Loader/>
-            </Grid.Row>
-          </Page.Content>
-        </SiteWrapper>
-      ) :
-      (
-        <SiteWrapper>
-          <Page.Content title="🐳 Top DeFi Resources">
-            <Grid.Row cards deck>
-              { this.getAllCards(this.state.items) }
-            </Grid.Row>
-          </Page.Content>
-        </SiteWrapper>
-      );
+    return (
+      <SiteWrapper>
+        <Page.Content title="🐳 DeFi Toolkit">
+          {
+            this.state.items.length === 0 ? 
+              (
+                <Grid.Row className="d-flex justify-content-center">
+                  <Loader/>
+                </Grid.Row>
+              ) :
+              (
+                <Grid.Row cards deck>
+                  { this.getAllCards(this.state.items) }
+                </Grid.Row>
+              )
+          }
+        </Page.Content>
+      </SiteWrapper>
+    );
   }
 }
 
