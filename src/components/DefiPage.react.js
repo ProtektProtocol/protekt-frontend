@@ -71,8 +71,6 @@ class DefiPage extends React.Component<{}> {
       if (err) { console.error(err); return; }
 
       let items = records.map(function(record) {
-        console.log(record.get('SummaryImage') ? record.get('SummaryImage')[0]['url'] : './demo/photos/david-klaasen-54203-500.jpg')
-
         return {
           title: record.get('Title'),
           description: record.get('Description'),

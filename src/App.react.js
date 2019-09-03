@@ -27,20 +27,20 @@ function App(props: Props): React.Node {
     <React.StrictMode>
       <Router>
         <Switch>
-          <Route path={process.env.PUBLIC_URL} component={DefiPage} />
-          <Route path={process.env.PUBLIC_URL + "/defi"} component={DefiPage} />
-          <Route path={process.env.PUBLIC_URL + "/about"} component={AboutPage} />
-          <Route path={process.env.PUBLIC_URL + "/stable"} component={StablecoinReportPage} />
-          <Route path={process.env.PUBLIC_URL + "/forgot-password"} component={ForgotPasswordPage} />
-          <Route path={process.env.PUBLIC_URL + "/login"} component={LoginPage} />
-          <Route path={process.env.PUBLIC_URL + "/profile"} component={ProfilePage} />
-          <Route path={process.env.PUBLIC_URL + "/register"} component={RegisterPage} />
-          <Route path={process.env.PUBLIC_URL + "/400"} component={Error400} />
-          <Route path={process.env.PUBLIC_URL + "/401"} component={Error401} />
-          <Route path={process.env.PUBLIC_URL + "/403"} component={Error403} />
-          <Route path={process.env.PUBLIC_URL + "/404"} component={Error404} />
-          <Route path={process.env.PUBLIC_URL + "/500"} component={Error500} />
-          <Route path={process.env.PUBLIC_URL + "/503"} component={Error503} />
+          <Route path="/" component={DefiPage} />
+          <Route path="/defi" component={DefiPage} />
+          <Route path="/about" component={AboutPage} />
+          <Route path="/stable" component={StablecoinReportPage} />
+          <Route path="/forgot-password" component={ForgotPasswordPage} />
+          <Route path="/login" component={LoginPage} />
+          <Route path="/profile" component={ProfilePage} />
+          <Route path="/register" component={RegisterPage} />
+          <Route path="/400" component={Error400} />
+          <Route path="/401" component={Error401} />
+          <Route path="/403" component={Error403} />
+          <Route path="/404" component={Error404} />
+          <Route path="/500" component={Error500} />
+          <Route path="/503" component={Error503} />
           <Route component={Error404} />
         </Switch>
       </Router>
