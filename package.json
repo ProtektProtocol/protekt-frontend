@@ -1,9 +1,9 @@
 {
-  "name": "tabler-react-example",
+  "name": "defi-dashboard",
   "homepage": "https://tabler-react.com",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
-  "main": "build/index.html",
+  "main": "index.html",
   "homepage": "https://corbinpage.github.io/defi-whale-website",
   "license": "MIT",
   "dependencies": {
