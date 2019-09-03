@@ -3,7 +3,7 @@
 import * as React from "react";
 
 import { Grid, Card } from "tabler-react";
-import Page from "../tabler-react-alt/src/components/Page";
+import Page from "./tablerReactAlt/src/components/Page";
 
 import SiteWrapper from "../SiteWrapper.react";
 

@@ -12,7 +12,7 @@ import {
   RouterContextProvider,
 } from "tabler-react";
 
-import Site from "./tabler-react-alt/src/components/Site";
+import Site from "./components/tablerReactAlt/src/components/Site";
 
 import type { NotificationProps } from "tabler-react";
 
