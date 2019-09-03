@@ -3,7 +3,6 @@
   "homepage": "https://tabler-react.com",
   "version": "0.0.1",
   "private": true,
-  "main": "index.html",
   "homepage": "https://corbinpage.github.io/defi-whale-website",
   "license": "MIT",
   "dependencies": {
