@@ -3,6 +3,8 @@
 import * as React from "react";
 import { Card } from "tabler-react";
 
+import "./ResourceCard.css";
+
 type Props = {|
   +children?: React.Node,
   +title?: string,
@@ -28,7 +30,7 @@ function ResourceCard({
   postHref,
 }: Props): React.Node {
   return (
-    <Card>
+    <Card className="resource-card">
       <a href={postHref} target="_blank" rel="noopener noreferrer">
         <img className="card-img-top" src={imgSrc} alt={imgAlt} />
       </a>
