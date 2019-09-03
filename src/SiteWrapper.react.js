@@ -78,7 +78,7 @@ class SiteWrapper extends React.Component<Props, State> {
               <Nav.Item type="div" className="d-none d-md-flex">
                 <List className="list-inline list-inline-dots mb-0">
                   <List.Item className="list-inline-item">
-                    <a href="https://twitter.com/messages/compose" target="_blank">Contact</a>
+                    <a href="https://twitter.com/messages/compose" target="_blank" rel="noopener noreferrer">Contact</a>
                   </List.Item>
                 </List>
               </Nav.Item>
@@ -105,7 +105,7 @@ class SiteWrapper extends React.Component<Props, State> {
           copyright: (
             <React.Fragment>
               Copyright © 2019
-              <a href="https://twitter.com/DeFiWhale" target="_blank"> DeFi Whale</a>. All rights reserved.
+              <a href="https://twitter.com/DeFiWhale" target="_blank" rel="noopener noreferrer"> DeFi Whale</a>. All rights reserved.
             </React.Fragment>
           ),
           nav: (

@@ -10,28 +10,6 @@ let db = new Airtable({
   apiKey: 'keyJQeSri1rnEEExD' // Read Only Access
 }).base('appo80bRGTFlzqUgk');
 
-function getDeFiResources() {
-  let base = new Airtable({
-    apiKey: 'keyHbjU0hdcEpQAaG'
-  }).base('appo80bRGTFlzqUgk');
-
-  base('DeFi Toolkit').select({
-    view: 'Grid view'
-  }).firstPage(function(err, records) {
-    if (err) { console.error(err); return; }
-
-    let data = records.map(function(record) {
-      return {
-        title: record.get('Title'),
-        description: record.get('Description'),
-        link: record.get('Link'),
-        imageUrl: record.get('SummaryImage')
-      }
-    });
-    return data
-  });
-}
-
 class DefiPage extends React.Component<{}> {
   constructor(props) {
     super(props)
