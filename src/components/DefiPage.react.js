@@ -32,27 +32,6 @@ function getDeFiResources() {
   });
 }
 
-let resourceCardData = [
-  {
-    title: "DeFi Pulse",
-    description: "The analytics + rankings hub for DeFi. DeFi Pulse tracks key metrics for Decentralized Finance(DeFi) projects and so you can stay up to date on the latest trends.",
-    link: "https://defipulse.com/",
-    imageUrl: "./demo/photos/david-klaasen-54203-500.jpg"
-  },
-  {
-    title: "DeFi Pulse",
-    description: "The analytics + rankings hub for DeFi. DeFi Pulse tracks key metrics for Decentralized Finance(DeFi) projects and so you can stay up to date on the latest trends.",
-    link: "https://defipulse.com/",
-    imageUrl: "./demo/photos/david-klaasen-54203-500.jpg"
-  },
-  {
-    title: "DeFi Pulse",
-    description: "The analytics + rankings hub for DeFi. DeFi Pulse tracks key metrics for Decentralized Finance(DeFi) projects and so you can stay up to date on the latest trends.",
-    link: "https://defipulse.com/",
-    imageUrl: "./demo/photos/david-klaasen-54203-500.jpg"
-  }
-]
-
 class DefiPage extends React.Component<{}> {
   constructor(props) {
     super(props)
@@ -75,8 +54,7 @@ class DefiPage extends React.Component<{}> {
           title: record.get('Title'),
           description: record.get('Description'),
           link: record.get('Link'),
-          imageUrl: record.get('SummaryImage') ? record.get('SummaryImage')[0]['url'] : './demo/photos/david-klaasen-54203-500.jpg'
-          // imageUrl: "./demo/photos/david-klaasen-54203-500.jpg"
+          imageUrl: record.get('SummaryImage') ? record.get('SummaryImage')[0]['url'] : ''
         }
       });
       thisComponent.setState({
@@ -87,7 +65,7 @@ class DefiPage extends React.Component<{}> {
 
   getAllCards(items): React.Node {
     return items.map((item, key) =>
-      <Grid.Col xs={12} sm={6} xl={4} key={key}>
+      <Grid.Col width={12} sm={6} lg={4} key={key}>
         <ResourceCard
           imgSrc={item.imageUrl}
           imgAlt={item.title}

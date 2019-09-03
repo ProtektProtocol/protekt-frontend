@@ -2,13 +2,13 @@
 
 import * as React from "react";
 
-import { Grid, Card, Button, Form, Dimmer } from "tabler-react";
+import { Grid, Card, Button, Form, Text } from "tabler-react";
 import Page from "../tabler-react-alt/src/components/Page";
 
 import SiteWrapper from "../SiteWrapper.react";
 
 let content = `
-Lorem ipsum dolor amet snackwave sustainable beard gentrify celiac, bushwick synth irony vice iceland marfa locavore next level. Stumptown quinoa dreamcatcher, offal helvetica craft beer migas bicycle rights typewriter vinyl. Kickstarter live-edge gastropub yr. Meggings prism everyday carry, normcore 3 wolf moon YOLO cold-pressed. Brooklyn gastropub venmo pug keffiyeh fingerstache small batch authentic truffaut you probably haven't heard of them dreamcatcher cray vaporware.
+
 `
 
 
@@ -19,10 +19,19 @@ function AboutPage(): React.Node {
         <Grid.Row className="d-flex justify-content-center">
           <Grid.Col sm={6} xl={6}>
             <Card
-              title="Card blue"
               statusColor="blue"
-              body={content}
+              body={(
+              	<p style={{whiteSpace: "pre-line"}}>
+The DeFi Toolkit and DeFi Whale twitter bot are tools to make DeFi and the entire Ethereum ecosystem more accessible and useful.{"\n\n"}
+Feel free to contact us if you find the service useful and have feature requests. We'll plan to ship updates and new features as soon as we can.{"\n\n"}
+Cheers,{"\n"}
+🐳🐳 DeFi Whale Team 🐳🐳
+								</p>
+              	)}
             />
+            <Card.Header>
+            <p>Testing</p>
+            </Card.Header>
           </Grid.Col>
         </Grid.Row>
       </Page.Content>
