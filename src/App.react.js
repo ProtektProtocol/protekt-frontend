@@ -27,20 +27,20 @@ function App(props: Props): React.Node {
     <React.StrictMode>
       <Router>
         <Switch>
-          <Route path="/" component={DefiPage} />
-          <Route path="/defi" component={DefiPage} />
-          <Route path="/about" component={AboutPage} />
-          <Route path="/stable" component={StablecoinReportPage} />
-          <Route path="/forgot-password" component={ForgotPasswordPage} />
-          <Route path="/login" component={LoginPage} />
-          <Route path="/profile" component={ProfilePage} />
-          <Route path="/register" component={RegisterPage} />
-          <Route path="/400" component={Error400} />
-          <Route path="/401" component={Error401} />
-          <Route path="/403" component={Error403} />
-          <Route path="/404" component={Error404} />
-          <Route path="/500" component={Error500} />
-          <Route path="/503" component={Error503} />
+          <Route exact path="/400" component={Error400} />
+          <Route exact path="/401" component={Error401} />
+          <Route exact path="/403" component={Error403} />
+          <Route exact path="/404" component={Error404} />
+          <Route exact path="/500" component={Error500} />
+          <Route exact path="/503" component={Error503} />
+          <Route exact path="/defi" component={DefiPage} />
+          <Route exact path="/about" component={AboutPage} />
+          <Route exact path="/stable" component={StablecoinReportPage} />
+          <Route exact path="/forgot-password" component={ForgotPasswordPage} />
+          <Route exact path="/login" component={LoginPage} />
+          <Route exact path="/profile" component={ProfilePage} />
+          <Route exact path="/register" component={RegisterPage} />
+          <Redirect to='/defi' />
           <Route component={Error404} />
         </Switch>
       </Router>

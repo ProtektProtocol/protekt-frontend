@@ -87,7 +87,7 @@ class DefiPage extends React.Component<{}> {
 
   getAllCards(items): React.Node {
     return items.map((item, key) =>
-      <Grid.Col sm={6} xl={4} key={key}>
+      <Grid.Col xs={12} sm={6} xl={4} key={key}>
         <ResourceCard
           imgSrc={item.imageUrl}
           imgAlt={item.title}
