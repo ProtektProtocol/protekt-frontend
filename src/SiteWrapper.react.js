@@ -75,8 +75,8 @@ class SiteWrapper extends React.Component<Props, State> {
           imageURL: `${process.env.PUBLIC_URL}/static/logo_400x400.png`,
           navItems: [
             (
-              <Nav.Item type="div" className="d-none d-md-flex">
-                <List className="list-inline list-inline-dots mb-0">
+              <Nav.Item type="div" className="d-flex">
+                <List className="list-inline list-inline-dots mb-0 d-none d-md-flex">
                   <List.Item className="list-inline-item">
                     <a href="https://twitter.com/messages/compose" target="_blank" rel="noopener noreferrer">Contact</a>
                   </List.Item>
@@ -84,7 +84,7 @@ class SiteWrapper extends React.Component<Props, State> {
               </Nav.Item>
             ),
             (
-              <Nav.Item type="div" className="d-none d-md-flex">
+              <Nav.Item type="div" className="d-flex">
                 <Button
                   href="https://twitter.com/DeFiWhale"
                   target="_blank"
@@ -92,6 +92,7 @@ class SiteWrapper extends React.Component<Props, State> {
                   outline
                   color="primary"
                   RootComponent="a"
+                  className="d-none d-md-flex"
                 >
                   View on Twitter
                 </Button>
@@ -110,14 +111,14 @@ class SiteWrapper extends React.Component<Props, State> {
           ),
           nav: (
             <React.Fragment>
-              <Grid.Col auto={true}>
-                <List className="list-inline list-inline-dots mb-0">
+              <Grid.Col auto={true} className="d-flex">
+                <List className="list-inline list-inline-dots mb-0 d-none d-md-flex">
                   <List.Item className="list-inline-item">
                     <Link to="/about">About</Link>
                   </List.Item>
                 </List>
               </Grid.Col>
-              <Grid.Col auto={true}>
+              <Grid.Col auto={true} className="d-flex">
                 <Button
                   href="https://twitter.com/DeFiWhale"
                   target="_blank"
@@ -125,6 +126,7 @@ class SiteWrapper extends React.Component<Props, State> {
                   outline
                   color="primary"
                   RootComponent="a"
+                  className="d-none d-md-flex"
                 >
                   View on Twitter
                 </Button>
