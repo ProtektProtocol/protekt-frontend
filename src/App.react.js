@@ -15,7 +15,7 @@ import {
 
 import DefiPage from "./components/DefiPage.react";
 import AboutPage from "./components/AboutPage.react";
-import StablecoinReportPage from "./components/StablecoinReportPage.react";
+import YieldProtocolPage from "./components/YieldProtocolPage.react";
 
 import "tabler-react/dist/Tabler.css";
 
@@ -34,12 +34,12 @@ function App(props: Props): React.Node {
           <Route exact path="/503" component={Error503} />
           <Route exact path="/defi" component={DefiPage} />
           <Route exact path="/about" component={AboutPage} />
-          <Route exact path="/stable" component={StablecoinReportPage} />
+          <Route exact path="/yield" component={YieldProtocolPage} />
           <Route exact path="/forgot-password" component={ForgotPasswordPage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/profile" component={ProfilePage} />
           <Route exact path="/register" component={RegisterPage} />
-          <Redirect to='/defi' />
+          <Redirect to='/yield' />
           <Route component={Error404} />
         </Switch>
       </Router>

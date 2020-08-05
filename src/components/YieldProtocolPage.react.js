@@ -58,20 +58,12 @@ class DefiPage extends React.Component<{}> {
   render(): React.Node {
     return (
       <SiteWrapper>
-        <Page.Content title="🤑 DeFi Data Resources">
-          {
-            this.state.items.length === 0 ? 
-              (
-                <Grid.Row className="d-flex justify-content-center">
-                  <Loader/>
-                </Grid.Row>
-              ) :
-              (
-                <Grid.Row cards deck>
-                  { this.getAllCards(this.state.items) }
-                </Grid.Row>
-              )
-          }
+        <Page.Content title="👨‍🌾  Yield Farming Protocols">
+          <div
+            dangerouslySetInnerHTML={{
+              __html: `<iframe class="airtable-embed" src="https://airtable.com/embed/shrTixkUzdF5X46K4?backgroundColor=green&viewControls=on" frameborder="0" onmousewheel="" width="100%" height="533" style="background: transparent; border: 1px solid #ccc;"></iframe>`
+            }}>
+          </div>
         </Page.Content>
       </SiteWrapper>
     );

@@ -17,8 +17,8 @@ function AboutPage(): React.Node {
               statusColor="blue"
               body={(
               	<p style={{whiteSpace: "pre-line"}}>
-The DeFi Toolkit and DeFi Whale twitter bot are tools to make DeFi and the entire Ethereum ecosystem more accessible and useful.{"\n\n"}
-Feel free to contact us if you find the service useful and have feature requests. We'll plan to ship updates and new features as soon as we can.{"\n\n"}
+DeFi Whale provides tools and information to make DeFi and the entire Ethereum ecosystem more accessible and useful.{"\n\n"}
+Feel free to contact us on Twitter if you find the service useful and have feature requests. We'll plan to ship updates and new features as soon as we can.{"\n\n"}
 Cheers,{"\n"}
 🐳🐳 DeFi Whale Team 🐳🐳
 								</p>

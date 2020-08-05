@@ -44,7 +44,13 @@ type navItem = {|
 
 const navBarItems: Array<navItem> = [
   {
-    value: "DeFi Toolkit",
+    value: "Yield Protocols",
+    to: "/yield",
+    icon: "shopping-bag",
+    LinkComponent: withRouter(NavLink),
+  },
+  {
+    value: "DeFi Data Resources",
     to: "/defi",
     icon: "shopping-bag",
     LinkComponent: withRouter(NavLink),
@@ -105,7 +111,7 @@ class SiteWrapper extends React.Component<Props, State> {
         footerProps={{
           copyright: (
             <React.Fragment>
-              Copyright © 2019
+              Copyright © 2020
               <a href="https://twitter.com/DeFiWhale" target="_blank" rel="noopener noreferrer"> DeFi Whale</a>. All rights reserved.
             </React.Fragment>
           ),
