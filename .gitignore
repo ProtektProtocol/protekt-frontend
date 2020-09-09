@@ -6,3 +6,5 @@ build
 git stash
 
 .DS_Store/
+
+src/services/amplify/aws-exports.js
