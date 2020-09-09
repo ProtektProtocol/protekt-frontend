@@ -1,0 +1,27 @@
+enum AddressStatus {
+  ACTIVE
+  INACTIVE
+}
+
+type Address
+  @model
+  @searchable 
+  @key(fields: ["addr"])
+  @key(name: "ByStatus", fields: ["balStatus", "balBalance"], queryField: "addressesByStatus")
+  @key(name: "ByCategory", fields: ["balCategory", "balBalance"], queryField: "addressesByCategory")
+{
+  addr: ID!
+  isContract: Boolean!
+  balBalance: Float!
+  balPercentOwnership: Float
+  balCategory: String!
+  balStatus: AddressStatus!
+  balChange30d: Float
+  balChange7d: Float
+  balRecv: Float
+  balDaysSinceFirstReceived: Int
+  balFirstReceivedAt: String
+  nansenLink: String
+  etherscanLink: String
+  balLabels: String
+}

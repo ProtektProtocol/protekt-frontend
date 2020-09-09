@@ -17,6 +17,8 @@ import DefiPage from "./components/DefiPage.react";
 import AboutPage from "./components/AboutPage.react";
 import YieldProtocolPage from "./components/YieldProtocolPage.react";
 import BalancerLeaderboardPage from "./components/BalancerLeaderboardPage.react";
+import UpdateBalancerPage from "./components/UpdateBalancerPage.react";
+import AddressPage from "./components/AddressPage.react";
 
 import "tabler-react/dist/Tabler.css";
 
@@ -37,6 +39,8 @@ function App(props: Props): React.Node {
           <Route exact path="/about" component={AboutPage} />
           <Route exact path="/yield" component={YieldProtocolPage} />
           <Route exact path="/balancer" component={BalancerLeaderboardPage} />
+          <Route exact path="/balancer/update" component={UpdateBalancerPage} />
+          <Route exact path="/address/:addr" component={AddressPage} />
           <Route exact path="/forgot-password" component={ForgotPasswordPage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/profile" component={ProfilePage} />

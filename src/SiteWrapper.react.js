@@ -44,9 +44,9 @@ type navItem = {|
 
 const navBarItems: Array<navItem> = [
   {
-    value: "Yield Protocols",
-    to: "/yield",
-    icon: "shopping-bag",
+    value: "Balancer Community",
+    to: "/balancer",
+    icon: "users",
     LinkComponent: withRouter(NavLink),
   },
   {
@@ -81,7 +81,7 @@ class SiteWrapper extends React.Component<Props, State> {
           imageURL: `${process.env.PUBLIC_URL}/static/logo_400x400.png`,
           navItems: [
             (
-              <Nav.Item type="div" className="d-flex">
+              <Nav.Item type="div" className="d-flex" key={1}>
                 <List className="list-inline list-inline-dots mb-0 d-none d-md-flex">
                   <List.Item className="list-inline-item">
                     <a href="https://twitter.com/messages/compose" target="_blank" rel="noopener noreferrer">Contact</a>
@@ -90,7 +90,7 @@ class SiteWrapper extends React.Component<Props, State> {
               </Nav.Item>
             ),
             (
-              <Nav.Item type="div" className="d-flex">
+              <Nav.Item type="div" className="d-flex" key={2}>
                 <Button
                   href="https://twitter.com/DeFiWhale"
                   target="_blank"
