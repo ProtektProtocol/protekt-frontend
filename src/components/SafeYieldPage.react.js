@@ -14,10 +14,11 @@ import {
   Icon,
   Grid,
   Card,
+  Header,
   Loader,
-  // Text,
+  Form,
   Table,
-  // Alert,
+  Alert,
   // Progress,
   colors,
   // Dropdown,
@@ -36,47 +37,6 @@ import awsconfig from '../services/amplify/aws-exports';
 import { API, graphqlOperation } from "aws-amplify";
 import * as queries from '../services/amplify/graphql/queries';
 
-import * as data from '../data/bal_query_short.json';
-const balancerMembers = data.default
-
-function returnTableRows(items) {
-  return items.map((item, key) => {
-      return returnTableRow(item, key)
-    }
-  )
-}
-
-function returnTableRow(item, key) {
-  let displayAddr = item.addr.substring(0,6) + '...' + item.addr.slice(-4)
-  
-  return (
-    <Table.Row key={key}>
-      <Table.Col className="w-1">
-        <Link to={`/address/${item.addr}`}>
-        <div style={{borderRadius: '50%', overflow: "hidden", height: "32px"}}>
-          <Blockies
-            seed={item.addr}
-          />
-        </div>
-        </Link>
-      </Table.Col>
-      <Table.Col className="w-1">
-        <Link to={`/address/${item.addr}`}>
-          <a target="_blank" rel="noopener noreferrer" href={item.addr}>{displayAddr}</a>
-        </Link>
-      </Table.Col>
-      <Table.Col>{item.balCategory}</Table.Col>
-      <Table.Col>{numeral(item.balBalance).format('0,0.00')}</Table.Col>
-      <Table.Col>{numeral(item.balPercentOwnership).format('0.000000%')}</Table.Col>
-      <Table.Col className="w-1">
-        <Link to={`/address/${item.addr}`}>
-          <Icon link={true} name="arrow-right-circle" />
-        </Link>
-      </Table.Col>
-    </Table.Row>
-  )
-}
-
 function returnProtektContractCoverageCards(items=[]) {
   return items.map((item, key) => {
     return (
@@ -88,9 +48,45 @@ function returnProtektContractCoverageCards(items=[]) {
       >
         <Card.Status color="teal" side />
         <Card.Body>
-          Ok
-          <Dimmer active loader />
+          <Grid.Row>
+            <Grid.Col width={6}>
+              <h4 className="m-0">{`COST`}</h4>
+              <p>{`2.60% for 100% coverage`}</p>
+              <h4 className="m-0">{`BACKED BY`}</h4>
+              <p>{`wETH (Not invested)`}</p>
+            </Grid.Col>
+            <Grid.Col width={6}>
+              <h4 className="m-0">{`CLAIMS`}</h4>
+              <p>{`Claims are investigated for a period of 1 week, and the payout decision is made by a DAO vote.`}</p>
+            </Grid.Col>
+          </Grid.Row>
+          <Grid.Row>
+            <Grid.Col width={12}>
+              <h4 className="m-0">{`COVERAGE FOR`}</h4>
+              <p>{`Protection against 1) smart contract bugs that allow hackers to steal or lock DAI and 2) risk that admin keys are stolen or used to withdraw DAI. Not covered: 1) Risk of a Maker hack or DAI lossing its peg. 2) Risk of flash loan or other financial exploit.`}</p>
+            </Grid.Col>
+          </Grid.Row>
         </Card.Body>
+        <Card.Footer>
+          <Grid.Row>
+            <Grid.Col width={5}>
+              <Form.Group label="Your wallet: 196.0000 cDAI">
+                <Form.InputGroup>
+                  <Form.Input placeholder="0.00" />
+                  <Form.InputGroupAppend>
+                    <Button
+                      RootComponent="a"
+                      color="primary"
+                      href="http://www.google.com"
+                    >
+                      Deposit
+                    </Button>
+                  </Form.InputGroupAppend>
+                </Form.InputGroup>
+              </Form.Group>
+            </Grid.Col>
+          </Grid.Row>
+        </Card.Footer>
       </Card>
     )
   })
@@ -101,6 +97,9 @@ function SafeYield() {
 
   return (
     <SiteWrapper>
+      <Alert type="danger" className="d-flex justify-content-center">
+        <strong>This project is in alpha. Use at your own risk.</strong>
+      </Alert>
       <Page.Content title="🏦 Safe Yield Opportunities">
         <Grid.Row cards={true}>
           <Grid.Col lg={12}>

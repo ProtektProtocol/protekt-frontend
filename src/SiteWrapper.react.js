@@ -111,8 +111,8 @@ class SiteWrapper extends React.Component<Props, State> {
         footerProps={{
           copyright: (
             <React.Fragment>
-              Copyright © 2020
-              <a href="https://twitter.com/DeFiWhale" target="_blank" rel="noopener noreferrer"> DeFi Whale</a>. All rights reserved.
+              Copyright © 2021
+              <a href="https://twitter.com/protektprotocol" target="_blank" rel="noopener noreferrer"> Protekt Protocol</a>. All rights reserved.
             </React.Fragment>
           ),
           nav: (
@@ -126,7 +126,7 @@ class SiteWrapper extends React.Component<Props, State> {
               </Grid.Col>
               <Grid.Col auto={true} className="d-flex">
                 <Button
-                  href="https://twitter.com/DeFiWhale"
+                  href="https://twitter.com/protektprotocol"
                   target="_blank"
                   size="md"
                   outline
