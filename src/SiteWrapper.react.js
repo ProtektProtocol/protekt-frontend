@@ -13,6 +13,7 @@ import {
 } from "tabler-react";
 
 import Site from "./components/tablerReactAlt/src/components/Site";
+import Account from "./components/ConnectAccount";
 
 import type { NotificationProps } from "tabler-react";
 
@@ -46,7 +47,7 @@ const navBarItems: Array<navItem> = [
   {
     value: "Earn Safe Yield",
     to: "/earn-yield",
-    icon: "trending-up",
+    icon: "dollar-sign",
     LinkComponent: withRouter(NavLink),
   },
   {
@@ -57,14 +58,8 @@ const navBarItems: Array<navItem> = [
   },
   {
     value: "Your Dashboard",
-    to: "/defi",
-    icon: "layout",
-    LinkComponent: withRouter(NavLink),
-  },
-  {
-    value: "About",
-    to: "/about",
-    icon: "help-circle",
+    to: "/dashboard",
+    icon: "trending-up",
     LinkComponent: withRouter(NavLink),
   }
 ];
@@ -91,17 +86,7 @@ class SiteWrapper extends React.Component<Props, State> {
             ),
             (
               <Nav.Item type="div" className="d-flex" key={2}>
-                <Button
-                  href="https://twitter.com/protektprotocol"
-                  target="_blank"
-                  size="md"
-                  outline
-                  color="secondary"
-                  RootComponent="a"
-                  className="d-none d-md-flex"
-                >
-                  Connect Wallet
-                </Button>
+                <Account/>
               </Nav.Item>
             )
           ]

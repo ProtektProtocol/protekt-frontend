@@ -3,6 +3,10 @@ body {
   font-size: 1rem;
 }
 
+.header {
+  background-color: #ebfcf7;
+}
+
 .header a:not(.btn) {
   color: #6e7687;
   font-size: 1rem;
@@ -12,10 +16,10 @@ body {
   border-width: 3px;
 }
 
-/*a {
-  color: #868e96;
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+  color: #2bcbba;
+  border-color: #dee2e6 #dee2e6 #2bcbba;
 }
 
-a:hover {
-  color: #868e96;
-}*/
+

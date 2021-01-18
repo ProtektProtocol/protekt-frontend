@@ -15,7 +15,7 @@ import CardMap from "./CardMap.react";
 type Props = {|
   +children?: React.Node,
   +className?: string,
-  +title?: string,
+  +title?: React.Node,
   +body?: React.Node,
   +RootComponent?: React.ElementType,
   +options?: React.Node,
@@ -136,7 +136,7 @@ class Card extends React.PureComponent<Props, State> {
 
     const card_header = title && (
       <Card.Header>
-        <Card.Title>{title}</Card.Title>
+        {title}
         {card_options}
       </Card.Header>
     );

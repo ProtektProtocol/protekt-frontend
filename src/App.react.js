@@ -13,10 +13,10 @@ import {
   ProfilePage,
 } from "./pages";
 
-import DefiPage from "./components/DefiPage.react";
 import AboutPage from "./components/AboutPage.react";
 import SafeYieldPage from "./pages/SafeYieldPage.react";
 import StakingPage from "./pages/StakingPage.react";
+import DashboardPage from "./pages/DashboardPage.react";
 
 import "tabler-react/dist/Tabler.css";
 import "./App.css";
@@ -34,10 +34,10 @@ function App(props: Props): React.Node {
           <Route exact path="/404" component={Error404} />
           <Route exact path="/500" component={Error500} />
           <Route exact path="/503" component={Error503} />
-          <Route exact path="/defi" component={DefiPage} />
           <Route exact path="/about" component={AboutPage} />
           <Route exact path="/earn-yield" component={SafeYieldPage} />
           <Route exact path="/staking" component={StakingPage} />
+          <Route exact path="/dashboard" component={DashboardPage} />
           <Route exact path="/forgot-password" component={ForgotPasswordPage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/profile" component={ProfilePage} />

@@ -31,7 +31,7 @@ import {
 } from "tabler-react";
 
 import ResourceCard from "../components/ResourceCard";
-import SiteWrapper from "../components/SiteWrapper.react";
+import SiteWrapper from "../SiteWrapper.react";
 
 function returnProtektContractCoverageCards(items=[]) {
   return items.map((item, key) => {
@@ -110,12 +110,12 @@ function returnProtektContractCoverageCards(items=[]) {
   })
 }
 
-function SafeYield() {
+function Dashboard() {
   let protektContracts = [1, 2]
 
   return (
     <SiteWrapper>
-      <Page.Content title="🏦 Safe Yield Opportunities">
+      <Page.Content title="📈 Your Dashboard">
         <Grid.Row cards={true}>
           <Grid.Col lg={12}>
             { !protektContracts.length ? <Dimmer active loader /> : 
@@ -128,4 +128,4 @@ function SafeYield() {
   )
 }
 
-export default SafeYield;
+export default Dashboard;
