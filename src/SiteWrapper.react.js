@@ -44,14 +44,14 @@ type navItem = {|
 
 const navBarItems: Array<navItem> = [
   {
-    value: "Safe Yield",
-    to: "/safe-yield",
+    value: "Earn Safe Yield",
+    to: "/earn-yield",
     icon: "trending-up",
     LinkComponent: withRouter(NavLink),
   },
   {
-    value: "Staking",
-    to: "/defi",
+    value: "Stake",
+    to: "/staking",
     icon: "shield",
     LinkComponent: withRouter(NavLink),
   },
@@ -96,7 +96,7 @@ class SiteWrapper extends React.Component<Props, State> {
                   target="_blank"
                   size="md"
                   outline
-                  color="primary"
+                  color="secondary"
                   RootComponent="a"
                   className="d-none d-md-flex"
                 >
@@ -120,22 +120,23 @@ class SiteWrapper extends React.Component<Props, State> {
               <Grid.Col auto={true} className="d-flex">
                 <List className="list-inline list-inline-dots mb-0 d-none d-md-flex">
                   <List.Item className="list-inline-item">
-                    <Link to="/about">About</Link>
+                    <a href="https://twitter.com/protektprotocol" target="_blank" rel="noopener noreferrer">Twitter</a>
                   </List.Item>
                 </List>
               </Grid.Col>
               <Grid.Col auto={true} className="d-flex">
-                <Button
-                  href="https://twitter.com/protektprotocol"
-                  target="_blank"
-                  size="md"
-                  outline
-                  color="primary"
-                  RootComponent="a"
-                  className="d-none d-md-flex"
-                >
-                  View on Twitter
-                </Button>
+                <List className="list-inline list-inline-dots mb-0 d-none d-md-flex">
+                  <List.Item className="list-inline-item">
+                    <a href="https://t.me/protektdefi" target="_blank" rel="noopener noreferrer">Telegram</a>
+                  </List.Item>
+                </List>
+              </Grid.Col>
+              <Grid.Col auto={true} className="d-flex">
+                <List className="list-inline list-inline-dots mb-0 d-none d-md-flex">
+                  <List.Item className="list-inline-item">
+                    <a href="https://github.com/ProtektProtocol" target="_blank" rel="noopener noreferrer">Github</a>
+                  </List.Item>
+                </List>
               </Grid.Col>
             </React.Fragment>
           ),

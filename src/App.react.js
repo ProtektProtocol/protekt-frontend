@@ -15,11 +15,8 @@ import {
 
 import DefiPage from "./components/DefiPage.react";
 import AboutPage from "./components/AboutPage.react";
-import YieldProtocolPage from "./components/YieldProtocolPage.react";
-import BalancerLeaderboardPage from "./components/BalancerLeaderboardPage.react";
-import SafeYieldPage from "./components/SafeYieldPage.react";
-import UpdateBalancerPage from "./components/UpdateBalancerPage.react";
-import AddressPage from "./components/AddressPage.react";
+import SafeYieldPage from "./pages/SafeYieldPage.react";
+import StakingPage from "./pages/StakingPage.react";
 
 import "tabler-react/dist/Tabler.css";
 import "./App.css";
@@ -39,16 +36,13 @@ function App(props: Props): React.Node {
           <Route exact path="/503" component={Error503} />
           <Route exact path="/defi" component={DefiPage} />
           <Route exact path="/about" component={AboutPage} />
-          <Route exact path="/yield" component={YieldProtocolPage} />
-          <Route exact path="/balancer" component={BalancerLeaderboardPage} />
-          <Route exact path="/safe-yield" component={SafeYieldPage} />
-          <Route exact path="/balancer/update" component={UpdateBalancerPage} />
-          <Route exact path="/address/:addr" component={AddressPage} />
+          <Route exact path="/earn-yield" component={SafeYieldPage} />
+          <Route exact path="/staking" component={StakingPage} />
           <Route exact path="/forgot-password" component={ForgotPasswordPage} />
           <Route exact path="/login" component={LoginPage} />
           <Route exact path="/profile" component={ProfilePage} />
           <Route exact path="/register" component={RegisterPage} />
-          <Redirect to='/yield' />
+          <Redirect to='/earn-yield' />
           <Route component={Error404} />
         </Switch>
       </Router>

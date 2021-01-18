@@ -1,3 +1,21 @@
 body {
   background-color: #ebfcf7;
+  font-size: 1rem;
 }
+
+.header a:not(.btn) {
+  color: #6e7687;
+  font-size: 1rem;
+}
+
+.nav-tabs .nav-link {
+  border-width: 3px;
+}
+
+/*a {
+  color: #868e96;
+}
+
+a:hover {
+  color: #868e96;
+}*/

@@ -31,7 +31,7 @@ import {
 } from "tabler-react";
 
 import ResourceCard from "../components/ResourceCard";
-import SiteWrapper from "../components/SiteWrapper.react";
+import SiteWrapper from "../SiteWrapper.react";
 
 function returnProtektContractCoverageCards(items=[]) {
   return items.map((item, key) => {
