@@ -9,10 +9,6 @@ import "./c3jscustom.css";
 
 import App from "./App.react";
 
-import awsconfig from './services/amplify/aws-exports';
-import Amplify from "aws-amplify";
-Amplify.configure(awsconfig)
-
 const rootElement = document.getElementById("root");
 
 

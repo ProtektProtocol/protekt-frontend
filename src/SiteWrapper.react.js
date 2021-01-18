@@ -44,23 +44,23 @@ type navItem = {|
 
 const navBarItems: Array<navItem> = [
   {
-    value: "Balancer Community",
-    to: "/balancer",
-    icon: "users",
+    value: "Safe Yield",
+    to: "/safe-yield",
+    icon: "trending-up",
     LinkComponent: withRouter(NavLink),
   },
   {
-    value: "DeFi Data Resources",
+    value: "Staking",
     to: "/defi",
-    icon: "shopping-bag",
+    icon: "shield",
     LinkComponent: withRouter(NavLink),
   },
-  // {
-  //   value: "Stablecoin Stats",
-  //   to: "/stable",
-  //   icon: "pie-chart",
-  //   LinkComponent: withRouter(NavLink),
-  // },
+  {
+    value: "Your Dashboard",
+    to: "/defi",
+    icon: "layout",
+    LinkComponent: withRouter(NavLink),
+  },
   {
     value: "About",
     to: "/about",
@@ -78,13 +78,13 @@ class SiteWrapper extends React.Component<Props, State> {
         headerProps={{
           href: "/",
           alt: "DeFi Fam",
-          imageURL: `${process.env.PUBLIC_URL}/static/logo_400x400.png`,
+          imageURL: `${process.env.PUBLIC_URL}/static/logo_protekt.png`,
           navItems: [
             (
               <Nav.Item type="div" className="d-flex" key={1}>
                 <List className="list-inline list-inline-dots mb-0 d-none d-md-flex">
                   <List.Item className="list-inline-item">
-                    <a href="https://twitter.com/messages/compose" target="_blank" rel="noopener noreferrer">Contact</a>
+                    <a href="https://docs.protektprotocol.com" target="_blank" rel="noopener noreferrer">Documentation</a>
                   </List.Item>
                 </List>
               </Nav.Item>
@@ -92,7 +92,7 @@ class SiteWrapper extends React.Component<Props, State> {
             (
               <Nav.Item type="div" className="d-flex" key={2}>
                 <Button
-                  href="https://twitter.com/DeFiWhale"
+                  href="https://twitter.com/protektprotocol"
                   target="_blank"
                   size="md"
                   outline
@@ -100,7 +100,7 @@ class SiteWrapper extends React.Component<Props, State> {
                   RootComponent="a"
                   className="d-none d-md-flex"
                 >
-                  View on Twitter
+                  Connect Wallet
                 </Button>
               </Nav.Item>
             )

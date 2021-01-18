@@ -9,12 +9,12 @@ type Props = {|
   +href?: string,
   +src?: string,
   +alt?: string,
+  +style?: Object,
 |};
 
 const SiteLogo = (props: Props): React.Node => (
   <Link to={props.href} className="header-brand">
-  	<Avatar size="md" imageURL={props.src} className="header-brand-img" alt={props.alt} />
-  	<span className="h1">DeFi Whale</span>
+    <img src={props.src} alt={props.alt} height="40px" width="auto"/>
   </Link>
 );
 
