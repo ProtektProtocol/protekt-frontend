@@ -24,13 +24,13 @@ export const Web3Context = React.createContext({
 });
 
 function App(props: Props): React.Node {
-  
   const [state, setState] = useState({
     provider: {},
     updateProvider: (_provider) => {
-      setState(state => ({
-        provider: _provider
-      }))
+      setState({
+        provider: _provider,
+        updateProvider: () => {}
+      })
     }
   });
 

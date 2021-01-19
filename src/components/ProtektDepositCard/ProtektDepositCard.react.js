@@ -1,7 +1,8 @@
 // @flow
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import numeral from 'numeral';
+import { useFormik } from 'formik';
 
 import {
   Grid,
@@ -14,11 +15,11 @@ import {
 import Card from "../tablerReactAlt/src/components/Card";
 import DisplayToken from "../DisplayToken";
 
-import { useGasPrice } from "../../hooks";
-// import { userProvider } from "../Account";
+import { useGasPrice, useContractLoader } from "../../hooks";
 import { useUserAddress } from "eth-hooks";
 import { parseEther, formatEther } from "@ethersproject/units";
 import { Transactor } from "../../utils";
+import {Web3Context} from '../../App.react';
 
 // const gasPrice = useGasPrice("fast");
 
@@ -28,15 +29,31 @@ type Props = {|
   +item?: Object,
 |};
 
+function sendDepositTx(amount) {
+  const web3Context = useContext(Web3Context);
+  if(web3Context.provider && amount > 0) {
+    const gasPrice = useGasPrice("fast");
+    const tx = Transactor(web3Context.provider, gasPrice);
+    const contracts = useContractLoader(web3Context.provider);
+
+    tx(contracts.pToken.deposit('100'))
+  }
+}
+
 function ProtektDepositCard({
   children,
   item,
 }: Props): React.Node {
-  // const tx = Transactor(userProvider, gasPrice)
-  // const pToken = useContractLoader('pToken', userProvider)
-
-
   let sideColor = (item.protocol === 'compound') ? 'teal' : 'purple';
+
+  const depositFormik = useFormik({
+    initialValues: {
+      pTokenDepositAmount: 0,
+    },
+    onSubmit: values => {
+      sendDepositTx(values.pTokenDepositAmount)
+    },
+  });
 
   return (
     <Card
@@ -75,25 +92,33 @@ function ProtektDepositCard({
             <Header.H4>
               Start earning safely
             </Header.H4>
-            <Form.Group label="Your wallet: 196.0000 cDAI">
-              <Form.InputGroup>
-                <Form.Input placeholder="0.00" />
-                <Form.InputGroupAppend>
-                  <Button
-                    RootComponent="a"
-                    color="primary"
-                    icon="download"
-                    onClick={()=>{
-                      console.log("Deposit")
-                      /* look how you call setPurpose on your contract: */
-                      // tx( writeContracts.YourContract.setPurpose(newPurpose) )
-                    }}
-                  >
-                    Deposit
-                  </Button>
-                </Form.InputGroupAppend>
-              </Form.InputGroup>
-            </Form.Group>
+            <Form onSubmit={depositFormik.handleSubmit}>
+              <Form.Group label="Your wallet: 196.0000 cDAI">
+                <Form.InputGroup>
+                  <Form.Input
+                    id='pTokenDepositAmount'
+                    name='pTokenDepositAmount'
+                    type='text'
+                    value={depositFormik.values.pTokenDepositAmount}
+                    placeholder="0.00"
+                    disabled={depositFormik.values.pTokenDepositAmount < 0}
+                    onChange={depositFormik.handleChange}
+                  />
+                  <Form.InputGroupAppend>
+                    <Button
+                      RootComponent="a"
+                      color="primary"
+                      icon="download"
+                      type="submit"
+                      value="Submit"
+                      href={'#'}
+                    >
+                      Deposit
+                    </Button>
+                  </Form.InputGroupAppend>
+                </Form.InputGroup>
+              </Form.Group>
+            </Form>
           </Grid.Col>
           <Grid.Col width={5} offset={1}>
             <Header.H4>

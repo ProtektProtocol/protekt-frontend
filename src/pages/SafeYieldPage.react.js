@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
 import {
   Link
@@ -15,6 +15,9 @@ import {
 
 import ProtektDepositCard from "../components/ProtektDepositCard";
 import SiteWrapper from "../SiteWrapper.react";
+
+import { useTokenPrice } from "../hooks";
+import {Web3Context} from '../App.react';
 
 function returnCards(items=[]) {
   return items.map((item, key) => {
@@ -31,11 +34,9 @@ function SafeYield() {
   const [protektContracts, setProtektContracts] = useState([])
 
   useEffect(() => {
-
     async function getProtektContracts() {
       try {
         const response = await axios.get('https://api.defiscore.io/earn/opportunities');
-        console.log(response);
         let temp = [response.data.data[0], response.data.data[16]]
         setProtektContracts(temp);
       } catch (error) {
@@ -44,6 +45,10 @@ function SafeYield() {
     }
     getProtektContracts()
   }, []);
+
+  const web3Context = useContext(Web3Context);
+  const tokenPrices = useTokenPrice(web3Context.provider, 'DAI,cDAI,WETH');
+  console.log('Token Prices', tokenPrices)
 
   return (
     <SiteWrapper>
