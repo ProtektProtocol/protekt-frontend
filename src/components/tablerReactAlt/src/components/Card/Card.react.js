@@ -135,10 +135,11 @@ class Card extends React.PureComponent<Props, State> {
       alertColor && <Card.Alert color={alertColor}>{alert}</Card.Alert>;
 
     const card_header = title && (
-      <Card.Header>
-        {title}
-        {card_options}
-      </Card.Header>
+      
+        <Card.Header>
+          {title}
+          {card_options}
+        </Card.Header>
     );
 
     const card_body = body && <Card.Body>{body}</Card.Body>;

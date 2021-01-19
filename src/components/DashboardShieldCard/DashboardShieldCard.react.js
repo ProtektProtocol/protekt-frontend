@@ -19,7 +19,7 @@ type Props = {|
   +item?: Object,
 |};
 
-function ProtektDepositCard({
+function DashboardShieldCard({
   children,
   item,
 }: Props): React.Node {
@@ -27,27 +27,39 @@ function ProtektDepositCard({
   let sideColor = (item.protocol === 'compound') ? 'teal' : 'purple';
 
   return (
-    <Card
-      isCollapsed
-      isCollapsible
-      title= {(
+    <Card>
+      <Card.Header>
         <Card.Title>
-          { `Earn ${numeral(item.apr).format('0.00')}% APR on ${item.token.toUpperCase()} on ${item.protocol.toUpperCase()}` }
+          { `${numeral(10000).format('$0,0')} earning ${numeral(item.apr / 3).format('0.00')}% APR protecting ${item.token.toUpperCase()} in ${item.protocol.toUpperCase()}` }
         </Card.Title>
-      )}
-    >
+        <Card.Options>
+          <Button
+            RootComponent="a"
+            color="primary"
+            size="sm"
+            icon="dollar-sign"
+            href="http://www.google.com"
+          >
+            Redeem COMP Rewards
+          </Button>
+        </Card.Options>
       <Card.Status color={sideColor} side />
+      </Card.Header>
       <Card.Body>
         <Grid.Row>
           <Grid.Col width={6}>
-            <h5 className="m-0 text-muted">{`COST`}</h5>
-            <p>{`2.60% for 100% coverage`}</p>
+            <h5 className="m-0 text-muted">{`COVERAGE`}</h5>
+            <p>{`Currently 100% covered`}</p>
             <h5 className="m-0 text-muted">{`BACKED BY`}</h5>
             <p>{`wETH (Not invested)`}</p>
           </Grid.Col>
           <Grid.Col width={6}>
             <h5 className="m-0 text-muted">{`CLAIMS`}</h5>
             <p>{`Claims are investigated for a period of 1 week, and the payout decision is made by a DAO vote.`}</p>
+            <h5 className="m-0 text-muted">{`STATUS`}</h5>
+            <p>{`No claim submitted`}</p>
+            <h5 className="m-0 text-muted">{`PAYOUT EVENT`}</h5>
+            <p>{`No payout event found`}</p>
           </Grid.Col>
         </Grid.Row>
         <Grid.Row>
@@ -59,31 +71,11 @@ function ProtektDepositCard({
       </Card.Body>
       <Card.Body>
         <Grid.Row>
-          <Grid.Col width={5} >
+          <Grid.Col width={5}>
             <Header.H4>
-              Start earning safely
+              Withdraw
             </Header.H4>
-            <Form.Group label="Your wallet: 196.0000 cDAI">
-              <Form.InputGroup>
-                <Form.Input placeholder="0.00" />
-                <Form.InputGroupAppend>
-                  <Button
-                    RootComponent="a"
-                    color="primary"
-                    icon="download"
-                    href="http://www.google.com"
-                  >
-                    Deposit
-                  </Button>
-                </Form.InputGroupAppend>
-              </Form.InputGroup>
-            </Form.Group>
-          </Grid.Col>
-          <Grid.Col width={5} offset={1}>
-            <Header.H4>
-              Withdraw anytime
-            </Header.H4>
-            <Form.Group label="Your wallet: 0.0000 cDAI">
+            <Form.Group label="Deposited: 0.0000 wETH">
               <Form.InputGroup>
                 <Form.Input
                   disabled={true}
@@ -103,6 +95,8 @@ function ProtektDepositCard({
               </Form.InputGroup>
             </Form.Group>
           </Grid.Col>
+          <Grid.Col width={5} offset={1}>
+          </Grid.Col>
         </Grid.Row>
       </Card.Body>
     </Card>
@@ -110,4 +104,4 @@ function ProtektDepositCard({
 }
 
 /** @component */
-export default ProtektDepositCard;
+export default DashboardShieldCard;

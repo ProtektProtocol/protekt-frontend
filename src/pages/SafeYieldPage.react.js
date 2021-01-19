@@ -16,7 +16,7 @@ import {
 import ProtektDepositCard from "../components/ProtektDepositCard";
 import SiteWrapper from "../SiteWrapper.react";
 
-function returnProtektContractCoverageCards(items=[]) {
+function returnCards(items=[]) {
   return items.map((item, key) => {
     return (
       <ProtektDepositCard
@@ -47,11 +47,11 @@ function SafeYield() {
 
   return (
     <SiteWrapper>
-      <Page.Content title="🏦 Safe Yield Opportunities">
+      <Page.Content title="🏦 Earn Safe Yield">
         <Grid.Row cards={true}>
           <Grid.Col lg={12}>
             { !protektContracts.length ? <Dimmer active loader /> : 
-              returnProtektContractCoverageCards(protektContracts)
+              returnCards(protektContracts)
             }
           </Grid.Col>
         </Grid.Row>

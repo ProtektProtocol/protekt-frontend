@@ -19,7 +19,7 @@ type Props = {|
   +item?: Object,
 |};
 
-function ProtektDepositCard({
+function StakingDepositCard({
   children,
   item,
 }: Props): React.Node {
@@ -32,7 +32,7 @@ function ProtektDepositCard({
       isCollapsible
       title= {(
         <Card.Title>
-          { `Earn ${numeral(item.apr).format('0.00')}% APR on ${item.token.toUpperCase()} on ${item.protocol.toUpperCase()}` }
+          { `Earn ${numeral(item.apr / 4).format('0.00')}% APR on ${'wETH'} protecting ${item.protocol.toUpperCase()} deposits` }
         </Card.Title>
       )}
     >
@@ -40,10 +40,10 @@ function ProtektDepositCard({
       <Card.Body>
         <Grid.Row>
           <Grid.Col width={6}>
-            <h5 className="m-0 text-muted">{`COST`}</h5>
-            <p>{`2.60% for 100% coverage`}</p>
-            <h5 className="m-0 text-muted">{`BACKED BY`}</h5>
-            <p>{`wETH (Not invested)`}</p>
+            <h5 className="m-0 text-muted">{`EARNINGS`}</h5>
+            <p>{`2.60% APR on wETH `}</p>
+            <h5 className="m-0 text-muted">{`TOTAL AMOUNT STAKED`}</h5>
+            <p>{`$10,000`}</p>
           </Grid.Col>
           <Grid.Col width={6}>
             <h5 className="m-0 text-muted">{`CLAIMS`}</h5>
@@ -61,7 +61,7 @@ function ProtektDepositCard({
         <Grid.Row>
           <Grid.Col width={5} >
             <Header.H4>
-              Start earning safely
+              Stake to start earning
             </Header.H4>
             <Form.Group label="Your wallet: 196.0000 cDAI">
               <Form.InputGroup>
@@ -110,4 +110,4 @@ function ProtektDepositCard({
 }
 
 /** @component */
-export default ProtektDepositCard;
+export default StakingDepositCard;
