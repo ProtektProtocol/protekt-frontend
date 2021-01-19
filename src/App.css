@@ -1,10 +1,12 @@
 body {
-  background-color: #ebfcf7;
   font-size: 1rem;
+  background-color: #ebfcf7;
+  background-image: linear-gradient(0deg, #ebfcf7 29%, #ffffff 90%);
+  font-family: "Segoe UI", "Helvetica Neue", Arial, sans-serif;
 }
 
 .header {
-  background-color: #ebfcf7;
+  background-color: transparent;
 }
 
 .header a:not(.btn) {
@@ -18,8 +20,12 @@ body {
 
 .nav-tabs .nav-link.active,
 .nav-tabs .nav-item.show .nav-link {
-  color: #2bcbba;
-  border-color: #dee2e6 #dee2e6 #2bcbba;
+  color: #0D1E3B;
+  border-color: #dee2e6 #dee2e6 #0D1E3B;
+  font-weight: 500;
 }
 
+.header-toggler {
+  align-self: center;
+}
 

@@ -2,12 +2,15 @@ import React, { useCallback, useEffect, useState } from "react";
 // import { Button } from "antd";
 import {
   Button,
+  Text
 } from "tabler-react";
+import Identicon from "../Identicon.react"
 
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
 import {  JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import { useUserAddress } from "eth-hooks";
+import { shortenAddress } from "../../utils"
 
 const INFURA_ID = '395c09a1d60042e2bcb49522b34fcb4e';
 
@@ -21,7 +24,7 @@ function Account() {
   const modalButtons = [];
   // const userProvider = useUserProvider(injectedProvider, localProvider);
   const userProvider = injectedProvider;
-  const address = useUserAddress(userProvider);
+  let address = useUserAddress(userProvider);
 
   const loadWeb3Modal = useCallback(async () => {
     const provider = await web3Modal.connect();
@@ -67,12 +70,14 @@ function Account() {
   }
 
   return (
-    <div>
-      <span>
-        {address }
-      </span>
+    <React.Fragment>
+      {
+        !!address && (
+          <Text className={'mr-2'}>{shortenAddress(address)}</Text>
+        )
+      }
       {modalButtons}
-    </div>
+    </React.Fragment>
   );
 }
 
