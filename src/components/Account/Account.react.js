@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState, useContext } from "react";
 // import { Button } from "antd";
 import {
   Button,
@@ -11,24 +11,26 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import {  JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
 import { useUserAddress } from "eth-hooks";
 import { shortenAddress } from "../../utils"
-
-const INFURA_ID = '395c09a1d60042e2bcb49522b34fcb4e';
+import { INFURA_ID } from "../../utils/constants"
+import {Web3Context} from '../../App.react';
 
 const mainnetProvider = new JsonRpcProvider("https://mainnet.infura.io/v3/"+INFURA_ID)
 // const localProviderUrl = "http://"+window.location.hostname+":8545";
 // const localProviderUrlFromEnv = process.env.REACT_APP_PROVIDER ? process.env.REACT_APP_PROVIDER : localProviderUrl;
 // const localProvider = new JsonRpcProvider(localProviderUrlFromEnv);
 
-function Account() {
+function Account({}) {
   const [injectedProvider, setInjectedProvider] = useState();
+  const web3Context = useContext(Web3Context);
   const modalButtons = [];
-  // const userProvider = useUserProvider(injectedProvider, localProvider);
   const userProvider = injectedProvider;
   let address = useUserAddress(userProvider);
 
   const loadWeb3Modal = useCallback(async () => {
     const provider = await web3Modal.connect();
-    setInjectedProvider(new Web3Provider(provider));
+    const newProvider = new Web3Provider(provider);
+    web3Context.updateProvider(newProvider);
+    setInjectedProvider(newProvider);
   }, [setInjectedProvider]);
 
   useEffect(() => {

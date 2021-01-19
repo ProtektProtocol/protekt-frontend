@@ -1,0 +1,1 @@
+export const INFURA_ID = '395c09a1d60042e2bcb49522b34fcb4e';

@@ -8,6 +8,8 @@ import { getAddress } from '@ethersproject/address'
 // import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, ETHER } from '@uniswap/sdk'
 // import { TokenAddressMap } from '../state/lists/hooks'
 
+export { default as Transactor } from "./Transactor";
+
 // // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
   try {

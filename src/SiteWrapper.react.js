@@ -13,7 +13,7 @@ import {
 } from "tabler-react";
 
 import Site from "./components/tablerReactAlt/src/components/Site";
-import Account from "./components/ConnectAccount";
+import Account from "./components/Account";
 
 import type { NotificationProps } from "tabler-react";
 
@@ -64,6 +64,8 @@ const navBarItems: Array<navItem> = [
   }
 ];
 
+let provider;
+
 class SiteWrapper extends React.Component<Props, State> {
   state = {};
 
@@ -86,7 +88,7 @@ class SiteWrapper extends React.Component<Props, State> {
             ),
             (
               <Nav.Item type="div" className="d-flex" key={2}>
-                <Account/>
+                <Account />
               </Nav.Item>
             )
           ]

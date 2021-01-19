@@ -14,6 +14,15 @@ import {
 import Card from "../tablerReactAlt/src/components/Card";
 import DisplayToken from "../DisplayToken";
 
+import { useGasPrice } from "../../hooks";
+// import { userProvider } from "../Account";
+import { useUserAddress } from "eth-hooks";
+import { parseEther, formatEther } from "@ethersproject/units";
+import { Transactor } from "../../utils";
+
+// const gasPrice = useGasPrice("fast");
+
+
 type Props = {|
   +children?: React.Node,
   +item?: Object,
@@ -23,6 +32,9 @@ function ProtektDepositCard({
   children,
   item,
 }: Props): React.Node {
+  // const tx = Transactor(userProvider, gasPrice)
+  // const pToken = useContractLoader('pToken', userProvider)
+
 
   let sideColor = (item.protocol === 'compound') ? 'teal' : 'purple';
 
@@ -71,7 +83,11 @@ function ProtektDepositCard({
                     RootComponent="a"
                     color="primary"
                     icon="download"
-                    href="http://www.google.com"
+                    onClick={()=>{
+                      console.log("Deposit")
+                      /* look how you call setPurpose on your contract: */
+                      // tx( writeContracts.YourContract.setPurpose(newPurpose) )
+                    }}
                   >
                     Deposit
                   </Button>
