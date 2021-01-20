@@ -38,7 +38,6 @@ function App(props: Props): React.Node {
       })
     },
     updateAddress: (_address) => {
-      console.log('Updating Address')
       setState((prevState) => {
         let temp = Object.assign({}, prevState); 
         temp.address = _address;

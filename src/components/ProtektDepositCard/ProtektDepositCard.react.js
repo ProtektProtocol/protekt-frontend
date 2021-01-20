@@ -2,7 +2,9 @@
 
 import React, { useState, useEffect, useContext } from 'react';
 import numeral from 'numeral';
-import { useFormik } from 'formik';
+import { Formik } from 'formik';
+import * as Yup from 'yup';
+import NumberFormat from 'react-number-format';
 import { ethers } from "ethers";
 import { BigNumber } from "@ethersproject/bignumber";
 
@@ -32,14 +34,15 @@ type Props = {|
 |};
 
 function sendDepositTx(amount) {
-  const web3Context = useContext(Web3Context);
-  if(web3Context.provider && amount > 0) {
-    const gasPrice = useGasPrice("fast");
-    const tx = Transactor(web3Context.provider, gasPrice);
-    const contracts = useContractLoader(web3Context.provider);
+  console.log('tx - Deposit', amount)
+  // const web3Context = useContext(Web3Context);
+  // if(web3Context.provider && amount > 0) {
+  //   const gasPrice = useGasPrice("fast");
+  //   const tx = Transactor(web3Context.provider, gasPrice);
+  //   const contracts = useContractLoader(web3Context.provider);
 
-    tx(contracts.pToken.deposit('100'))
-  }
+  //   tx(contracts.pToken.deposit('100'))
+  // }
 }
 
 function ProtektDepositCard({
@@ -70,8 +73,6 @@ function ProtektDepositCard({
 
   useEffect(() => {
     async function getAccountBalances(item, tokenPrices, contracts) {
-      console.log('Getting balances for: ', web3Context.address)
-      console.log('Getting balances for: ', web3Context)
       let balances = {};
       if(web3Context.ready && web3Context.address && contracts) {
         try {
@@ -131,16 +132,6 @@ function ProtektDepositCard({
   const coverageFeeAPR = item.maxBlockFeeAPR * coveragePercentage
   const netAdjustedAPR = lendingMarket.apr - coverageFeeAPR
 
-  const depositFormik = useFormik({
-    initialValues: {
-      pTokenDepositAmount: 0,
-    },
-    onSubmit: values => {
-      console.log('tx - pToken Deposit')
-      sendDepositTx(values.pTokenDepositAmount)
-    },
-  });
-
   return (
     <Card
       isCollapsible
@@ -177,33 +168,47 @@ function ProtektDepositCard({
             <Header.H4>
               Start earning safely
             </Header.H4>
-            <Form onSubmit={depositFormik.handleSubmit}>
-              <Form.Group label={`Your wallet: ${numeral(ethers.utils.formatUnits(accountBalances[item.underlyingTokenSymbol]["token"],item.underlyingTokenDecimals)).format('0.00')} ${item.underlyingTokenSymbol.toUpperCase()}`}>
-                <Form.InputGroup>
-                  <Form.Input
-                    id='pTokenDepositAmount'
-                    name='pTokenDepositAmount'
-                    type='text'
-                    value={depositFormik.values.pTokenDepositAmount}
-                    placeholder="0.00"
-                    disabled={depositFormik.values.pTokenDepositAmount < 0}
-                    onChange={depositFormik.handleChange}
-                  />
-                  <Form.InputGroupAppend>
-                    <Button
-                      RootComponent="a"
-                      color="primary"
-                      icon="download"
-                      type="submit"
-                      value="Submit"
-                      href={'#'}
-                    >
-                      Deposit
-                    </Button>
-                  </Form.InputGroupAppend>
-                </Form.InputGroup>
-              </Form.Group>
-            </Form>
+            <Formik
+              initialValues={{ email: '' }}
+              validationSchema={Yup.object().shape({
+                numbers: Yup.number().required('Required'),
+              })}
+            >
+              {props => {
+                const {
+                  values,
+                  setFieldValue,
+                } = props;
+                return (
+                  <Form>
+                    <Form.Group label={`Your wallet: ${numeral(ethers.utils.formatUnits(accountBalances[item.underlyingTokenSymbol]["token"],item.underlyingTokenDecimals)).format('0.00')} ${item.underlyingTokenSymbol.toUpperCase()}`}>
+                      <Form.InputGroup>
+                        <NumberFormat
+                          placeholder="0.00"
+                          isNumericString={true}
+                          thousandSeparator={true}
+                          value={values.numbers}
+                          className={"form-control"}
+                          onValueChange={val => setFieldValue('numbers', val.floatValue)}
+                        />
+                        <Form.InputGroupAppend>
+                          <Button
+                            RootComponent="a"
+                            color="primary"
+                            icon="download"
+                            type="submit"
+                            value="Submit"
+                            onClick={() => sendDepositTx(values.numbers)}
+                          >
+                            Deposit
+                          </Button>
+                        </Form.InputGroupAppend>
+                      </Form.InputGroup>
+                    </Form.Group>
+                  </Form>
+                );
+              }}
+            </Formik>
           </Grid.Col>
           <Grid.Col width={5} offset={1}>
             <Header.H4>
