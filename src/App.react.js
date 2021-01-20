@@ -21,15 +21,29 @@ type Props = {||};
 export const Web3Context = React.createContext({
   provider: {},
   updateProvider: () => {},
+  updateAddress: () => {},
+  ready: false,
+  address: ''
 });
 
 function App(props: Props): React.Node {
   const [state, setState] = useState({
     provider: {},
     updateProvider: (_provider) => {
-      setState({
-        provider: _provider,
-        updateProvider: () => {}
+      setState((prevState) => {
+        let temp = Object.assign({}, prevState); 
+        temp.provider = _provider;
+        temp.ready = true;
+        return temp
+      })
+    },
+    updateAddress: (_address) => {
+      console.log('Updating Address')
+      setState((prevState) => {
+        let temp = Object.assign({}, prevState); 
+        temp.address = _address;
+        temp.updateAddress = () => {};
+        return temp
       })
     }
   });
@@ -45,10 +59,10 @@ function App(props: Props): React.Node {
             <Route exact path="/404" component={Error404} />
             <Route exact path="/500" component={Error500} />
             <Route exact path="/503" component={Error503} />
-            <Route exact path="/earn-yield" component={SafeYieldPage} />
+            <Route exact path="/safe-yield" component={SafeYieldPage} />
             <Route exact path="/staking" component={StakingPage} />
             <Route exact path="/dashboard" component={DashboardPage} />
-            <Redirect to='/earn-yield' />
+            <Redirect to='/safe-yield' />
             <Route component={Error404} />
           </Switch>
         </Router>

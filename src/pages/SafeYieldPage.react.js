@@ -16,6 +16,7 @@ import {
 
 import ProtektDepositCard from "../components/ProtektDepositCard";
 import SiteWrapper from "../SiteWrapper.react";
+import { useUserAddress } from "eth-hooks";
 
 import { useTokenPrice, useContractReader, useContractLoader } from "../hooks";
 import {Web3Context} from '../App.react';
@@ -45,6 +46,7 @@ function SafeYield() {
     async function getLendingMarketMetrics() {
       try {
         const response = await axios.get('https://api.defiscore.io/earn/opportunities');
+        // console.log("response",response)
         let temp = [response.data.data[0], response.data.data[16]]
         setLendingMarketMetrics(temp);
       } catch (error) {
@@ -55,7 +57,7 @@ function SafeYield() {
   }, []);
 
   const web3Context = useContext(Web3Context);
-  const tokenPrices = useTokenPrice(web3Context.provider, 'DAI,cDAI,WETH');
+  const tokenPrices = useTokenPrice(web3Context.provider, 'DAI,cDAI,WETH', 600000);
   const contracts = useContractLoader(web3Context.provider);
 
 

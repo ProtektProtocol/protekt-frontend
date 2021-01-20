@@ -23,9 +23,6 @@ import { parseEther, formatEther } from "@ethersproject/units";
 import { Transactor } from "../../utils";
 import {Web3Context} from '../../App.react';
 
-// const gasPrice = useGasPrice("fast");
-
-
 type Props = {|
   +children?: React.Node,
   +item?: Object,
@@ -53,9 +50,6 @@ function ProtektDepositCard({
   contracts,
 }: Props): React.Node {
   const web3Context = useContext(Web3Context);
-  // const address = useUserAddress(web3Context.provider);
-  const address = '0xDF1b1c58FC59cbCe9e11c37aD239B37Cf56e7a5A';
-
   let tempBalances = {};
   tempBalances[item.underlyingTokenSymbol] = {
     token: 0,
@@ -68,64 +62,66 @@ function ProtektDepositCard({
   const [accountBalances, setAccountBalances] = useState(tempBalances)
   const [coveragePercentage, setCoveragePercentage] = useState(100)
   const lendingMarket = lendingMarketMetrics[0];
-  console.log(item)
-  console.log(lendingMarketMetrics)
-  console.log(tokenPrices)
-  console.log(contracts)
+
+  // console.log(item)
+  // console.log(lendingMarketMetrics)
+  // console.log(tokenPrices)
+  // console.log(contracts)
 
   useEffect(() => {
     async function getAccountBalances(item, tokenPrices, contracts) {
+      console.log('Getting balances for: ', web3Context.address)
+      console.log('Getting balances for: ', web3Context)
       let balances = {};
-      try {
-        const underlyingTokenBalance = await contracts[item.underlyingTokenSymbol]["balanceOf"](...[address]);
-        const pTokenBalance = await contracts["pToken"]["balanceOf"](...[address]);
+      if(web3Context.ready && web3Context.address && contracts) {
+        try {
+          const underlyingTokenBalance = await contracts[item.underlyingTokenSymbol]["balanceOf"](...[web3Context.address]);
+          const pTokenBalance = await contracts["pToken"]["balanceOf"](...[web3Context.address]);
 
-        // console.log('-------')
-        // console.log(underlyingTokenBalance.toString())
-        // console.log(pTokenBalance.toString())
+          // console.log('-------')
+          // console.log(underlyingTokenBalance.toString())
+          // console.log(pTokenBalance.toString())
 
-        balances[item.underlyingTokenSymbol] = {
-          token: underlyingTokenBalance.toString(),
-          usd: 0
-        };
-        balances[item.pTokenSymbol] = {
-          token: pTokenBalance.toString(),
-          usd: 0
-        };
-
-        // console.log('-------')
-        // pTokenTotalDeposit * price / shieldTokenTotalDeposit * price
-        // console.log(pTokenTotalDeposit.div(1).div(tokenPrices[item.reserveTokenSymbol]['usd']).mul(tokenPrices[item.underlyingTokenSymbol]['usd']))
-        setAccountBalances(balances)
-      } catch (error) {
-        console.error(error);
+          balances[item.underlyingTokenSymbol] = {
+            token: underlyingTokenBalance.toString(),
+            usd: 0
+          };
+          balances[item.pTokenSymbol] = {
+            token: pTokenBalance.toString(),
+            usd: 0
+          };
+          setAccountBalances(balances)
+        } catch (error) {
+          console.error(error);
+        }        
       }
-      
     }
     getAccountBalances(item, tokenPrices, contracts)
-  }, [contracts]);
+  }, [contracts, web3Context.address]);
   
 
   useEffect(() => {
     async function calcCoveragePercentage(item, tokenPrices, contracts) {
       let coverage = 100;
-      try {
-        const pTokenTotalDepositTokens = await contracts[item.underlyingTokenSymbol]["balanceOf"](...[item.pTokenAddress]);
-        const shieldTokenTotalDepositTokens = await contracts[item.reserveTokenSymbol]["balanceOf"](...[item.shieldTokenAddress]);
+      if(contracts) {
+        try {
+          const pTokenTotalDepositTokens = await contracts[item.underlyingTokenSymbol]["balanceOf"](...[item.pTokenAddress]);
+          const shieldTokenTotalDepositTokens = await contracts[item.reserveTokenSymbol]["balanceOf"](...[item.shieldTokenAddress]);
 
-        // if(shieldTokenTotalDepositTokens.lte(0)) {
-        //   coverage = 0
-        // } else {
-        //   let ten = BigNumber.from(10);
-        //   let pTokenTotalDepositUsd = pTokenTotalDepositTokens.div(ten.pow(item.underlyingTokenDecimals)).mul(tokenPrices[item.underlyingTokenSymbol]['usd']);
-        //   let shieldTokenTotalDepositUsd = shieldTokenTotalDepositTokens.div(ten.pow(item.reserveTokenDecimals)).mul(tokenPrices[item.reserveTokenSymbol]['usd']);
-        //   console.log('-------')
-        //   console.log(pTokenTotalDepositUsd)
-        //   console.log(shieldTokenTotalDepositUsd)
-        //   converage = pTokenTotalDepositUsd.div(shieldTokenTotalDepositUsd).mul(100);
-        // }
-      } catch (error) {
-        console.error(error);
+          // if(shieldTokenTotalDepositTokens.lte(0)) {
+          //   coverage = 0
+          // } else {
+          //   let ten = BigNumber.from(10);
+          //   let pTokenTotalDepositUsd = pTokenTotalDepositTokens.div(ten.pow(item.underlyingTokenDecimals)).mul(tokenPrices[item.underlyingTokenSymbol]['usd']);
+          //   let shieldTokenTotalDepositUsd = shieldTokenTotalDepositTokens.div(ten.pow(item.reserveTokenDecimals)).mul(tokenPrices[item.reserveTokenSymbol]['usd']);
+          //   console.log('-------')
+          //   console.log(pTokenTotalDepositUsd)
+          //   console.log(shieldTokenTotalDepositUsd)
+          //   converage = pTokenTotalDepositUsd.div(shieldTokenTotalDepositUsd).mul(100);
+          // }
+        } catch (error) {
+          console.error(error);
+        }
       }
       setCoveragePercentage(coverage)
     }
@@ -140,6 +136,7 @@ function ProtektDepositCard({
       pTokenDepositAmount: 0,
     },
     onSubmit: values => {
+      console.log('tx - pToken Deposit')
       sendDepositTx(values.pTokenDepositAmount)
     },
   });
@@ -149,7 +146,7 @@ function ProtektDepositCard({
       isCollapsible
       title= {(
         <Card.Title>
-          { `Earn ${numeral(netAdjustedAPR).format('0.00')}% APR on ${lendingMarket.token.toUpperCase()} on ${lendingMarket.protocol.toUpperCase()}` }
+          { `Earn ${numeral(netAdjustedAPR).format('0.00')}% APR on ${lendingMarket.token.toUpperCase()} with ${lendingMarket.protocol.toUpperCase()}` }
         </Card.Title>
       )}
     >
@@ -212,7 +209,7 @@ function ProtektDepositCard({
             <Header.H4>
               Withdraw anytime
             </Header.H4>
-              <Form.Group label={`For withdrawal: ${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.pTokenDecimals)).format('0.00')} ${item.pTokenSymbol}`}>
+              <Form.Group label={`Your deposits: ${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.pTokenDecimals)).format('0.00')} ${item.pTokenSymbol}`}>
               <Form.InputGroup>
                 <Form.Input
                   disabled={true}

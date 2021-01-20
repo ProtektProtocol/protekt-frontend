@@ -19,13 +19,18 @@ const mainnetProvider = new JsonRpcProvider("https://mainnet.infura.io/v3/"+INFU
 // const localProviderUrlFromEnv = process.env.REACT_APP_PROVIDER ? process.env.REACT_APP_PROVIDER : localProviderUrl;
 // const localProvider = new JsonRpcProvider(localProviderUrlFromEnv);
 
+let hasNotRun = true
+
 function Account({}) {
   const [injectedProvider, setInjectedProvider] = useState();
   const web3Context = useContext(Web3Context);
   const modalButtons = [];
-  const userProvider = injectedProvider;
-  let address = useUserAddress(userProvider);
-
+  let address = useUserAddress(injectedProvider);
+  if(web3Context.ready && hasNotRun && address != "") {
+    web3Context.updateAddress(address);
+    hasNotRun = false
+  }
+  
   const loadWeb3Modal = useCallback(async () => {
     const provider = await web3Modal.connect();
     const newProvider = new Web3Provider(provider);
