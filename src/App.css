@@ -5,6 +5,10 @@ body {
   font-family: "Segoe UI",'DM Sans', "Helvetica Neue", Arial, sans-serif;
 }
 
+a:not([href]):not([tabindex]).btn-primary {
+  color: white !important;
+}
+
 .header {
   background-color: transparent;
 }

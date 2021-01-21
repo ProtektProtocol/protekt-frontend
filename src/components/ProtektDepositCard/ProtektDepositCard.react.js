@@ -18,6 +18,7 @@ import {
 
 import Card from "../tablerReactAlt/src/components/Card";
 import DisplayToken from "../DisplayToken";
+import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
 
 import { useGasPrice, useContractLoader } from "../../hooks";
 import { useUserAddress } from "eth-hooks";
@@ -33,18 +34,6 @@ type Props = {|
   +contracts?: Object,
 |};
 
-function sendDepositTx(amount) {
-  console.log('tx - Deposit', amount)
-  // const web3Context = useContext(Web3Context);
-  // if(web3Context.provider && amount > 0) {
-  //   const gasPrice = useGasPrice("fast");
-  //   const tx = Transactor(web3Context.provider, gasPrice);
-  //   const contracts = useContractLoader(web3Context.provider);
-
-  //   tx(contracts.pToken.deposit('100'))
-  // }
-}
-
 function ProtektDepositCard({
   children,
   item,
@@ -53,6 +42,7 @@ function ProtektDepositCard({
   contracts,
 }: Props): React.Node {
   const web3Context = useContext(Web3Context);
+  const gasPrice = useGasPrice("fast");
   let tempBalances = {};
   tempBalances[item.underlyingTokenSymbol] = {
     token: 0,
@@ -71,12 +61,36 @@ function ProtektDepositCard({
   // console.log(tokenPrices)
   // console.log(contracts)
 
+  async function handleDepositTx(amount) {
+    if(web3Context.ready && amount > 0) {
+      const tx = Transactor(web3Context.provider, gasPrice);
+      let weiAmount = ethers.utils.parseUnits(amount.toString(), item.underlyingTokenDecimals);
+      const allowanceAmount = await contracts[item.underlyingTokenSymbol]["allowance"](...[web3Context.address, item.pTokenAddress]);
+
+      if(weiAmount.gt(allowanceAmount)) {
+        tx(contracts[item.underlyingTokenSymbol]["approve"](item.pTokenAddress, ethers.utils.parseUnits('1000000',item.underlyingTokenDecimals)));
+      } else {
+        tx(contracts.pToken.deposit(weiAmount));
+      }
+    }
+  }
+
+  async function handleWithdrawTx(amount) {
+    if(web3Context.ready && amount > 0) {
+      const tx = Transactor(web3Context.provider, gasPrice);
+      let weiAmount = ethers.utils.parseUnits(amount.toString(), item.pTokenDecimals);
+      tx(contracts.pToken.withdraw(weiAmount));
+    }
+  }
+
+
   useEffect(() => {
     async function getAccountBalances(item, tokenPrices, contracts) {
       let balances = {};
       if(web3Context.ready && web3Context.address && contracts) {
         try {
           const underlyingTokenBalance = await contracts[item.underlyingTokenSymbol]["balanceOf"](...[web3Context.address]);
+          const allowanceAmount = await contracts[item.underlyingTokenSymbol]["allowance"](...[web3Context.address, item.pTokenAddress]);
           const pTokenBalance = await contracts["pToken"]["balanceOf"](...[web3Context.address]);
 
           // console.log('-------')
@@ -85,7 +99,8 @@ function ProtektDepositCard({
 
           balances[item.underlyingTokenSymbol] = {
             token: underlyingTokenBalance.toString(),
-            usd: 0
+            usd: 0,
+            allowance: allowanceAmount
           };
           balances[item.pTokenSymbol] = {
             token: pTokenBalance.toString(),
@@ -132,6 +147,16 @@ function ProtektDepositCard({
   const coverageFeeAPR = item.maxBlockFeeAPR * coveragePercentage
   const netAdjustedAPR = lendingMarket.apr - coverageFeeAPR
 
+  if(accountBalances[item.underlyingTokenSymbol] && 
+                                accountBalances[item.underlyingTokenSymbol]["allowance"] &&
+                                  accountBalances[item.underlyingTokenSymbol]["allowance"].gt(0)) {
+
+  console.log(accountBalances[item.underlyingTokenSymbol]["allowance"])
+  console.log(accountBalances[item.underlyingTokenSymbol]["allowance"].toString())
+  console.log(accountBalances[item.underlyingTokenSymbol]["allowance"].gt(0))    
+  }
+
+
   return (
     <Card
       isCollapsible
@@ -141,7 +166,7 @@ function ProtektDepositCard({
         </Card.Title>
       )}
     >
-      <Card.Status color={(item.protocol === 'compound') ? 'teal' : 'purple'} side />
+      <Card.Status color={(item.underlyingProtocol === 'compound') ? 'teal' : 'purple'} side />
       <Card.Body>
         <Grid.Row>
           <Grid.Col width={6}>
@@ -168,71 +193,43 @@ function ProtektDepositCard({
             <Header.H4>
               Start earning safely
             </Header.H4>
-            <Formik
-              initialValues={{ email: '' }}
-              validationSchema={Yup.object().shape({
-                numbers: Yup.number().required('Required'),
-              })}
-            >
-              {props => {
-                const {
-                  values,
-                  setFieldValue,
-                } = props;
-                return (
-                  <Form>
-                    <Form.Group label={`Your wallet: ${numeral(ethers.utils.formatUnits(accountBalances[item.underlyingTokenSymbol]["token"],item.underlyingTokenDecimals)).format('0.00')} ${item.underlyingTokenSymbol.toUpperCase()}`}>
-                      <Form.InputGroup>
-                        <NumberFormat
-                          placeholder="0.00"
-                          isNumericString={true}
-                          thousandSeparator={true}
-                          value={values.numbers}
-                          className={"form-control"}
-                          onValueChange={val => setFieldValue('numbers', val.floatValue)}
-                        />
-                        <Form.InputGroupAppend>
-                          <Button
-                            RootComponent="a"
-                            color="primary"
-                            icon="download"
-                            type="submit"
-                            value="Submit"
-                            onClick={() => sendDepositTx(values.numbers)}
-                          >
-                            Deposit
-                          </Button>
-                        </Form.InputGroupAppend>
-                      </Form.InputGroup>
-                    </Form.Group>
-                  </Form>
-                );
-              }}
-            </Formik>
+            <DepositWithdrawTokensForm
+              item={item}
+              accountBalances={accountBalances}
+              web3Context={web3Context}
+              tokenPrices={tokenPrices}
+              contracts={contracts}
+              handleSubmit={handleDepositTx}
+              label={`Your wallet: ${numeral(ethers.utils.formatUnits(accountBalances[item.underlyingTokenSymbol]["token"],item.underlyingTokenDecimals)).format('0.00')} ${item.underlyingTokenSymbol.toUpperCase()}`}
+              buttonIcon={ accountBalances[item.underlyingTokenSymbol] && 
+                            accountBalances[item.underlyingTokenSymbol]["allowance"] &&
+                              accountBalances[item.underlyingTokenSymbol]["allowance"].gt(0) ?
+                                "download" : 
+                                  "toggle-left"
+                        }
+              buttonLabel={ accountBalances[item.underlyingTokenSymbol] && 
+                        accountBalances[item.underlyingTokenSymbol]["allowance"] &&
+                          accountBalances[item.underlyingTokenSymbol]["allowance"].gt(0) ?
+                            "Deposit" : 
+                              "Approve"
+                    }
+            />
           </Grid.Col>
           <Grid.Col width={5} offset={1}>
             <Header.H4>
               Withdraw anytime
             </Header.H4>
-              <Form.Group label={`Your deposits: ${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.pTokenDecimals)).format('0.00')} ${item.pTokenSymbol}`}>
-              <Form.InputGroup>
-                <Form.Input
-                  disabled={true}
-                  placeholder="0.00"
-                />
-                <Form.InputGroupAppend>
-                  <Button
-                    disabled={true}
-                    RootComponent="a"
-                    color="primary"
-                    icon="upload"
-                    href="http://www.google.com"
-                  >
-                    Withdraw
-                  </Button>
-                </Form.InputGroupAppend>
-              </Form.InputGroup>
-            </Form.Group>
+            <DepositWithdrawTokensForm
+              item={item}
+              accountBalances={accountBalances}
+              web3Context={web3Context}
+              tokenPrices={tokenPrices}
+              contracts={contracts}
+              handleSubmit={handleWithdrawTx}
+              label={`Your deposits: ${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.pTokenDecimals)).format('0.00')} ${item.pTokenSymbol}`}
+              buttonIcon={ "upload" }
+              buttonLabel={ "Withdraw" }
+            />
           </Grid.Col>
         </Grid.Row>
       </Card.Body>
