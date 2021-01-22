@@ -58,10 +58,10 @@ function App(props: Props): React.Node {
             <Route exact path="/404" component={Error404} />
             <Route exact path="/500" component={Error500} />
             <Route exact path="/503" component={Error503} />
-            <Route exact path="/safe-yield" component={SafeYieldPage} />
+            <Route exact path="/earn-yield" component={SafeYieldPage} />
             <Route exact path="/staking" component={StakingPage} />
             <Route exact path="/dashboard" component={DashboardPage} />
-            <Redirect to='/safe-yield' />
+            <Redirect to='/earn-yield' />
             <Route component={Error404} />
           </Switch>
         </Router>

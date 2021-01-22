@@ -3,8 +3,6 @@
 import * as React from "react";
 import { Link } from "react-router-dom";
 
-import { Avatar } from "../";
-
 type Props = {|
   +href?: string,
   +src?: string,

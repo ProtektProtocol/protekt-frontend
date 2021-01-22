@@ -51,7 +51,7 @@ const navBarItems: Array<navItem> = [
     LinkComponent: withRouter(NavLink),
   },
   {
-    value: "Stake",
+    value: "Stake to Shield Mine",
     to: "/staking",
     icon: "shield",
     LinkComponent: withRouter(NavLink),

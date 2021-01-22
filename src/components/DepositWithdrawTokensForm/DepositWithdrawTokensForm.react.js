@@ -8,9 +8,10 @@ import NumberFormat from 'react-number-format';
 import { ethers } from "ethers";
 
 import {
-  Form,
   Button,
 } from "tabler-react";
+
+import Form from "../tablerReactAlt/src/components/Form";
 
 import { useGasPrice } from "../../hooks";
 import { Transactor } from "../../utils";
@@ -22,7 +23,7 @@ type Props = {|
   +lendingMarketMetrics: Object,
   +tokenPrices: Object,
   +contracts: Object,
-  +handleSubmit: Function,
+  +handleSubmit2: Function,
   +label: string
 |};
 
@@ -45,14 +46,21 @@ function DepositWithdrawTokensForm({
       validationSchema={Yup.object().shape({
         numbers: Yup.number().required('Required'),
       })}
+      onSubmit={ async (values, actions) => {
+        console.log('here');
+        handleSubmit(values.numbers);
+        actions.resetForm();
+      }}
     >
       {props => {
         const {
           values,
           setFieldValue,
+          // handleSubmit,
+          isSubmitting
         } = props;
         return (
-          <Form>
+          <Form onSubmit={handleSubmit}> 
             <Form.Group label={label}>
               <Form.InputGroup>
                 <NumberFormat
@@ -67,12 +75,12 @@ function DepositWithdrawTokensForm({
                   <Button
                     RootComponent="a"
                     color="primary"
-                    
                     type="submit"
                     value="Submit"
                     className="color"
-                    onClick={() => handleSubmit(values.numbers)}
                     icon={ buttonIcon }
+                    disabled={isSubmitting}
+                    onClick={() => handleSubmit(values.numbers)}
                   >
                     { buttonLabel }
                   </Button>
