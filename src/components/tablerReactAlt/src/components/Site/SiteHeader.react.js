@@ -59,7 +59,7 @@ const SiteHeader = ({
     React.createElement(AccountDropdown, accountDropdownFromProps);
 
   return (
-    <div className="header py-4">
+    <div className="header py-2">
       <Container className={align}>
         <div className="d-flex">
           {children || (

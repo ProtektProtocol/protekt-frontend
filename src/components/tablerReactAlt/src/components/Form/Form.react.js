@@ -33,6 +33,7 @@ import type { FormEvents } from "../../";
 
 export type Props = {|
   ...FormEvents,
+  +onSubmit?: Function,
   +children?: React.Node,
   +className?: string,
   +action?: string,

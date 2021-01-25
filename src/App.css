@@ -1,0 +1,35 @@
+body {
+  font-size: 1rem;
+  background-color: #ebfcf7;
+  background-image: linear-gradient(0deg, #ebfcf7 29%, #ffffff 90%);
+  font-family: "Segoe UI",'DM Sans', "Helvetica Neue", Arial, sans-serif;
+}
+
+a:not([href]):not([tabindex]).btn-primary {
+  color: white !important;
+}
+
+.header {
+  background-color: transparent;
+}
+
+.header a:not(.btn) {
+  color: #6e7687;
+  font-size: 1rem;
+}
+
+.nav-tabs .nav-link {
+  border-width: 3px;
+}
+
+.nav-tabs .nav-link.active,
+.nav-tabs .nav-item.show .nav-link {
+  color: #0D1E3B;
+  border-color: #dee2e6 #dee2e6 #0D1E3B;
+  font-weight: 500;
+}
+
+.header-toggler {
+  align-self: center;
+}
+

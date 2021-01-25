@@ -13,6 +13,7 @@ import {
 } from "tabler-react";
 
 import Site from "./components/tablerReactAlt/src/components/Site";
+import Account from "./components/Account";
 
 import type { NotificationProps } from "tabler-react";
 
@@ -44,30 +45,26 @@ type navItem = {|
 
 const navBarItems: Array<navItem> = [
   {
-    value: "Balancer Community",
-    to: "/balancer",
-    icon: "users",
+    value: "Earn Safe Yield",
+    to: "/earn-yield",
+    icon: "dollar-sign",
     LinkComponent: withRouter(NavLink),
   },
   {
-    value: "DeFi Data Resources",
-    to: "/defi",
-    icon: "shopping-bag",
+    value: "Stake to Shield Mine",
+    to: "/staking",
+    icon: "shield",
     LinkComponent: withRouter(NavLink),
   },
-  // {
-  //   value: "Stablecoin Stats",
-  //   to: "/stable",
-  //   icon: "pie-chart",
-  //   LinkComponent: withRouter(NavLink),
-  // },
   {
-    value: "About",
-    to: "/about",
-    icon: "help-circle",
+    value: "Your Dashboard",
+    to: "/dashboard",
+    icon: "trending-up",
     LinkComponent: withRouter(NavLink),
   }
 ];
+
+let provider;
 
 class SiteWrapper extends React.Component<Props, State> {
   state = {};
@@ -78,30 +75,20 @@ class SiteWrapper extends React.Component<Props, State> {
         headerProps={{
           href: "/",
           alt: "DeFi Fam",
-          imageURL: `${process.env.PUBLIC_URL}/static/logo_400x400.png`,
+          imageURL: `${process.env.PUBLIC_URL}/static/logo_protekt.png`,
           navItems: [
             (
               <Nav.Item type="div" className="d-flex" key={1}>
                 <List className="list-inline list-inline-dots mb-0 d-none d-md-flex">
                   <List.Item className="list-inline-item">
-                    <a href="https://twitter.com/messages/compose" target="_blank" rel="noopener noreferrer">Contact</a>
+                    <a href="https://docs.protektprotocol.com" target="_blank" rel="noopener noreferrer">Documentation</a>
                   </List.Item>
                 </List>
               </Nav.Item>
             ),
             (
               <Nav.Item type="div" className="d-flex" key={2}>
-                <Button
-                  href="https://twitter.com/DeFiWhale"
-                  target="_blank"
-                  size="md"
-                  outline
-                  color="primary"
-                  RootComponent="a"
-                  className="d-none d-md-flex"
-                >
-                  View on Twitter
-                </Button>
+                <Account />
               </Nav.Item>
             )
           ]
@@ -111,8 +98,8 @@ class SiteWrapper extends React.Component<Props, State> {
         footerProps={{
           copyright: (
             <React.Fragment>
-              Copyright © 2020
-              <a href="https://twitter.com/DeFiWhale" target="_blank" rel="noopener noreferrer"> DeFi Whale</a>. All rights reserved.
+              Copyright © 2021
+              <a href="https://twitter.com/protektprotocol" target="_blank" rel="noopener noreferrer"> Protekt Protocol</a>. All rights reserved.
             </React.Fragment>
           ),
           nav: (
@@ -120,22 +107,23 @@ class SiteWrapper extends React.Component<Props, State> {
               <Grid.Col auto={true} className="d-flex">
                 <List className="list-inline list-inline-dots mb-0 d-none d-md-flex">
                   <List.Item className="list-inline-item">
-                    <Link to="/about">About</Link>
+                    <a href="https://twitter.com/protektprotocol" target="_blank" rel="noopener noreferrer">Twitter</a>
                   </List.Item>
                 </List>
               </Grid.Col>
               <Grid.Col auto={true} className="d-flex">
-                <Button
-                  href="https://twitter.com/DeFiWhale"
-                  target="_blank"
-                  size="md"
-                  outline
-                  color="primary"
-                  RootComponent="a"
-                  className="d-none d-md-flex"
-                >
-                  View on Twitter
-                </Button>
+                <List className="list-inline list-inline-dots mb-0 d-none d-md-flex">
+                  <List.Item className="list-inline-item">
+                    <a href="https://t.me/protektdefi" target="_blank" rel="noopener noreferrer">Telegram</a>
+                  </List.Item>
+                </List>
+              </Grid.Col>
+              <Grid.Col auto={true} className="d-flex">
+                <List className="list-inline list-inline-dots mb-0 d-none d-md-flex">
+                  <List.Item className="list-inline-item">
+                    <a href="https://github.com/ProtektProtocol" target="_blank" rel="noopener noreferrer">Github</a>
+                  </List.Item>
+                </List>
               </Grid.Col>
             </React.Fragment>
           ),

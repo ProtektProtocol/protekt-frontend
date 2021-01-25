@@ -1,6 +1,9 @@
 // @flow
 
 import * as React from "react";
+import {
+  Alert
+} from "tabler-react";
 
 import { Page, Site } from "../";
 import type { Props as SiteHeaderProps } from "./SiteHeader.react";
@@ -57,6 +60,9 @@ class SiteWrapper extends React.PureComponent<Props, State> {
         <Page.Main>
           {header}
           {nav}
+          <Alert type="danger" className="d-flex justify-content-center">
+            <strong>This project is still in development. Do not use!</strong>
+          </Alert>
           {children}
         </Page.Main>
         {footer}
