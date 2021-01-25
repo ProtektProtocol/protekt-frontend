@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import numeral from 'numeral';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
@@ -23,7 +23,7 @@ type Props = {|
   +lendingMarketMetrics: Object,
   +tokenPrices: Object,
   +contracts: Object,
-  +handleSubmit2: Function,
+  +handleSubmit: Function,
   +label: string
 |};
 
@@ -39,6 +39,11 @@ function DepositWithdrawTokensForm({
   buttonLabel
 }: Props): React.Node {
   const gasPrice = useGasPrice("fast");
+  const [balances, setBalances] = useState(accountBalances);
+
+  useEffect(() => {
+    setBalances(accountBalances);
+  }, [accountBalances]);
 
   return (
     <Formik
@@ -56,7 +61,7 @@ function DepositWithdrawTokensForm({
         const {
           values,
           setFieldValue,
-          // handleSubmit,
+          handleSubmit,
           isSubmitting
         } = props;
         return (

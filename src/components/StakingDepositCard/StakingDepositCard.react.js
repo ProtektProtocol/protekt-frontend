@@ -14,9 +14,9 @@ import {
 import Card from "../tablerReactAlt/src/components/Card";
 import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
 
-import { useGasPrice } from "../../hooks";
+import { useGasPrice, useCompoundDaiCoverageMetrics } from "../../hooks";
 import { Transactor } from "../../utils";
-import {Web3Context} from '../../App.react';
+import { Web3Context } from '../../App.react';
 
 type Props = {|
   +children?: React.Node,
@@ -33,9 +33,15 @@ function StakingDepositCard({
   tokenPrices,
   contracts,
 }: Props): React.Node {
-  const [loading, setLoading] = useState(true)
   const web3Context = useContext(Web3Context);
   const gasPrice = useGasPrice("fast");
+  const coverage = useCompoundDaiCoverageMetrics(
+    Web3Context.provider,
+    item,
+    contracts,
+    tokenPrices,
+    lendingMarketMetrics.length > 0 ? lendingMarketMetrics[0] : {}
+  );
   let tempBalances = {};
   tempBalances[item.underlyingTokenSymbol] = {
     token: 0,
@@ -54,18 +60,6 @@ function StakingDepositCard({
     usd: 0
   };
   const [accountBalances, setAccountBalances] = useState(tempBalances)
-  const [coverage, setCoverage] = useState({
-    pTokenTotalDepositTokens: 0,
-    pTokenTotalDepositUsd: 0,
-    shieldTokenTotalDepositTokens: 0,
-    shieldTokenTotalDepositUsd: 0,
-    coverageRatio: 100,
-    coverageRatioDisplay: '100%',
-    coverageFeeAPR: item.maxBlockFeeAPR,
-    tempCoverage: 0,
-    netAdjustedAPR: (lendingMarket ? lendingMarket.apr : 5) - item.maxBlockFeeAPR
-  });
-  const lendingMarket = lendingMarketMetrics[0];
 
   async function handleTxSuccess() {
     console.log('Successful callback')
@@ -87,13 +81,13 @@ function StakingDepositCard({
   async function handleDepositTx(amount) {
     if(web3Context.ready && amount > 0) {
       const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
-      let weiAmount = ethers.utils.parseUnits(amount.toString(), item.underlyingTokenDecimals);
-      const allowanceAmount = await contracts[item.underlyingTokenSymbol]["allowance"](...[web3Context.address, item.pTokenAddress]);
+      let weiAmount = ethers.utils.parseUnits(amount.toString(), item.reserveTokenDecimals);
+      const allowanceAmount = await contracts[item.reserveSymbol]["allowance"](...[web3Context.address, item.shieldTokenAddress]);
 
       if(weiAmount.gt(allowanceAmount)) {
-        tx(contracts[item.underlyingTokenSymbol]["approve"](item.pTokenAddress, ethers.utils.parseUnits('1000000',item.underlyingTokenDecimals)));
+        tx(contracts[item.reserveTokenSymbol]["approve"](item.shieldTokenAddress, ethers.utils.parseUnits('1000000',item.reserveTokenDecimals)));
       } else {
-        tx(contracts.pToken.deposit(weiAmount));
+        tx(contracts[item.shieldTokenSymbol]["deposit"](weiAmount));
       }
     }
   }
@@ -101,8 +95,8 @@ function StakingDepositCard({
   async function handleWithdrawTx(amount) {
     if(web3Context.ready && amount > 0) {
       const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
-      let weiAmount = ethers.utils.parseUnits(amount.toString(), item.pTokenDecimals);
-      tx(contracts.pToken.withdraw(weiAmount));
+      let weiAmount = ethers.utils.parseUnits(amount.toString(), item.shieldTokenDecimals);
+      tx(contracts[item.shieldTokenSymbol]["withdraw"](weiAmount));
     }
   }
 
@@ -111,20 +105,19 @@ function StakingDepositCard({
     let balances = accountBalances;
     if(web3Context.ready && web3Context.address && contracts) {
       try {
+        console.log(contracts);
+
         const underlyingTokenBalance = await contracts[item.underlyingTokenSymbol]["balanceOf"](...[web3Context.address]);
         const underlyingAllowanceAmount = await contracts[item.underlyingTokenSymbol]["allowance"](...[web3Context.address, item.pTokenAddress]);
-        const pTokenBalance = await contracts["pToken"]["balanceOf"](...[web3Context.address]);
-
-        console.log('contracts',contracts)
-        console.log('item.reserveTokenSymbol',item.reserveTokenSymbol)
+        const pTokenBalance = await contracts[item.pTokenSymbol]["balanceOf"](...[web3Context.address]);
 
         const reserveTokenBalance = await contracts[item.reserveTokenSymbol]["balanceOf"](...[web3Context.address]);
         const reserveAllowanceAmount = await contracts[item.reserveTokenSymbol]["allowance"](...[web3Context.address, item.shieldTokenAddress]);
-        // const shieldTokenBalance = await contracts["shieldToken"]["balanceOf"](...[web3Context.address]);
+        const shieldTokenBalance = await contracts[item.shieldTokenSymbol]["balanceOf"](...[web3Context.address]);
 
         console.log('-------')
         console.log('reserve',reserveTokenBalance.toString())
-        // console.log('shield',shieldTokenBalance.toString())
+        console.log('shield',shieldTokenBalance.toString())
 
 
         balances[item.underlyingTokenSymbol] = {
@@ -159,62 +152,11 @@ function StakingDepositCard({
     }
     getBals();
   }, [contracts, web3Context.address]);
-  
 
-  useEffect(() => {
-    async function calcCoveragePercentage(item, tokenPrices, contracts) {
-      let tempCoverage = coverage;
-      let compAPR = 0;
-
-      try {
-        const response = await axios.get('https://api.compound.finance/api/v2/ctoken?meta=true&network=mainnet');
-
-        let temp = response.data.cToken.filter(function (e) {
-          let symbol = item.underlyingTokenSymbol;
-          if(symbol === 'cdai') {
-            symbol = 'cDAI'
-          }
-          return e.symbol === symbol;
-        });
-
-        compAPR = temp[0].comp_supply_apy.value
-      } catch (error) {
-        console.error(error);
-      }
-
-      if(contracts && tokenPrices && lendingMarket) {
-        try {
-          tempCoverage.pTokenTotalDepositTokens = await contracts[item.underlyingTokenSymbol]["balanceOf"](...[item.pTokenAddress]);
-          tempCoverage.pTokenTotalDepositUsd = parseFloat(ethers.utils.formatUnits(tempCoverage.pTokenTotalDepositTokens,item.pTokenDecimals)) * tokenPrices[item.underlyingTokenSymbol]['usd'];
-          tempCoverage.shieldTokenTotalDepositTokens = await contracts[item.reserveTokenSymbol]["balanceOf"](...[item.shieldTokenAddress]);
-          tempCoverage.shieldTokenTotalDepositUsd = parseFloat(ethers.utils.formatUnits(tempCoverage.shieldTokenTotalDepositTokens,item.shieldTokenDecimals)) * tokenPrices[item.reserveTokenSymbol]['usd'];
-          tempCoverage.coverageRatio = tempCoverage.shieldTokenTotalDepositUsd / tempCoverage.pTokenTotalDepositUsd;
-          tempCoverage.coverageRatioDisplay = tempCoverage.coverageRatio > 1 ? '100%' : `numeral(tempCoverage.coverageRatio * 100).format('0.00')}%`;
-          tempCoverage.coverageFeeAPR = tempCoverage.coverageRatio > 1 ? item.maxBlockFeeAPR : item.maxBlockFeeAPR / tempCoverage.coverageRatio;
-          tempCoverage.compAPR = compAPR;
-          tempCoverage.netAdjustedAPR = parseFloat(lendingMarket.apr) + parseFloat(tempCoverage.compAPR) - parseFloat(tempCoverage.coverageFeeAPR);
-
-          // console.log('----Coverage----')
-          // console.log('pTokens',tempCoverage.pTokenTotalDepositTokens.toString())
-          // console.log('Price',tempCoverage.pTokenTotalDepositUsd)
-          // console.log('shieldTokens',tempCoverage.shieldTokenTotalDepositTokens.toString())
-          // console.log('Price',tempCoverage.shieldTokenTotalDepositUsd)
-          // console.log('Coverage',tempCoverage.coverageRatio)
-          // console.log('Supply APR',lendingMarket.apr)
-          // console.log('compAPR',tempCoverage.compAPR)
-          // console.log('CoverageFee',tempCoverage.coverageFeeAPR)
-          // console.log('Adjusted APR',tempCoverage.netAdjustedAPR)
-
-        } catch (error) {
-          console.error(error);
-        }
-      }
-      setCoverage(tempCoverage)
-      setLoading(false)
-    }
-    calcCoveragePercentage(item, tokenPrices, contracts)
-  }, [contracts, tokenPrices, lendingMarket]);
-
+  console.log("-----")
+  console.log(coverage)
+  console.log(numeral(ethers.utils.formatUnits(accountBalances[item.reserveTokenSymbol]["token"],item.reserveTokenDecimals)).format('0.00'))
+  console.log(numeral(ethers.utils.formatUnits(accountBalances[item.shieldTokenSymbol]["token"],item.shieldTokenDecimals)).format('0.00'))
 
   return (
     <Card
@@ -229,10 +171,10 @@ function StakingDepositCard({
       <Card.Body>
         <Grid.Row>
           <Grid.Col width={6}>
-            <h5 className="m-0 text-muted">{`EARNINGS`}</h5>
-            <p>{`${numeral(coverage.coverageFeeAPR).format('0.00')}% APR`}</p>
             <h5 className="m-0 text-muted">{`TOTAL AMOUNT STAKED`}</h5>
             <p>{`${numeral(parseFloat(ethers.utils.formatUnits(coverage.shieldTokenTotalDepositTokens,item.shieldTokenDecimals))).format('0,0.00')} ${item.reserveTokenSymbol.toUpperCase()} (${numeral(coverage.shieldTokenTotalDepositUsd).format('$0,0')})`}</p>
+            <h5 className="m-0 text-muted">{`REINVESTED`}</h5>
+            <p>{`${item.strategyDisplay}`}</p>
           </Grid.Col>
           <Grid.Col width={6}>
             <h5 className="m-0 text-muted">{`CLAIMS`}</h5>
