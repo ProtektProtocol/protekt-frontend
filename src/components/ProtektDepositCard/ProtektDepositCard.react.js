@@ -14,7 +14,7 @@ import {
 import Card from "../tablerReactAlt/src/components/Card";
 import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
 
-import { useGasPrice, useCompoundDaiCoverageMetrics, useTokenBalances } from "../../hooks";
+import { useGasPrice, useCompoundDaiCoverageMetrics, useTokenBalances, getTokenBalances } from "../../hooks";
 import { Transactor } from "../../utils";
 import {Web3Context} from '../../App.react';
 
@@ -36,6 +36,21 @@ function ProtektDepositCard({
   const [loading, setLoading] = useState(true)
   const web3Context = useContext(Web3Context);
   const gasPrice = useGasPrice("fast");
+  const [accountBalances, setAccountBalances] = useState({loading: true})
+  useEffect( () => {
+    const getBals = async () => {
+      const bal = await getTokenBalances(
+        web3Context.address,
+        item,
+        tokenPrices,
+        contracts,
+        [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol],
+        [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress]
+      )
+      setAccountBalances(bal)
+    }
+    getBals();
+  },[]);
   const coverage = useCompoundDaiCoverageMetrics(
     Web3Context.provider,
     item,
@@ -43,14 +58,7 @@ function ProtektDepositCard({
     tokenPrices,
     lendingMarketMetrics.length > 0 ? lendingMarketMetrics[0] : {}
   );
-  const accountBalances = useTokenBalances(
-    web3Context.address,
-    item,
-    tokenPrices,
-    contracts,
-    [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol],
-    [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress]
-  );
+
 
   async function handleTxSuccess() {
     console.log('Successful callback')
@@ -90,20 +98,8 @@ function ProtektDepositCard({
       tx(contracts.pToken.withdraw(weiAmount));
     }
   }
-  
-  useEffect( () => {
-    console.log('Checking...')
-    console.log(accountBalances)
-    console.log(JSON.stringify(accountBalances))
-    console.log(accountBalances.loading)
-    console.log(!!accountBalances.loading)
-    setLoading(accountBalances.loading)
-  });
- 
-  console.log("Render")
-  console.log(JSON.stringify(accountBalances))
 
-  return (loading) ? <Dimmer active loader /> : (
+  return (accountBalances.loading) ? <Dimmer active loader /> : (
     <Card
       isCollapsible
       title= {(

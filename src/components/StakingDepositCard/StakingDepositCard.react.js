@@ -14,7 +14,7 @@ import {
 import Card from "../tablerReactAlt/src/components/Card";
 import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
 
-import { useGasPrice, useCompoundDaiCoverageMetrics } from "../../hooks";
+import { useGasPrice, useCompoundDaiCoverageMetrics, getTokenBalances } from "../../hooks";
 import { Transactor } from "../../utils";
 import { Web3Context } from '../../App.react';
 
@@ -35,6 +35,21 @@ function StakingDepositCard({
 }: Props): React.Node {
   const web3Context = useContext(Web3Context);
   const gasPrice = useGasPrice("fast");
+  const [accountBalances, setAccountBalances] = useState({loading: true})
+  useEffect( () => {
+    const getBals = async () => {
+      const bal = await getTokenBalances(
+        web3Context.address,
+        item,
+        tokenPrices,
+        contracts,
+        [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol],
+        [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress]
+      )
+      setAccountBalances(bal)
+    }
+    getBals();
+  },[]);
   const coverage = useCompoundDaiCoverageMetrics(
     Web3Context.provider,
     item,
@@ -42,25 +57,7 @@ function StakingDepositCard({
     tokenPrices,
     lendingMarketMetrics.length > 0 ? lendingMarketMetrics[0] : {}
   );
-  let tempBalances = {};
-  tempBalances[item.underlyingTokenSymbol] = {
-    token: 0,
-    usd: 0
-  };
-  tempBalances[item.pTokenSymbol] = {
-    token: 0,
-    usd: 0
-  };
-  tempBalances[item.reserveTokenSymbol] = {
-    token: 0,
-    usd: 0
-  };
-  tempBalances[item.shieldTokenSymbol] = {
-    token: 0,
-    usd: 0
-  };
-  const [accountBalances, setAccountBalances] = useState(tempBalances)
-
+  
   async function handleTxSuccess() {
     console.log('Successful callback')
     let prevAccountBalances = accountBalances;
@@ -69,8 +66,8 @@ function StakingDepositCard({
       // console.log(prevAccountBalances);
 
     setTimeout(async () => {
-      let temp = await getAccountBalances(item, tokenPrices, contracts);
-      setAccountBalances(temp)
+      // let temp = await getAccountBalances(item, tokenPrices, contracts);
+      // setAccountBalances(temp)
 
       // console.log('New bals');
       // console.log(temp);
@@ -100,65 +97,7 @@ function StakingDepositCard({
     }
   }
 
-
-  async function getAccountBalances(item, tokenPrices, contracts) {
-    let balances = accountBalances;
-    if(web3Context.ready && web3Context.address && contracts) {
-      try {
-        console.log(contracts);
-
-        const underlyingTokenBalance = await contracts[item.underlyingTokenSymbol]["balanceOf"](...[web3Context.address]);
-        const underlyingAllowanceAmount = await contracts[item.underlyingTokenSymbol]["allowance"](...[web3Context.address, item.pTokenAddress]);
-        const pTokenBalance = await contracts[item.pTokenSymbol]["balanceOf"](...[web3Context.address]);
-
-        const reserveTokenBalance = await contracts[item.reserveTokenSymbol]["balanceOf"](...[web3Context.address]);
-        const reserveAllowanceAmount = await contracts[item.reserveTokenSymbol]["allowance"](...[web3Context.address, item.shieldTokenAddress]);
-        const shieldTokenBalance = await contracts[item.shieldTokenSymbol]["balanceOf"](...[web3Context.address]);
-
-        console.log('-------')
-        console.log('reserve',reserveTokenBalance.toString())
-        console.log('shield',shieldTokenBalance.toString())
-
-
-        balances[item.underlyingTokenSymbol] = {
-          token: underlyingTokenBalance.toString(),
-          usd: 0,
-          allowance: underlyingAllowanceAmount
-        };
-        balances[item.pTokenSymbol] = {
-          token: pTokenBalance.toString(),
-          usd: 0
-        };
-        balances[item.reserveTokenSymbol] = {
-          token: reserveTokenBalance.toString(),
-          usd: 0,
-          allowance: reserveAllowanceAmount
-        };
-        balances[item.shieldTokenSymbol] = {
-          token: 0,
-          usd: 0
-        };
-      } catch (error) {
-        console.error(error);
-      }
-    }
-    return balances;  
-  }
-
-  useEffect(() => {
-    const getBals = async () => {
-      let temp = await getAccountBalances(item, tokenPrices, contracts)
-      setAccountBalances(temp)
-    }
-    getBals();
-  }, [contracts, web3Context.address]);
-
-  console.log("-----")
-  console.log(coverage)
-  console.log(numeral(ethers.utils.formatUnits(accountBalances[item.reserveTokenSymbol]["token"],item.reserveTokenDecimals)).format('0.00'))
-  console.log(numeral(ethers.utils.formatUnits(accountBalances[item.shieldTokenSymbol]["token"],item.shieldTokenDecimals)).format('0.00'))
-
-  return (
+  return (accountBalances.loading) ? <Dimmer active loader /> : (
     <Card
       isCollapsible
       title= {(
