@@ -18,3 +18,4 @@ export { getTokenBalances } from "./GetTokenBalances";
 // export { default as useNonce } from "./Nonce";
 
 export { default as useTokenPrice } from "./TokenPrice";
+export { default as useLendingMarketMetrics } from "./LendingMarketMetrics";

@@ -9,14 +9,14 @@ import {
   Dimmer
 } from "tabler-react";
 
-import StakingDepositCard from "../components/StakingDepositCard";
+import ProtektDepositCard from "../components/ProtektDepositCard";
 import SiteWrapper from "../SiteWrapper.react";
 
 import { useTokenPrice, useContractReader, useContractLoader, useLendingMarketMetrics } from "../hooks";
 import {Web3Context} from '../App.react';
 import { default as protektData } from "../data";
 
-function Staking() {
+function EarnYield() {
   const web3Context = useContext(Web3Context);
   const contracts = useContractLoader(web3Context.provider);
   const tokenPrices = useTokenPrice(web3Context.provider, 'DAI,cDAI,WETH', 600000);
@@ -25,7 +25,7 @@ function Staking() {
   function returnCards(items=[], lendingMarketMetrics, tokenPrices, contracts) {
     return items.map((item, key) => {
       return (
-        <StakingDepositCard
+        <ProtektDepositCard
           key={key}
           item={item}
           lendingMarketMetrics={lendingMarketMetrics}
@@ -38,7 +38,7 @@ function Staking() {
 
   return (
     <SiteWrapper>
-      <Page.Content title="🛡 Stake to Shield Mine">
+      <Page.Content title="🏦 Earn Safe Yield">
         <Grid.Row cards={true}>
           <Grid.Col lg={12}>
             { (!lendingMarketMetrics.length && tokenPrices) ? <Dimmer active loader /> : 
@@ -51,4 +51,4 @@ function Staking() {
   )
 }
 
-export default Staking;
+export default EarnYield;

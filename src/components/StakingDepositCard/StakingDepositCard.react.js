@@ -101,7 +101,7 @@ function StakingDepositCard({
       isCollapsible
       title= {(
         <Card.Title>
-          { `Earn ${numeral(coverage.coverageFeeAPR).format('0.00')}% APR on ${item.reserveTokenSymbol.toUpperCase()} protecting ${item.underlyingProtocol.toUpperCase()} deposits` }
+          { `Earn ${numeral(coverage.coverageFeeAPR).format('0.00')}% APR on ${item.reserveTokenSymbol.toUpperCase()} protecting ${item.underlyingProtocol.toUpperCase()} ${item.underlyingToken.toUpperCase()} deposits` }
         </Card.Title>
       )}
     >

@@ -10,6 +10,7 @@ const data = {
           name: 'Compound DAI Manual (Kovan) ',
           underlyingToken: 'dai',
           underlyingProtocol: 'compound',
+          rewardToken: 'tcomp',
           logo: 'cDAI-logo',
           maxBlockFeeAPR: 2.60,
 

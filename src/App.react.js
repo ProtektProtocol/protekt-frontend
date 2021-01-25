@@ -9,7 +9,7 @@ import {
   Error503,
 } from "./pages";
 
-import SafeYieldPage from "./pages/SafeYieldPage.react";
+import EarnYieldPage from "./pages/EarnYieldPage.react";
 import StakingPage from "./pages/StakingPage.react";
 import DashboardPage from "./pages/DashboardPage.react";
 
@@ -60,7 +60,7 @@ function App(props: Props): React.Node {
             <Route exact path="/404" component={Error404} />
             <Route exact path="/500" component={Error500} />
             <Route exact path="/503" component={Error503} />
-            <Route exact path="/earn-yield" component={SafeYieldPage} />
+            <Route exact path="/earn-yield" component={EarnYieldPage} />
             <Route exact path="/staking" component={StakingPage} />
             <Route exact path="/dashboard" component={DashboardPage} />
             <Redirect to='/earn-yield' />
