@@ -27,10 +27,10 @@ export const Web3Context = React.createContext({
 });
 
 function App(props: Props): React.Node {
-  const [state, setState] = useState({
+  const [web3Context, setWeb3Context] = useState({
     provider: {},
     updateProvider: (_provider) => {
-      setState((prevState) => {
+      setWeb3Context((prevState) => {
         let temp = Object.assign({}, prevState); 
         temp.provider = _provider;
         temp.ready = true;
@@ -38,7 +38,7 @@ function App(props: Props): React.Node {
       })
     },
     updateAddress: (_address) => {
-      setState((prevState) => {
+      setWeb3Context((prevState) => {
         let temp = Object.assign({}, prevState); 
         temp.address = _address;
         temp.updateAddress = () => {};
@@ -49,7 +49,7 @@ function App(props: Props): React.Node {
 
   return (
     <React.StrictMode>
-      <Web3Context.Provider value={state}>
+      <Web3Context.Provider value={web3Context}>
         <Router>
           <Switch>
             <Route exact path="/400" component={Error400} />
