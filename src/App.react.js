@@ -47,6 +47,8 @@ function App(props: Props): React.Node {
     }
   });
 
+  
+
   return (
     <React.StrictMode>
       <Web3Context.Provider value={web3Context}>

@@ -44,7 +44,7 @@ export default function useTokenBalances(address, item, tokenPrices, contracts, 
   // return balances
 }
 
-export async function getTokenBalances(address, item, tokenPrices, contracts, tokens=[], allowances=[]) {
+export async function getTokenBalances(address, tokenPrices, contracts, tokens=[], allowances=[]) {
   let _balances = { loading: true };
 
   if(address && contracts && tokenPrices) {
