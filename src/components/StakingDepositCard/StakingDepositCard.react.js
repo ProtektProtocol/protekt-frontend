@@ -40,7 +40,6 @@ function StakingDepositCard({
     const getBals = async () => {
       const bal = await getTokenBalances(
         web3Context.address,
-        item,
         tokenPrices,
         contracts,
         [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol],
