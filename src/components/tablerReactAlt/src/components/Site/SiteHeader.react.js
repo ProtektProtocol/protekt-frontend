@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from "react";
-import { Container, Site, Notification, AccountDropdown } from "../";
+import { Container, Site, AccountDropdown } from "../";
 import type { Props as NotificationTrayProps } from "../Notification/NotificationTray.react";
 import type { Props as AccountDropdownProps } from "../AccountDropdown/AccountDropdown.react";
 
@@ -50,9 +50,9 @@ const SiteHeader = ({
   navItems,
   onMenuToggleClick,
 }: Props): React.Node => {
-  const notificationsTray =
-    notificationsTrayFromProps &&
-    React.createElement(Notification.Tray, notificationsTrayFromProps);
+  // const notificationsTray =
+  //   notificationsTrayFromProps &&
+  //   React.createElement(Notification.Tray, notificationsTrayFromProps);
 
   const accountDropdown =
     accountDropdownFromProps &&

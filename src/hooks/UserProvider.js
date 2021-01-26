@@ -1,6 +1,6 @@
 import { useMemo } from "react";
-import { Web3Provider } from "@ethersproject/providers";
-import { INFURA_ID } from "../utils/constants"
+// import { Web3Provider } from "@ethersproject/providers";
+// import { INFURA_ID } from "../utils/constants"
 
 const useUserProvider = (injectedProvider, localProvider) =>
 useMemo(() => {

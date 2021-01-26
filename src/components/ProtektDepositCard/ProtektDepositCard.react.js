@@ -1,7 +1,6 @@
 // @flow
 
 import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
 import numeral from 'numeral';
 import { ethers } from "ethers";
 
@@ -9,7 +8,6 @@ import {
   Grid,
   Header,
   Dimmer,
-  Text,
   Button,
   Form
 } from "tabler-react";
@@ -17,7 +15,7 @@ import {
 import Card from "../tablerReactAlt/src/components/Card";
 import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
 
-import { useGasPrice, useCompoundDaiCoverageMetrics, useTokenBalances, getTokenBalances } from "../../hooks";
+import { useGasPrice, useCompoundDaiCoverageMetrics, getTokenBalances, getClaimsManager } from "../../hooks";
 import { Transactor } from "../../utils";
 import {Web3Context} from '../../App.react';
 
@@ -26,7 +24,7 @@ type Props = {|
   +item?: Object,
   +lendingMarketMetrics?: Object,
   +tokenPrices?: Object,
-  +contracts?: Object,
+  +contracts: Object,
 |};
 
 function ProtektDepositCard({
@@ -38,7 +36,8 @@ function ProtektDepositCard({
 }: Props): React.Node {
   const web3Context = useContext(Web3Context);
   const gasPrice = useGasPrice("fast");
-  const [accountBalances, setAccountBalances] = useState({loading: true})
+  const [accountBalances, setAccountBalances] = useState({loading: true});
+  const [claimsManager, setClaimsManager] = useState({loading: true});
   useEffect( () => {
     const getBals = async () => {
       const bal = await getTokenBalances(
@@ -46,12 +45,34 @@ function ProtektDepositCard({
         tokenPrices,
         contracts,
         [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol],
+        [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals],
         [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress]
       )
       setAccountBalances(bal)
     }
     getBals();
-  },[web3Context]);
+  },[web3Context, contracts]);
+  useEffect( () => {
+    const getData = async () => {
+      const data = await getClaimsManager(
+        contracts,
+        item.claimsContractId
+      )
+      setClaimsManager(data)
+    }
+    getData();
+  },[web3Context, contracts]);
+  // --- For getting the rewards tokens for the address ---
+  // const [rewardsTokenBalance, setRewardsTokenBalance] = useState(0);
+  // useEffect( () => {
+  //   const getRewardBal = async () => {
+  //     if(contracts && contracts[item.protektRedeemId]) {
+  //       let rewardTokenAmount = await contracts[item.protektRedeemId]["claimStatus"](...[web3Context.address, 1, 2]);
+  //       setRewardsTokenBalance(rewardTokenAmount);
+  //     }
+  //   }
+  //   getRewardBal();
+  // },[web3Context, contracts]);
   const coverage = useCompoundDaiCoverageMetrics(
     Web3Context.provider,
     item,
@@ -60,26 +81,28 @@ function ProtektDepositCard({
     lendingMarketMetrics.length > 0 ? lendingMarketMetrics[0] : {}
   );
 
-
   async function handleTxSuccess() {
     console.log('Successful callback')
-    let prevAccountBalances = accountBalances;
+    // let prevAccountBalances = accountBalances;
 
       // console.log('Prev bals');
       // console.log(prevAccountBalances);
 
-    setTimeout(async () => {
+    // setTimeout(async () => {
       // let temp = await getAccountBalances(item, tokenPrices, contracts);
       // setAccountBalances(temp)
 
       // console.log('New bals');
       // console.log(temp);
 
-    }, 5000);
+    // }, 5000);
   }
 
   async function handleDepositTx(amount) {
-    if(web3Context.ready && amount > 0) {
+    console.log(contracts
+      )
+
+    if(web3Context.ready) {
       const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
       let weiAmount = ethers.utils.parseUnits(amount.toString(), item.underlyingTokenDecimals);
       const allowanceAmount = await contracts[item.underlyingTokenSymbol]["allowance"](...[web3Context.address, item.pTokenAddress]);
@@ -97,6 +120,13 @@ function ProtektDepositCard({
       const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
       let weiAmount = ethers.utils.parseUnits(amount.toString(), item.pTokenDecimals);
       tx(contracts.pToken.withdraw(weiAmount));
+    }
+  }
+
+  async function handleSubmitClaimTx() {
+    if(web3Context.ready) {
+      const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
+      tx(contracts[item.claimsContractId]["submitClaim"]());
     }
   }
 
@@ -157,23 +187,21 @@ function ProtektDepositCard({
       <Card.Body>
         <Grid.Row>
           <Grid.Col width={12}>
-            <Header.H4 className="mb-2">{`You're earning fees and protecting DeFi. 💪🛡`}</Header.H4>
+            <Header.H4 className="mb-2">{`You're earning a return and are protected.`}<span role="img">✅😇👌</span></Header.H4>
           </Grid.Col>
           <Grid.Col width={6}>
             <h5 className="m-0 text-muted">{`YOUR DEPOSITS`}</h5>
-            <p>{`${numeral(parseFloat(ethers.utils.formatUnits(coverage.shieldTokenTotalDepositTokens,item.shieldTokenDecimals))).format('0,0.00')} ${item.reserveTokenSymbol.toUpperCase()} (${numeral(coverage.shieldTokenTotalDepositUsd).format('$0,0')})`}</p>
-            <h5 className="m-0 text-muted">{`YOUR EARNINGS`}</h5>
-            <p>{`${numeral(parseFloat(ethers.utils.formatUnits(coverage.shieldTokenTotalDepositTokens,item.shieldTokenDecimals))).format('0,0.00')} ${item.reserveTokenSymbol.toUpperCase()} (${numeral(coverage.shieldTokenTotalDepositUsd).format('$0,0')})`}</p>
+            <p>{`${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.underlyingTokenDecimals)).format('0.00')} ${item.underlyingTokenSymbol.toUpperCase()} (${numeral(accountBalances[item.underlyingTokenSymbol]["usd"]).format('$0.00')})`}</p>
           </Grid.Col>
           <Grid.Col width={6}>
-            <h5 className="m-0 text-muted">{`TOTAL COVERED`}</h5>
-            <p>{`${numeral(parseFloat(ethers.utils.formatUnits(coverage.shieldTokenTotalDepositTokens,item.shieldTokenDecimals))).format('0,0.00')} ${item.reserveTokenSymbol.toUpperCase()} (${numeral(coverage.shieldTokenTotalDepositUsd).format('$0,0')})`}</p>
+            <h5 className="m-0 text-muted">{`TOTAL DEPOSITS`}</h5>
+            <p>{`${numeral(parseFloat(ethers.utils.formatUnits(coverage.pTokenTotalDepositTokens,item.underlyingTokenDecimals))).format('0,0.00')} ${item.underlyingTokenSymbol.toUpperCase()} (${numeral(coverage.pTokenTotalDepositUsd).format('$0,0')})`}</p>
           </Grid.Col>
         </Grid.Row>
         <Grid.Row>
           <Grid.Col width={5} >
             <h5 className="m-0 text-muted">{`REDEEM EARNINGS`}</h5>
-            <Form.Group label={`Collect your tokens! 🥳`}>
+            <Form.Group label={`Check & collect your rewards!`}>
               <Button
                 RootComponent="a"
                 color="cyan"
@@ -182,7 +210,7 @@ function ProtektDepositCard({
                 href={`https://protekt-redeem-${item.rewardToken}-kovan.herokuapp.com`}
                 target="_blank"
               >
-                { `Redeem` }
+                { `Go to Redeem App` }
               </Button>
             </Form.Group>
             <h5 className="m-0 text-muted">{`DEPOSIT`}</h5>
@@ -210,12 +238,16 @@ function ProtektDepositCard({
           </Grid.Col>
           <Grid.Col width={5} offset={1}>
             <h5 className="m-0 text-muted">{`SUBMIT CLAIM`}</h5>
-            <Form.Group label={`No Payout Event found`}>
+            <Form.Group label={claimsManager.loading ? `` : 
+              claimsManager.activePayoutEvent ? `Payout Event found` :
+                `No Payout Event found`
+            }>
               <Button
                 RootComponent="a"
                 color="primary"
                 className="color mt-1 mb-3"
                 icon={ "life-buoy" }
+                onClick={() => handleSubmitClaimTx()}
               >
                 { `Submit Claim` }
               </Button>
@@ -248,12 +280,10 @@ function ProtektDepositCard({
       )}
     >
       <Card.Status color={(item.underlyingProtocol === 'compound') ? 'teal' : 'purple'} side />
-      { !web3Context.ready ?
-          (<Card.Body><Header.H4 className="text-center">Connect Wallet 👆</Header.H4></Card.Body>) : 
-            accountBalances.loading ? <Card.Body><Dimmer active loader /></Card.Body> : 
-              accountBalances[item.pTokenSymbol]["token"] === "0" ?
-                renderDepositCard() :
-                  renderHoldingsCard()
+      { (web3Context.ready &&
+          !accountBalances.loading &&
+            accountBalances[item.pTokenSymbol]["token"] !== "0") ?
+              renderHoldingsCard() : <div></div>
       }
       <Card.Body>
         <Grid.Row>
@@ -275,6 +305,13 @@ function ProtektDepositCard({
           </Grid.Col>
         </Grid.Row>
       </Card.Body>
+      { !web3Context.ready ?
+          (<Card.Body><Header.H4 className="text-center">Connect Wallet <span role="img">👆</span></Header.H4></Card.Body>) : 
+            accountBalances.loading ? <Card.Body><Dimmer active loader /></Card.Body> : 
+              accountBalances[item.pTokenSymbol]["token"] === "0" ?
+                renderDepositCard() :
+                  (<div></div>)
+      }
     </Card>
   )
 }

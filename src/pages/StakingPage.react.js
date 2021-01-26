@@ -1,7 +1,6 @@
 // @flow
 
-import React, { useState, useEffect, useContext } from 'react';
-import axios from 'axios';
+import React, { useContext } from 'react';
 
 import {
   Page,
@@ -12,7 +11,7 @@ import {
 import StakingDepositCard from "../components/StakingDepositCard";
 import SiteWrapper from "../SiteWrapper.react";
 
-import { useTokenPrice, useContractReader, useContractLoader, useLendingMarketMetrics } from "../hooks";
+import { useTokenPrice, useContractLoader, useLendingMarketMetrics } from "../hooks";
 import {Web3Context} from '../App.react';
 import { default as protektData } from "../data";
 

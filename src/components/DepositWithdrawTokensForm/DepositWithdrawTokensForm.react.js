@@ -1,20 +1,15 @@
 // @flow
 
-import React, { useState, useEffect } from 'react';
-import numeral from 'numeral';
+import React from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import NumberFormat from 'react-number-format';
-import { ethers } from "ethers";
 
 import {
   Button,
 } from "tabler-react";
 
 import Form from "../tablerReactAlt/src/components/Form";
-
-import { useGasPrice } from "../../hooks";
-import { Transactor } from "../../utils";
 
 type Props = {|
   +item: Object,
@@ -38,12 +33,11 @@ function DepositWithdrawTokensForm({
   buttonIcon,
   buttonLabel
 }: Props): React.Node {
-  const gasPrice = useGasPrice("fast");
-  const [balances, setBalances] = useState(accountBalances);
+  // const [balances, setBalances] = useState(accountBalances);
 
-  useEffect(() => {
-    setBalances(accountBalances);
-  }, [accountBalances]);
+  // useEffect(() => {
+  //   setBalances(accountBalances);
+  // }, [accountBalances]);
 
   return (
     <Formik

@@ -1,14 +1,12 @@
 // @flow
 
 import * as React from "react";
-import { NavLink, withRouter, Link } from "react-router-dom";
+import { NavLink, withRouter } from "react-router-dom";
 
 import {
-  // Site,
   Nav,
   Grid,
   List,
-  Button,
   RouterContextProvider,
 } from "tabler-react";
 
@@ -57,14 +55,12 @@ const navBarItems: Array<navItem> = [
     LinkComponent: withRouter(NavLink),
   },
   {
-    value: "Your Dashboard",
-    to: "/dashboard",
-    icon: "trending-up",
+    value: "How it Works",
+    to: "/how-it-works",
+    icon: "info",
     LinkComponent: withRouter(NavLink),
   }
 ];
-
-let provider;
 
 class SiteWrapper extends React.Component<Props, State> {
   state = {};
@@ -74,7 +70,7 @@ class SiteWrapper extends React.Component<Props, State> {
       <Site.Wrapper
         headerProps={{
           href: "/",
-          alt: "DeFi Fam",
+          alt: "Protekt Protocol",
           imageURL: `${process.env.PUBLIC_URL}/static/logo_protekt.png`,
           navItems: [
             (

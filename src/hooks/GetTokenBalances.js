@@ -1,5 +1,3 @@
-import { useState, useEffect } from "react";
-import axios from 'axios';
 import { ethers } from "ethers";
 
 export default function useTokenBalances(address, item, tokenPrices, contracts, tokens=[], allowances=[]) {
@@ -44,7 +42,7 @@ export default function useTokenBalances(address, item, tokenPrices, contracts, 
   // return balances
 }
 
-export async function getTokenBalances(address, tokenPrices, contracts, tokens=[], allowances=[]) {
+export async function getTokenBalances(address, tokenPrices, contracts, tokens=[], decimals=[], allowances=[]) {
   let _balances = { loading: true };
 
   if(address && contracts && tokenPrices) {
@@ -52,10 +50,15 @@ export async function getTokenBalances(address, tokenPrices, contracts, tokens=[
       for (let i = 0; i < tokens.length; i++) {
         let tokenBalance = await contracts[tokens[i]]["balanceOf"](...[address]);
         let tokenAllowance = await contracts[tokens[i]]["allowance"](...[address, allowances[i]]);
+        let tokenBalanceUsd = 0;
+
+        if(tokenPrices[tokens[i]] && tokenPrices[tokens[i]]["usd"]) {
+          tokenBalanceUsd = ethers.utils.formatUnits(tokenBalance.toString(),decimals[i]) * tokenPrices[tokens[i]]["usd"];
+        }
 
         _balances[tokens[i]] = {
           token: tokenBalance.toString(),
-          usd: 0,
+          usd: tokenBalanceUsd,
           allowance: tokenAllowance
         };
       };

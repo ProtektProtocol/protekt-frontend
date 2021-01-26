@@ -4,29 +4,28 @@ import {
   Button,
   Text
 } from "tabler-react";
-import Identicon from "../Identicon.react"
 
 import Web3Modal from "web3modal";
 import WalletConnectProvider from "@walletconnect/web3-provider";
-import {  JsonRpcProvider, Web3Provider } from "@ethersproject/providers";
+import {  Web3Provider } from "@ethersproject/providers";
 import { useUserAddress } from "eth-hooks";
 import { shortenAddress } from "../../utils"
 import { INFURA_ID } from "../../utils/constants"
 import {Web3Context} from '../../App.react';
 
-const mainnetProvider = new JsonRpcProvider("https://mainnet.infura.io/v3/"+INFURA_ID)
+// const mainnetProvider = new JsonRpcProvider("https://mainnet.infura.io/v3/"+INFURA_ID)
 // const localProviderUrl = "http://"+window.location.hostname+":8545";
 // const localProviderUrlFromEnv = process.env.REACT_APP_PROVIDER ? process.env.REACT_APP_PROVIDER : localProviderUrl;
 // const localProvider = new JsonRpcProvider(localProviderUrlFromEnv);
 
 let hasNotRun = true
 
-function Account({}) {
+function Account() {
   const [injectedProvider, setInjectedProvider] = useState();
   const web3Context = useContext(Web3Context);
   const modalButtons = [];
   let address = useUserAddress(injectedProvider);
-  if(web3Context.ready && hasNotRun && address != "") {
+  if(web3Context.ready && hasNotRun && address !== "") {
     web3Context.updateAddress(address);
     hasNotRun = false
   }

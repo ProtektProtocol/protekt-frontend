@@ -4,19 +4,19 @@ import { Contract } from "@ethersproject/contracts";
 import { useState, useEffect } from "react";
 
 const loadContract = (contractName, signer) => {
-  let token = {};
+  let c = {};
   try {
-    token = require(`../contracts/${contractName}.js`);
+    c = require(`../contracts/${contractName}.js`);
   } catch (e) {
     console.log(e);
   }
   const newContract = new Contract(
-    token.address,
-    token.abi,
+    c.address,
+    c.abi,
     signer,
   );
   try {
-    newContract.bytecode = token.bytecode;
+    newContract.bytecode = c.bytecode;
   } catch (e) {
     console.log(e);
   }

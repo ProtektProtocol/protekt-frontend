@@ -1,7 +1,7 @@
 body {
   font-size: 1rem;
   background-color: #ebfcf7;
-  background-image: linear-gradient(0deg, #ebfcf7 29%, #ffffff 90%);
+  background-image: linear-gradient(to right bottom, #dafcf7, #d3f8fc, #d1f2ff, #d5ebff, #dde4ff);
   font-family: "Segoe UI",'DM Sans', "Helvetica Neue", Arial, sans-serif;
 }
 

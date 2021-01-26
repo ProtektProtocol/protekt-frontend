@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-import usePoller from "./Poller";
 import axios from 'axios';
 import { ethers } from "ethers";
 
@@ -67,6 +66,6 @@ export default function useCompoundDaiCoverageMetrics(provider, item, contracts,
       }
     };
     getMetrics();
-  }, [provider, tokenPrices, lendingMarket]);
+  }, [provider, contracts, tokenPrices, lendingMarket]);
   return coverageMetrics;
 }
