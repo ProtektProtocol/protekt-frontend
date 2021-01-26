@@ -3,6 +3,7 @@
 import { Contract } from "@ethersproject/contracts";
 import { useState, useEffect } from "react";
 
+
 const loadContract = (contractName, signer) => {
   let c = {};
   try {

@@ -1,12 +1,13 @@
 // import { Contract } from '@ethersproject/contracts'
 import { getAddress } from '@ethersproject/address'
 // import { AddressZero } from '@ethersproject/constants'
-// import { JsonRpcSigner, Web3Provider } from '@ethersproject/providers'
+import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers'
 // import { BigNumber } from '@ethersproject/bignumber'
 // import { abi as IUniswapV2Router02ABI } from '@uniswap/v2-periphery/build/IUniswapV2Router02.json'
 // import { ROUTER_ADDRESS } from '../constants'
 // import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, ETHER } from '@uniswap/sdk'
 // import { TokenAddressMap } from '../state/lists/hooks'
+import { INFURA_ID } from "./constants";
 
 export { default as Transactor } from "./Transactor";
 
@@ -26,6 +27,12 @@ export function isAddress(value: any): string | false {
 //   5: 'goerli.',
 //   42: 'kovan.'
 // }
+const env = process.env.APP_ENV || 'test';
+export const INFURA_LINK = env === "production" ?
+  `https://mainnet.infura.io/v3/${INFURA_ID}` :
+  `https://kovan.infura.io/v3/${INFURA_ID}`
+
+export const infuraProvider = new JsonRpcProvider(INFURA_LINK);
 
 // export function getEtherscanLink(
 //   chainId: ChainId,

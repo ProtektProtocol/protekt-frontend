@@ -24,10 +24,11 @@ import SiteWrapper from "../SiteWrapper.react";
 import { useTokenPrice, useContractLoader, useLendingMarketMetrics } from "../hooks";
 import {Web3Context} from '../App.react';
 import { default as protektData } from "../data";
+import { infuraProvider } from "../utils";
 
 function Staking() {
   const web3Context = useContext(Web3Context);
-  const contracts = useContractLoader(web3Context.provider);
+  const contracts = useContractLoader(infuraProvider);
   const tokenPrices = useTokenPrice(web3Context.provider, 'DAI,cDAI,WETH', 600000);
   const lendingMarketMetrics = useLendingMarketMetrics(600000);
 
