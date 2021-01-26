@@ -46,7 +46,6 @@ function DepositWithdrawTokensForm({
         numbers: Yup.number().required('Required'),
       })}
       onSubmit={ async (values, actions) => {
-        console.log('here');
         handleSubmit(values.numbers);
         actions.resetForm();
       }}
@@ -79,7 +78,10 @@ function DepositWithdrawTokensForm({
                     className="color"
                     icon={ buttonIcon }
                     disabled={isSubmitting}
-                    onClick={() => handleSubmit(values.numbers)}
+                    onClick={() => {
+                      handleSubmit(values.numbers);
+                      // setFieldValue('numbers', null);
+                    }}
                   >
                     { buttonLabel }
                   </Button>

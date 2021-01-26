@@ -7,6 +7,7 @@ export { default as useGasPrice } from "./GasPrice";
 export { default as useUserProvider } from "./UserProvider";
 export { default as useContractReader } from "./ContractReader";
 export { default as useCompoundDaiCoverageMetrics } from "./GetCompoundDaiCoverageMetrics";
+export { default as getCompoundDaiCoverageMetrics } from "./GetCompoundDaiCoverageMetrics";
 export { default as useTokenBalances } from "./GetTokenBalances";
 export { getTokenBalances } from "./GetTokenBalances";
 export { getClaimsManager } from "./GetClaimsManager";

@@ -9,15 +9,42 @@ import {
   Header,
   Dimmer,
   Button,
-  Form
+  Form,
+  Avatar,
+  Text,
+  Tag
 } from "tabler-react";
+
+import {
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemButton,
+  AccordionItemPanel,
+} from 'react-accessible-accordion';
+
+import ContentLoader from 'react-content-loader'
 
 import Card from "../tablerReactAlt/src/components/Card";
 import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
 
-import { useGasPrice, useCompoundDaiCoverageMetrics, getTokenBalances, getClaimsManager } from "../../hooks";
+import { useGasPrice, getCompoundDaiCoverageMetrics, getTokenBalances, getClaimsManager } from "../../hooks";
 import { Transactor } from "../../utils";
 import {Web3Context} from '../../App.react';
+
+const MyLoader = () => (
+  <ContentLoader
+    height={20}
+    width={30}>
+    <rect x="0" y="0" rx="0" ry="0" width="30" height="20" />
+  </ContentLoader>
+)
+
+const isLoading = (loading, node) => {
+  if(!loading) {
+    return node;
+  }
+  return <MyLoader />;
+}
 
 type Props = {|
   +children?: React.Node,
@@ -62,24 +89,42 @@ function ProtektDepositCard({
     }
     getData();
   },[web3Context, contracts]);
-  // --- For getting the rewards tokens for the address ---
-  // const [rewardsTokenBalance, setRewardsTokenBalance] = useState(0);
-  // useEffect( () => {
-  //   const getRewardBal = async () => {
-  //     if(contracts && contracts[item.protektRedeemId]) {
-  //       let rewardTokenAmount = await contracts[item.protektRedeemId]["claimStatus"](...[web3Context.address, 1, 2]);
-  //       setRewardsTokenBalance(rewardTokenAmount);
-  //     }
-  //   }
-  //   getRewardBal();
-  // },[web3Context, contracts]);
-  const coverage = useCompoundDaiCoverageMetrics(
-    Web3Context.provider,
-    item,
-    contracts,
-    tokenPrices,
-    lendingMarketMetrics.length > 0 ? lendingMarketMetrics[0] : {}
-  );
+
+  const [coverage, setCoverage] = useState({
+    loading: true,
+    pTokenTotalDepositTokens: 0,
+    pTokenTotalDepositUsd: 0,
+    shieldTokenTotalDepositTokens: 0,
+    shieldTokenTotalDepositUsd: 0,
+    coverageRatio: 100,
+    coverageRatioDisplay: '100%',
+    coverageFeeAPR: 0,
+    tempCoverage: 0,
+    compAPR: 0,
+    netAdjustedAPR: 0
+  });
+  useEffect( () => {
+    const getData = async () => {
+      const data = await getCompoundDaiCoverageMetrics(
+        item,
+        contracts,
+        tokenPrices,
+        lendingMarketMetrics[0]
+      )
+      setCoverage(data);
+    }
+    if(item) {
+      getData();      
+    }
+  },[web3Context, contracts, tokenPrices, lendingMarketMetrics]);
+
+  // const coverage = useCompoundDaiCoverageMetrics(
+  //   Web3Context.provider,
+  //   item,
+  //   contracts,
+  //   tokenPrices,
+  //   lendingMarketMetrics.length > 0 ? lendingMarketMetrics[0] : {}
+  // );
 
   async function handleTxSuccess() {
     console.log('Successful callback')
@@ -99,9 +144,6 @@ function ProtektDepositCard({
   }
 
   async function handleDepositTx(amount) {
-    console.log(contracts
-      )
-
     if(web3Context.ready) {
       const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
       let weiAmount = ethers.utils.parseUnits(amount.toString(), item.underlyingTokenDecimals);
@@ -119,7 +161,7 @@ function ProtektDepositCard({
     if(web3Context.ready && amount > 0) {
       const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
       let weiAmount = ethers.utils.parseUnits(amount.toString(), item.pTokenDecimals);
-      tx(contracts.pToken.withdraw(weiAmount));
+      tx(contracts[item.pTokenSymbol]["withdraw"](weiAmount));
     }
   }
 
@@ -183,12 +225,9 @@ function ProtektDepositCard({
   }
 
   function renderHoldingsCard() {
-    return (
+    return ( coverage.loading ? <Card.Body><Dimmer active loader /></Card.Body> : 
       <Card.Body>
         <Grid.Row>
-          <Grid.Col width={12}>
-            <Header.H4 className="mb-2">{`You're earning a return and are protected.`}<span role="img">✅😇👌</span></Header.H4>
-          </Grid.Col>
           <Grid.Col width={6}>
             <h5 className="m-0 text-muted">{`YOUR DEPOSITS`}</h5>
             <p>{`${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.underlyingTokenDecimals)).format('0.00')} ${item.underlyingTokenSymbol.toUpperCase()} (${numeral(accountBalances[item.underlyingTokenSymbol]["usd"]).format('$0.00')})`}</p>
@@ -270,49 +309,82 @@ function ProtektDepositCard({
     )
   }
 
-  return (
-    <Card
-      isCollapsible
-      title= {(
-        <Card.Title>
-          { `Earn ${numeral(coverage.netAdjustedAPR).format('0.00')}% APR on ${item.underlyingToken.toUpperCase()} with ${item.underlyingProtocol.toUpperCase()}` }
-        </Card.Title>
-      )}
-    >
-      <Card.Status color={(item.underlyingProtocol === 'compound') ? 'teal' : 'purple'} side />
-      { (web3Context.ready &&
-          !accountBalances.loading &&
-            accountBalances[item.pTokenSymbol]["token"] !== "0") ?
-              renderHoldingsCard() : <div></div>
-      }
-      <Card.Body>
-        <Grid.Row>
-          <Grid.Col width={6}>
-            <h5 className="m-0 text-muted">{`COST`}</h5>
-            <p>{`${numeral(coverage.coverageFeeAPR).format('0.00')}% for ${coverage.coverageRatioDisplay} coverage`}</p>
-            <h5 className="m-0 text-muted">{`BACKED BY`}</h5>
-            <p>{`${item.backedByDisplay}`}</p>
-          </Grid.Col>
-          <Grid.Col width={6}>
-            <h5 className="m-0 text-muted">{`CLAIMS`}</h5>
-            <p>{`${item.claimsManagerDisplay}`}</p>
-          </Grid.Col>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Col width={12}>
-            <h5 className="m-0 text-muted">{`COVERAGE FOR`}</h5>
-            <p>{`${item.coverageDisplay}`}</p>
-          </Grid.Col>
-        </Grid.Row>
-      </Card.Body>
-      { !web3Context.ready ?
-          (<Card.Body><Header.H4 className="text-center">Connect Wallet <span role="img">👆</span></Header.H4></Card.Body>) : 
-            accountBalances.loading ? <Card.Body><Dimmer active loader /></Card.Body> : 
-              accountBalances[item.pTokenSymbol]["token"] === "0" ?
-                renderDepositCard() :
-                  (<div></div>)
-      }
-    </Card>
+  return ( coverage.loading ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
+    <AccordionItem>
+      <Card>
+        <AccordionItemHeading>
+          <AccordionItemButton>
+            <Card.Body>
+              <Grid.Row alignItems="center" justifyContent="center">
+                <Grid.Col width={2}>
+                  <Avatar
+                    imageURL={`assets/${item.coreTokenLogo}.png`}
+                  />
+                  <Text size="h4" RootComponent="span" className="ml-2">{item.coreToken.toUpperCase()}</Text>
+                </Grid.Col>
+                <Grid.Col width={3}>
+                  <Avatar
+                    imageURL={`assets/${item.protocolLogo}.png`}
+                    size="md"
+                  />
+                  <Text size="h4" RootComponent="span" className="ml-1">{item.underlyingProtocol.toUpperCase()}</Text>
+                </Grid.Col>
+                <Grid.Col width={2}>
+                  <Text size="h4" align="center" className="mb-0">{isLoading(coverage.loading, `${numeral(coverage.netAdjustedAPR).format('0.00')}%`)}</Text>
+                </Grid.Col>
+                <Grid.Col width={2}>
+                  <Text align="center">
+                    {isLoading(coverage.loading, `${numeral(coverage.pTokenTotalDepositUsd).format('$0,0a')}`)}
+                  </Text>
+                  <Text align="center" size="sm" muted>
+                    {isLoading(coverage.loading, `${numeral(parseFloat(ethers.utils.formatUnits(coverage.pTokenTotalDepositTokens,item.underlyingTokenDecimals))).format('0,0a')} ${item.underlyingTokenSymbol.toUpperCase()}`)}
+                  </Text>
+                </Grid.Col>
+                <Grid.Col width={3} className="text-center">
+                  <Tag.List>
+                    <Tag rounded color="purple">{item.riskTag}</Tag>
+                  </Tag.List>
+                </Grid.Col>
+              </Grid.Row>
+            </Card.Body>
+          </AccordionItemButton>
+        </AccordionItemHeading>
+        <AccordionItemPanel>
+          { (web3Context.ready &&
+              !accountBalances.loading &&
+                accountBalances[item.pTokenSymbol]["token"] !== "0") ?
+                  renderHoldingsCard() : <div></div>
+          }
+          <Card.Body>
+            <Grid.Row>
+              <Grid.Col width={6}>
+                <h5 className="m-0 text-muted">{`COST`}</h5>
+                <p>{coverage.loading ? <MyLoader/> : `${numeral(coverage.coverageFeeAPR).format('0.00')}% for ${coverage.coverageRatioDisplay} coverage`}</p>
+                <h5 className="m-0 text-muted">{`BACKED BY`}</h5>
+                <p>{`${item.backedByDisplay}`}</p>
+              </Grid.Col>
+              <Grid.Col width={6}>
+                <h5 className="m-0 text-muted">{`CLAIMS`}</h5>
+                <p>{`${item.claimsManagerDisplay}`}</p>
+              </Grid.Col>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Col width={12}>
+                <h5 className="m-0 text-muted">{`COVERAGE FOR`}</h5>
+                <p>{isLoading(coverage.loading, `${item.coverageDisplay}`)}</p>
+              </Grid.Col>
+            </Grid.Row>
+          </Card.Body>
+          { !web3Context.ready ?
+              (<Card.Body><Header.H4 className="text-center">Connect Wallet <span role="img">👆</span></Header.H4></Card.Body>) : 
+                accountBalances.loading ? <Card.Body><Dimmer active loader /></Card.Body> : 
+                  accountBalances[item.pTokenSymbol]["token"] === "0" ?
+                    renderDepositCard() :
+                      (<div></div>)
+          }
+        </AccordionItemPanel>
+      </Card>
+    </AccordionItem>
   )
 }
 

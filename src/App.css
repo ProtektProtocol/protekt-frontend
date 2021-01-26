@@ -33,3 +33,15 @@ a:not([href]):not([tabindex]).btn-primary {
   align-self: center;
 }
 
+.hide {
+  display: none !important;
+}
+
+.accordion__button {
+  cursor: pointer;
+}
+
+.accordion__button:focus {
+  outline: none !important;
+}
+

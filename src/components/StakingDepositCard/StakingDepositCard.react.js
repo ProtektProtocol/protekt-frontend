@@ -9,13 +9,23 @@ import {
   Header,
   Dimmer,
   Button,
-  Form
+  Form,
+  Avatar,
+  Text,
+  Tag
 } from "tabler-react";
+
+import {
+  AccordionItem,
+  AccordionItemHeading,
+  AccordionItemButton,
+  AccordionItemPanel,
+} from 'react-accessible-accordion';
 
 import Card from "../tablerReactAlt/src/components/Card";
 import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
 
-import { useGasPrice, useCompoundDaiCoverageMetrics, getTokenBalances, getClaimsManager } from "../../hooks";
+import { useGasPrice, getCompoundDaiCoverageMetrics, getTokenBalances, getClaimsManager } from "../../hooks";
 import { Transactor } from "../../utils";
 import { Web3Context } from '../../App.react';
 
@@ -62,13 +72,33 @@ function StakingDepositCard({
     }
     getData();
   },[web3Context, contracts]);
-  const coverage = useCompoundDaiCoverageMetrics(
-    Web3Context.provider,
-    item,
-    contracts,
-    tokenPrices,
-    lendingMarketMetrics.length > 0 ? lendingMarketMetrics[0] : {}
-  );
+  const [coverage, setCoverage] = useState({
+    loading: true,
+    pTokenTotalDepositTokens: 0,
+    pTokenTotalDepositUsd: 0,
+    shieldTokenTotalDepositTokens: 0,
+    shieldTokenTotalDepositUsd: 0,
+    coverageRatio: 100,
+    coverageRatioDisplay: '100%',
+    coverageFeeAPR: 0,
+    tempCoverage: 0,
+    compAPR: 0,
+    netAdjustedAPR: 0
+  });
+  useEffect( () => {
+    const getData = async () => {
+      const data = await getCompoundDaiCoverageMetrics(
+        item,
+        contracts,
+        tokenPrices,
+        lendingMarketMetrics[0]
+      )
+      setCoverage(data);
+    }
+    if(item) {
+      getData();      
+    }
+  },[web3Context, contracts, tokenPrices, lendingMarketMetrics]);
   
   async function handleTxSuccess() {
     console.log('Successful callback')
@@ -241,49 +271,89 @@ function StakingDepositCard({
     )
   }
 
-  return (
-    <Card
-      isCollapsible
-      title= {(
-        <Card.Title>
-          { `Earn ${numeral(coverage.coverageFeeAPR).format('0.00')}% APR on ${item.reserveTokenSymbol.toUpperCase()} protecting ${item.underlyingProtocol.toUpperCase()} ${item.underlyingToken.toUpperCase()} deposits` }
-        </Card.Title>
-      )}
-    >
-      <Card.Status color={(item.underlyingProtocol === 'compound') ? 'teal' : 'purple'} side />
-      { (web3Context.ready &&
-          !accountBalances.loading &&
-            accountBalances[item.shieldTokenSymbol]["token"] !== "0") ?
-              renderHoldingsCard() : <div></div>
-      }
-      <Card.Body>
-        <Grid.Row>
-          <Grid.Col width={6}>
-            <h5 className="m-0 text-muted">{`TOTAL AMOUNT STAKED`}</h5>
-            <p>{`${numeral(parseFloat(ethers.utils.formatUnits(coverage.shieldTokenTotalDepositTokens,item.shieldTokenDecimals))).format('0,0.00')} ${item.reserveTokenSymbol.toUpperCase()} (${numeral(coverage.shieldTokenTotalDepositUsd).format('$0,0')})`}</p>
-            <h5 className="m-0 text-muted">{`REINVESTED`}</h5>
-            <p>{`${item.strategyDisplay}`}</p>
-          </Grid.Col>
-          <Grid.Col width={6}>
-            <h5 className="m-0 text-muted">{`CLAIMS`}</h5>
-            <p>{`Claims are investigated for a period of 1 week, and the payout decision is made by a DAO vote.`}</p>
-          </Grid.Col>
-        </Grid.Row>
-        <Grid.Row>
-          <Grid.Col width={12}>
-            <h5 className="m-0 text-muted">{`COVERAGE FOR`}</h5>
-            <p>{`Protection against 1) smart contract bugs that allow hackers to steal or lock DAI and 2) risk that admin keys are stolen or used to withdraw DAI. Not covered: 1) Risk of a Maker hack or DAI lossing its peg. 2) Risk of flash loan or other financial exploit.`}</p>
-          </Grid.Col>
-        </Grid.Row>
-      </Card.Body>
-      { !web3Context.ready ?
-          (<Card.Body><Header.H4 className="text-center">Connect Wallet <span role="img">👆</span></Header.H4></Card.Body>) : 
-            accountBalances.loading ? <Card.Body><Dimmer active loader /></Card.Body> : 
-              accountBalances[item.shieldTokenSymbol]["token"] === "0" ?
-                renderDepositCard() :
-                  <div></div>
-      }
-    </Card>
+  return ( coverage.loading ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
+    <AccordionItem>
+      <Card>
+        <AccordionItemHeading>
+          <AccordionItemButton>
+            <Card.Body>
+              <Grid.Row alignItems="center" justifyContent="center">
+                <Grid.Col width={2} className="text-center">
+                  <Text>{item.id}</Text>
+                </Grid.Col>
+                <Grid.Col width={2} className="text-center">
+                  <Text size="h5" RootComponent="span">{`${numeral(coverage.coverageFeeAPR).format('0.00')}%`}</Text>
+                  <Text RootComponent="span">{` on`}</Text><br/>
+                  <Avatar
+                    imageURL={`assets/${item.reserveTokenLogo}.png`}
+                  />
+                  <Text size="h4" RootComponent="span" className="ml-2">{item.reserveTokenSymbol.toUpperCase()}</Text>
+                </Grid.Col>
+                <Grid.Col width={3} className="text-center">
+                  <Avatar
+                    imageURL={`assets/${item.coreTokenLogo}.png`}
+                  />
+                  <Text size="h4" RootComponent="span" className="ml-2">{item.coreToken.toUpperCase()}</Text>
+                  <Text muted>IN</Text>
+                  <Avatar
+                    imageURL={`assets/${item.protocolLogo}.png`}
+                    size="md"
+                  />
+                  <Text size="h4" RootComponent="span" className="ml-1">{item.underlyingProtocol.toUpperCase()}</Text>
+                </Grid.Col>
+                <Grid.Col width={3} className="text-center">
+                  <Tag.List>
+                    <Tag rounded color="purple">{item.riskTag}</Tag>
+                  </Tag.List>
+                </Grid.Col>
+                <Grid.Col width={2} className="text-center">
+                  <Text align="center">
+                    {`${numeral(coverage.shieldTokenTotalDepositUsd).format('$0,0a')}`}
+                  </Text>
+                  <Text align="center" size="sm" muted>
+                    {`${numeral(parseFloat(ethers.utils.formatUnits(coverage.shieldTokenTotalDepositTokens,item.reserveTokenDecimals))).format('0,0a')} ${item.reserveTokenSymbol.toUpperCase()}`}
+                  </Text>
+                </Grid.Col>
+              </Grid.Row>
+            </Card.Body>
+          </AccordionItemButton>
+        </AccordionItemHeading>
+        <AccordionItemPanel>
+          { (web3Context.ready &&
+              !accountBalances.loading &&
+                accountBalances[item.shieldTokenSymbol]["token"] !== "0") ?
+                  renderHoldingsCard() : <div></div>
+          }
+          <Card.Body>
+            <Grid.Row>
+              <Grid.Col width={6}>
+                <h5 className="m-0 text-muted">{`TOTAL AMOUNT STAKED`}</h5>
+                <p>{`${numeral(parseFloat(ethers.utils.formatUnits(coverage.shieldTokenTotalDepositTokens,item.shieldTokenDecimals))).format('0,0.00')} ${item.reserveTokenSymbol.toUpperCase()} (${numeral(coverage.shieldTokenTotalDepositUsd).format('$0,0')})`}</p>
+                <h5 className="m-0 text-muted">{`REINVESTED`}</h5>
+                <p>{`${item.strategyDisplay}`}</p>
+              </Grid.Col>
+              <Grid.Col width={6}>
+                <h5 className="m-0 text-muted">{`CLAIMS`}</h5>
+                <p>{`Claims are investigated for a period of 1 week, and the payout decision is made by a DAO vote.`}</p>
+              </Grid.Col>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Col width={12}>
+                <h5 className="m-0 text-muted">{`COVERAGE FOR`}</h5>
+                <p>{`Protection against 1) smart contract bugs that allow hackers to steal or lock DAI and 2) risk that admin keys are stolen or used to withdraw DAI. Not covered: 1) Risk of a Maker hack or DAI lossing its peg. 2) Risk of flash loan or other financial exploit.`}</p>
+              </Grid.Col>
+            </Grid.Row>
+          </Card.Body>
+          { !web3Context.ready ?
+              (<Card.Body><Header.H4 className="text-center">Connect Wallet <span role="img">👆</span></Header.H4></Card.Body>) : 
+                accountBalances.loading ? <Card.Body><Dimmer active loader /></Card.Body> : 
+                  accountBalances[item.shieldTokenSymbol]["token"] === "0" ?
+                    renderDepositCard() :
+                      <div></div>
+          }
+        </AccordionItemPanel>
+      </Card>
+      </AccordionItem>
   )
 }
 
