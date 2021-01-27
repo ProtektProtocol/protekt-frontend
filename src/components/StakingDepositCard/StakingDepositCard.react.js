@@ -277,24 +277,27 @@ function StakingDepositCard({
                   <Text>{item.id}</Text>
                 </Grid.Col>
                 <Grid.Col width={2} className="text-center">
-                  <Text size="h5" RootComponent="span">{`${numeral(coverage.coverageFeeAPR).format('0.00')}%`}</Text>
-                  <Text RootComponent="span">{` on`}</Text><br/>
+                  <Text size="h4" RootComponent="div">{`${numeral(coverage.coverageFeeAPR).format('0.00')}%`}</Text>
+                  <Text muted RootComponent="span">{` ON`}</Text><br/>
                   <Avatar
                     imageURL={`assets/${item.reserveTokenLogo}.png`}
+                    style={{"verticalAlign":"middle"}}
                   />
-                  <Text size="h4" RootComponent="span" className="ml-2">{item.reserveTokenSymbol.toUpperCase()}</Text>
+                  <Text size="h4" align="center" RootComponent="span" className="ml-2">{item.reserveTokenSymbol.toUpperCase()}</Text>
                 </Grid.Col>
                 <Grid.Col width={3} className="text-center">
                   <Avatar
                     imageURL={`assets/${item.coreTokenLogo}.png`}
+                    style={{"verticalAlign":"middle"}}
                   />
-                  <Text size="h4" RootComponent="span" className="ml-2">{item.coreToken.toUpperCase()}</Text>
+                  <Text size="h4" align="center" RootComponent="span" className="ml-2">{item.coreToken.toUpperCase()}</Text>
                   <Text muted>IN</Text>
                   <Avatar
                     imageURL={`assets/${item.protocolLogo}.png`}
-                    size="md"
+                    style={{"verticalAlign":"middle"}}
+                    size="lg"
                   />
-                  <Text size="h4" RootComponent="span" className="ml-1">{item.underlyingProtocol.toUpperCase()}</Text>
+                  <Text size="h4" align="center" RootComponent="span" className="ml-0">{item.underlyingProtocol.toUpperCase()}</Text>
                 </Grid.Col>
                 <Grid.Col width={3} className="text-center">
                   <Tag.List>

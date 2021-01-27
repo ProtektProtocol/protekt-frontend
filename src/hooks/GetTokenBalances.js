@@ -17,7 +17,7 @@ export async function getTokenBalances(address, tokenPrices, contracts, tokens=[
 
         if(tokenPrices[tokens[i]] && tokenPrices[tokens[i]]["usd"]) {
           tokenBalanceUsd = ethers.utils.formatUnits(tokenBalance.toString(),decimals[i]) * tokenPrices[tokens[i]]["usd"];
-        }
+      }
 
         let temp
         if(depositedToken[i]) {

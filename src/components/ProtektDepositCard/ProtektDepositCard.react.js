@@ -320,15 +320,17 @@ function ProtektDepositCard({
                 <Grid.Col width={2}>
                   <Avatar
                     imageURL={`assets/${item.coreTokenLogo}.png`}
+                    style={{"verticalAlign":"middle"}}
                   />
-                  <Text size="h4" RootComponent="span" className="ml-2">{item.coreToken.toUpperCase()}</Text>
+                  <Text size="h4" align="center" RootComponent="span" className="ml-2">{item.coreToken.toUpperCase()}</Text>
                 </Grid.Col>
                 <Grid.Col width={3}>
                   <Avatar
                     imageURL={`assets/${item.protocolLogo}.png`}
-                    size="md"
+                    style={{"verticalAlign":"middle"}}
+                    size="lg"
                   />
-                  <Text size="h4" RootComponent="span" className="ml-1">{item.underlyingProtocol.toUpperCase()}</Text>
+                  <Text size="h4" align="center" RootComponent="span" className="ml-0">{item.underlyingProtocol.toUpperCase()}</Text>
                 </Grid.Col>
                 <Grid.Col width={2}>
                   <Text size="h4" align="center" className="mb-0">{isLoading(coverage.loading, `${numeral(coverage.netAdjustedAPR).format('0.00')}%`)}</Text>
