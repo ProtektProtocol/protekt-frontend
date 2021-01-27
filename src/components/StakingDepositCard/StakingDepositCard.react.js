@@ -56,7 +56,8 @@ function StakingDepositCard({
         contracts,
         [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol],
         [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals],
-        [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress]
+        [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress],
+        [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol]
       )
       setAccountBalances(bal)
     }
@@ -121,7 +122,7 @@ function StakingDepositCard({
     if(web3Context.ready) {
       const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
       let weiAmount = ethers.utils.parseUnits(amount.toString(), item.reserveTokenDecimals);
-      const allowanceAmount = await contracts[item.reserveSymbol]["allowance"](...[web3Context.address, item.shieldTokenAddress]);
+      const allowanceAmount = await contracts[item.reserveTokenSymbol]["allowance"](...[web3Context.address, item.shieldTokenAddress]);
 
       if(weiAmount.gt(allowanceAmount)) {
         tx(contracts[item.reserveTokenSymbol]["approve"](item.shieldTokenAddress, ethers.utils.parseUnits('1000000',item.reserveTokenDecimals)));
@@ -195,33 +196,20 @@ function StakingDepositCard({
     return (
       <Card.Body>
         <Grid.Row>
-          <Grid.Col width={12}>
-            <Header.H4 className="mb-2">{`You're earning fees and protecting DeFi.`}<span role="img">💪🛡</span></Header.H4>
-          </Grid.Col>
           <Grid.Col width={6}>
             <h5 className="m-0 text-muted">{`YOUR DEPOSITS`}</h5>
-            <p>{`${numeral(ethers.utils.formatUnits(accountBalances[item.reserveTokenSymbol]["token"],item.underlyingTokenDecimals)).format('0.00')} ${item.underlyingTokenSymbol.toUpperCase()} (${numeral(accountBalances[item.underlyingTokenSymbol]["usd"]).format('$0.00')})`}</p>
+            <p>{`${numeral(ethers.utils.formatUnits(accountBalances[item.shieldTokenSymbol]["depositedTokenBalance"],item.reserveTokenDecimals)).format('0.00')} ${item.reserveTokenSymbol.toUpperCase()} (${numeral(accountBalances[item.shieldTokenSymbol]["depositedTokenBalanceUsd"]).format('$0.00')})`}</p>
           </Grid.Col>
           <Grid.Col width={6}>
-            <h5 className="m-0 text-muted">{`TOTAL DEPOSITS`}</h5>
-            <p>{`${numeral(parseFloat(ethers.utils.formatUnits(coverage.shieldTokenTotalDepositTokens,item.reserveTokenDecimals))).format('0,0.00')} ${item.reserveTokenSymbol.toUpperCase()} (${numeral(coverage.shieldTokenTotalDepositUsd).format('$0,0')})`}</p>
+            <h5 className="m-0 text-muted">{`CLAIMS STATUS`}</h5>
+            <Form.Group label={claimsManager.loading ? `` : 
+              claimsManager.activePayoutEvent ? `Payout Event found` :
+                `No Payout Event found`
+            }/>
           </Grid.Col>
         </Grid.Row>
         <Grid.Row>
           <Grid.Col width={5} >
-            <h5 className="m-0 text-muted">{`REDEEM EARNINGS`}</h5>
-            <Form.Group label={`Check & collect your rewards!`}>
-              <Button
-                RootComponent="a"
-                color="cyan"
-                className="color mt-1 mb-3"
-                icon={ "award" }
-                href={`https://protekt-redeem-${item.rewardToken}-kovan.herokuapp.com`}
-                target="_blank"
-              >
-                { `Go to Redeem App` }
-              </Button>
-            </Form.Group>
             <h5 className="m-0 text-muted">{`DEPOSIT`}</h5>
             <DepositWithdrawTokensForm
               item={item}
@@ -244,14 +232,21 @@ function StakingDepositCard({
                               "Approve"
                     }
             />
+            <h5 className="m-0 text-muted">{`REDEEM EARNINGS`}</h5>
+            <Form.Group label={`Check & collect your rewards!`}>
+              <Button
+                RootComponent="a"
+                color="cyan"
+                className="color mt-1 mb-3"
+                icon={ "award" }
+                href={`https://protekt-redeem-${item.rewardToken}-kovan.herokuapp.com`}
+                target="_blank"
+              >
+                { `Go to Redeem App` }
+              </Button>
+            </Form.Group>
           </Grid.Col>
           <Grid.Col width={5} offset={1}>
-            <h5 className="m-0 text-muted">{`CLAIMS STATUS`}</h5>
-            <Form.Group label={claimsManager.loading ? `` : 
-              claimsManager.activePayoutEvent ? `Payout Event found` :
-                `No Payout Event found`
-            }>
-            </Form.Group>
             <h5 className="m-0 text-muted">{`WITHDRAW`}</h5>
             <DepositWithdrawTokensForm
               item={item}
@@ -308,10 +303,10 @@ function StakingDepositCard({
                 </Grid.Col>
                 <Grid.Col width={2} className="text-center">
                   <Text align="center">
-                    {`${numeral(coverage.shieldTokenTotalDepositUsd).format('$0,0a')}`}
+                    {`${numeral(coverage.shieldTokenTotalDepositUsd).format('$0,0.00a')}`}
                   </Text>
                   <Text align="center" size="sm" muted>
-                    {`${numeral(parseFloat(ethers.utils.formatUnits(coverage.shieldTokenTotalDepositTokens,item.reserveTokenDecimals))).format('0,0a')} ${item.reserveTokenSymbol.toUpperCase()}`}
+                    {`${numeral(parseFloat(ethers.utils.formatUnits(coverage.shieldTokenTotalDepositTokens,item.reserveTokenDecimals))).format('0,0.00a')} ${item.reserveTokenSymbol.toUpperCase()}`}
                   </Text>
                 </Grid.Col>
               </Grid.Row>

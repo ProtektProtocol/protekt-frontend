@@ -28,8 +28,8 @@ import { infuraProvider } from "../utils";
 
 function Staking() {
   const web3Context = useContext(Web3Context);
-  const contracts = useContractLoader(infuraProvider);
-  const tokenPrices = useTokenPrice(web3Context.provider, 'DAI,cDAI,WETH', 600000);
+  const contracts = web3Context.ready ? useContractLoader(web3Context.provider) : useContractLoader(infuraProvider);
+  const tokenPrices = useTokenPrice(infuraProvider, 'DAI,cDAI,WETH', 600000);
   const lendingMarketMetrics = useLendingMarketMetrics(600000);
 
   function returnCards(items=[], lendingMarketMetrics, tokenPrices, contracts) {

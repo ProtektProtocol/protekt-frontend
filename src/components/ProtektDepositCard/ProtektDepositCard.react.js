@@ -73,7 +73,8 @@ function ProtektDepositCard({
         contracts,
         [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol],
         [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals],
-        [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress]
+        [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress],
+        [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol]
       )
       setAccountBalances(bal)
     }
@@ -230,7 +231,7 @@ function ProtektDepositCard({
         <Grid.Row>
           <Grid.Col width={6}>
             <h5 className="m-0 text-muted">{`YOUR DEPOSITS`}</h5>
-            <p>{`${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.underlyingTokenDecimals)).format('0.00')} ${item.underlyingTokenSymbol.toUpperCase()} (${numeral(accountBalances[item.underlyingTokenSymbol]["usd"]).format('$0.00')})`}</p>
+            <p>{`${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.underlyingTokenDecimals)).format('0.00')} ${item.underlyingTokenSymbol.toUpperCase()} (${numeral(accountBalances[item.pTokenSymbol]["depositedTokenBalanceUsd"]).format('$0.00')})`}</p>
           </Grid.Col>
           <Grid.Col width={6}>
             <h5 className="m-0 text-muted">{`TOTAL DEPOSITS`}</h5>
