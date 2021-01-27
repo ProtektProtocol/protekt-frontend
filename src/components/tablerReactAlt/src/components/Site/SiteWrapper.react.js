@@ -60,7 +60,7 @@ class SiteWrapper extends React.PureComponent<Props, State> {
         <Page.Main>
           {header}
           {nav}
-          <Alert type="danger" className="d-flex justify-content-center">
+          <Alert type="primary" className="d-flex justify-content-center">
             <strong>This project is still in development. Do not use!</strong>
           </Alert>
           {children}
