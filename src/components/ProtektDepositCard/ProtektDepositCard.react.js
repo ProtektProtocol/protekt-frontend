@@ -28,9 +28,17 @@ import ContentLoader from 'react-content-loader'
 import Card from "../tablerReactAlt/src/components/Card";
 import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
 
-import { useGasPrice, getCompoundDaiCoverageMetrics, useAccountBalances, getClaimsManager } from "../../hooks";
+import {
+  useGasPrice,
+  getCompoundDaiCoverageMetrics,
+  useCompoundDaiCoverageMetrics,
+  useAccountBalances,
+  useContractLoader,
+  useClaimsManager
+} from "../../hooks";
 import { Transactor } from "../../utils";
 import {Web3Context} from '../../App.react';
+import { infuraProvider } from "../../utils";
 
 const MyLoader = () => (
   <ContentLoader
@@ -60,10 +68,21 @@ function ProtektDepositCard({
   item,
   lendingMarketMetrics,
   tokenPrices,
-  contracts,
 }: Props): React.Node {
   const web3Context = useContext(Web3Context);
   const gasPrice = useGasPrice("fast");
+  const contracts = web3Context.ready ? useContractLoader(web3Context.provider) : useContractLoader(infuraProvider);
+  const coverage = useCompoundDaiCoverageMetrics(
+    item,
+    contracts,
+    tokenPrices,
+    lendingMarketMetrics[0]
+  );
+  const claimsManager = useClaimsManager(
+    item,
+    contracts
+  );
+
   const accountBalances = useAccountBalances(
     web3Context.address,
     tokenPrices,
@@ -73,44 +92,8 @@ function ProtektDepositCard({
     [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress],
     [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol]
   );
-  const [claimsManager, setClaimsManager] = useState({loading: true});
-  useEffect( () => {
-    const getData = async () => {
-      const data = await getClaimsManager(
-        contracts,
-        item.claimsContractId
-      )
-      setClaimsManager(data)
-    }
-    getData();
-  },[web3Context, contracts]);
-  const [coverage, setCoverage] = useState({
-    loading: true,
-    pTokenTotalDepositTokens: 0,
-    pTokenTotalDepositUsd: 0,
-    shieldTokenTotalDepositTokens: 0,
-    shieldTokenTotalDepositUsd: 0,
-    coverageRatio: 100,
-    coverageRatioDisplay: '100%',
-    coverageFeeAPR: 0,
-    tempCoverage: 0,
-    compAPR: 0,
-    netAdjustedAPR: 0
-  });
-  useEffect( () => {
-    const getData = async () => {
-      const data = await getCompoundDaiCoverageMetrics(
-        item,
-        contracts,
-        tokenPrices,
-        lendingMarketMetrics[0]
-      )
-      setCoverage(data);
-    }
-    if(item) {
-      getData();      
-    }
-  },[web3Context, contracts, tokenPrices, lendingMarketMetrics]);
+
+
 
   async function handleTxSuccess() {
     console.log('Successful callback')
@@ -297,10 +280,10 @@ function ProtektDepositCard({
   }
 
 
-  console.log(accountBalances)
-  console.log(coverage)
+  // console.log(claimsManager)
+  // console.log(coverage)
 
-  return ( (coverage.loading || _.isEmpty(accountBalances)) ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
+  return ( (coverage.loading) ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
     <AccordionItem>
       <Card>
         <AccordionItemHeading>

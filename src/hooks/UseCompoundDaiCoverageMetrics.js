@@ -4,7 +4,28 @@ import _ from 'lodash';
 import numeral from 'numeral';
 import { ethers } from "ethers";
 
-export default async function getCompoundDaiCoverageMetrics(item, contracts, tokenPrices, lendingMarket) {
+async function getProtocolAPR(symbol) {
+  let apr = 0;
+  try {
+    const response = await axios.get('https://api.compound.finance/api/v2/ctoken?meta=true&network=mainnet');
+
+    let temp = response.data.cToken.filter(function (e) {
+      if(symbol === 'cdai') {
+        symbol = 'cDAI'
+      } else if(symbol === 'cusdc') {
+        symbol = 'cUSDC'
+      }
+      return e.symbol === symbol;
+    });
+
+    apr = temp[0].comp_supply_apy.value
+  } catch (error) {
+    console.error(error);
+  }
+  return apr;
+}
+
+export async function getCompoundDaiCoverageMetrics(item, contracts, tokenPrices, lendingMarket) {
   let _coverage = {
     loading: true,
     pTokenTotalDepositTokens: 0,
@@ -19,25 +40,9 @@ export default async function getCompoundDaiCoverageMetrics(item, contracts, tok
     netAdjustedAPR: (lendingMarket ? lendingMarket.apr : 5) - item.maxBlockFeeAPR
   };
 
-  try {
-    const response = await axios.get('https://api.compound.finance/api/v2/ctoken?meta=true&network=mainnet');
+  _coverage.protocolAPR = await getProtocolAPR(item.underlyingTokenSymbol);
 
-    let temp = response.data.cToken.filter(function (e) {
-      let symbol = item.underlyingTokenSymbol;
-      if(symbol === 'cdai') {
-        symbol = 'cDAI'
-      } else if(symbol === 'cusdc') {
-        symbol = 'cUSDC'
-      }
-      return e.symbol === symbol;
-    });
-
-    _coverage.protocolAPR = temp[0].comp_supply_apy.value
-  } catch (error) {
-    console.error(error);
-  }
-
-  if(contracts && !_.isEmpty(tokenPrices) && lendingMarket) {
+  if(!_.isEmpty(contracts)) {
     try {
       _coverage.pTokenTotalDepositTokens = await contracts[item.underlyingTokenSymbol]["balanceOf"](...[item.pTokenAddress]);
       _coverage.pTokenTotalDepositUsd = parseFloat(ethers.utils.formatUnits(_coverage.pTokenTotalDepositTokens,item.pTokenDecimals)) * tokenPrices[item.underlyingTokenSymbol]['usd'];
@@ -62,7 +67,43 @@ export default async function getCompoundDaiCoverageMetrics(item, contracts, tok
     } catch (error) {
       console.error(error);
     }
-    // console.log(_coverage)
   }
   return _coverage
+}
+
+export function useCompoundDaiCoverageMetrics(
+  item,
+  contracts,
+  tokenPrices,
+  lendingMarket) {
+  const [metrics, setMetrics] = useState({
+    loading: true,
+    pTokenTotalDepositTokens: 0,
+    pTokenTotalDepositUsd: 0,
+    shieldTokenTotalDepositTokens: 0,
+    shieldTokenTotalDepositUsd: 0,
+    coverageRatio: 100,
+    coverageRatioDisplay: '100%',
+    coverageFeeAPR: 0,
+    tempCoverage: 0,
+    compAPR: 0,
+    netAdjustedAPR: 0
+  });
+  useEffect(() => {
+    async function run() {
+      const data = await getCompoundDaiCoverageMetrics(
+        item,
+        contracts,
+        tokenPrices,
+        lendingMarket
+      );
+      setMetrics(data);
+    }
+
+    if(!_.isEmpty(contracts)) {
+      run();       
+    }
+  },[contracts]);
+
+  return metrics;
 }

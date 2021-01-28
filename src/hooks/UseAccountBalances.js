@@ -4,9 +4,9 @@ import { BigNumber } from '@ethersproject/bignumber';
 import _ from "lodash";
 
 export async function getAccountBalances(address, tokenPrices, contracts, tokens=[], decimals=[], allowances=[], depositedToken=[]) {
-  let _balances = { loading: true };
+  let _balances = {loading: true};
 
-  if(address && contracts && tokenPrices) {
+  if(!_.isEmpty(address) && !_.isEmpty(contracts)) {
     try {
       for (let i = 0; i < tokens.length; i++) {
         let tokenBalance = await contracts[tokens[i]]["balanceOf"](...[address]);
@@ -19,7 +19,7 @@ export async function getAccountBalances(address, tokenPrices, contracts, tokens
 
         if(tokenPrices[tokens[i]] && tokenPrices[tokens[i]]["usd"]) {
           tokenBalanceUsd = ethers.utils.formatUnits(tokenBalance.toString(),decimals[i]) * tokenPrices[tokens[i]]["usd"];
-      }
+        }
 
         let temp
         if(depositedToken[i]) {
@@ -49,10 +49,10 @@ export async function getAccountBalances(address, tokenPrices, contracts, tokens
           depositedTokenBalanceUsd: depositedTokenBalanceUsd
         };
       };
+      _balances.loading = false;
     } catch (error) {
       console.error(error);
     }
-    _balances.loading = false;
   }
   return _balances
 }
@@ -80,10 +80,8 @@ export function useAccountBalances(
       );
       setBalances(bal);
     }
-    if(!_.isEmpty(tokenPrices)) {
-      run();      
-    }
-  },[tokenPrices]);
+    run();      
+  },[contracts, address]);
 
   return balances;
 }

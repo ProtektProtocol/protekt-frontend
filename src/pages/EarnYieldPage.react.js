@@ -1,6 +1,7 @@
 // @flow
 
 import React, { useContext, useState } from 'react';
+import _ from 'lodash';
 
 import {
   Page,
@@ -28,14 +29,14 @@ import { infuraProvider } from "../utils";
 
 function EarnYield() {
   const web3Context = useContext(Web3Context);
-  const contracts = web3Context.ready ? useContractLoader(web3Context.provider) : useContractLoader(infuraProvider);
+  const contracts = useContractLoader(web3Context.provider);
   const tokenPrices = useTokenPrices(
     infuraProvider,
     ['dai','cdai','weth','cusdc','usdc','ausdc']
   );
   const lendingMarketMetrics = useLendingMarketMetrics(600000);
 
-  function returnCards(items=[], lendingMarketMetrics, tokenPrices, contracts) {
+  function returnCards(items=[], lendingMarketMetrics, tokenPrices) {
     return items.map((item, key) => {
       return (
         <ProtektDepositCard
@@ -43,7 +44,6 @@ function EarnYield() {
           item={item}
           lendingMarketMetrics={lendingMarketMetrics}
           tokenPrices={tokenPrices}
-          contracts={contracts}
         />
       )
     })
@@ -103,8 +103,8 @@ function EarnYield() {
             <Accordion
               allowZeroExpanded
             >
-              { (!lendingMarketMetrics.length && tokenPrices) ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
-                returnCards(protektData.protektContracts, lendingMarketMetrics, tokenPrices, contracts)
+              { (!lendingMarketMetrics.length || _.isEmpty(tokenPrices)) ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
+                returnCards(protektData.protektContracts, lendingMarketMetrics, tokenPrices)
               }
             </Accordion>
           </Grid.Col>

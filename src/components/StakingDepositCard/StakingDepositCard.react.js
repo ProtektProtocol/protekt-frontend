@@ -26,7 +26,14 @@ import {
 import Card from "../tablerReactAlt/src/components/Card";
 import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
 
-import { useGasPrice, getCompoundDaiCoverageMetrics, useAccountBalances, getClaimsManager } from "../../hooks";
+import {
+  useGasPrice,
+  getCompoundDaiCoverageMetrics,
+  useCompoundDaiCoverageMetrics,
+  useAccountBalances,
+  getClaimsManager,
+  useContractLoader
+} from "../../hooks";
 import { Transactor } from "../../utils";
 import { Web3Context } from '../../App.react';
 
@@ -46,55 +53,35 @@ function StakingDepositCard({
   contracts
 }: Props): React.Node {
   const web3Context = useContext(Web3Context);
+  const readContracts = useContractLoader(web3Context.provider);
   const gasPrice = useGasPrice("fast");
-    // const [accountBalances, setAccountBalances] = useState({loading: true});
-  const accountBalances = useAccountBalances(
-    web3Context.address,
+  const coverage = useCompoundDaiCoverageMetrics(
+    item,
+    readContracts,
     tokenPrices,
-    contracts,
-    [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol],
-    [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals],
-    [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress],
-    [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol]
+    lendingMarketMetrics[0]
   );
   const [claimsManager, setClaimsManager] = useState({loading: true});
   useEffect( () => {
     const getData = async () => {
       const data = await getClaimsManager(
-        contracts,
-        item.claimsContractId
+        item,
+        readContracts
       )
       setClaimsManager(data)
     }
     getData();
-  },[web3Context, contracts]);
-  const [coverage, setCoverage] = useState({
-    loading: true,
-    pTokenTotalDepositTokens: 0,
-    pTokenTotalDepositUsd: 0,
-    shieldTokenTotalDepositTokens: 0,
-    shieldTokenTotalDepositUsd: 0,
-    coverageRatio: 100,
-    coverageRatioDisplay: '100%',
-    coverageFeeAPR: 0,
-    tempCoverage: 0,
-    protocolAPR: 0,
-    netAdjustedAPR: 0
-  });
-  useEffect( () => {
-    const getData = async () => {
-      const data = await getCompoundDaiCoverageMetrics(
-        item,
-        contracts,
-        tokenPrices,
-        lendingMarketMetrics[0]
-      )
-      setCoverage(data);
-    }
-    if(item) {
-      getData();      
-    }
-  },[web3Context, contracts, tokenPrices, lendingMarketMetrics]);
+  },[web3Context, readContracts]);
+  const accountBalances = useAccountBalances(
+    web3Context.address,
+    tokenPrices,
+    readContracts,
+    [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol],
+    [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals],
+    [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress],
+    [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol]
+  );
+
   
   async function handleTxSuccess() {
     console.log('Successful callback')

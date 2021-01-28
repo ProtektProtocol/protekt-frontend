@@ -28,14 +28,13 @@ import { infuraProvider } from "../utils";
 
 function Staking() {
   const web3Context = useContext(Web3Context);
-  const contracts = web3Context.ready ? useContractLoader(web3Context.provider) : useContractLoader(infuraProvider);
   const tokenPrices = useTokenPrices(
     infuraProvider,
     ['dai','cdai','weth','cusdc','usdc','ausdc']
   );
   const lendingMarketMetrics = useLendingMarketMetrics(600000);
 
-  function returnCards(items=[], lendingMarketMetrics, tokenPrices, contracts) {
+  function returnCards(items=[], lendingMarketMetrics, tokenPrices) {
     return items.map((item, key) => {
       return (
         <StakingDepositCard
@@ -43,7 +42,6 @@ function Staking() {
           item={item}
           lendingMarketMetrics={lendingMarketMetrics}
           tokenPrices={tokenPrices}
-          contracts={contracts}
         />
       )
     })
@@ -104,7 +102,7 @@ function Staking() {
               allowZeroExpanded
             >
             { (!lendingMarketMetrics.length && tokenPrices) ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
-              returnCards(protektData.protektContracts, lendingMarketMetrics, tokenPrices, contracts)
+              returnCards(protektData.protektContracts, lendingMarketMetrics, tokenPrices)
             }
             </Accordion>
           </Grid.Col>

@@ -1,3 +1,6 @@
+import { useState, useEffect } from "react";
+import _ from 'lodash';
+
 export async function getClaimsManager(contracts, claimsContractId) {
   let _data = { loading: true };
 
@@ -25,4 +28,25 @@ export async function getClaimsManager(contracts, claimsContractId) {
     _data.loading = false;
   }
   return _data
+}
+
+export function useClaimsManager(
+  item,
+  contracts) {
+  const [output, setOutput] = useState({loading: true});
+  useEffect(() => {
+    async function run() {
+      const tempData = await getClaimsManager(
+        contracts,
+        item.claimsContractId
+      );
+      setOutput(tempData);
+    }
+
+    if(!_.isEmpty(contracts)) {
+      run();       
+    }
+  },[contracts]);
+
+  return setOutput;
 }
