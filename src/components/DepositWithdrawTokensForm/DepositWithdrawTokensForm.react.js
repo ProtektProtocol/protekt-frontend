@@ -41,7 +41,7 @@ function DepositWithdrawTokensForm({
 
   return (
     <Formik
-      initialValues={{ email: '' }}
+      initialValues={{ numbers: '' }}
       validationSchema={Yup.object().shape({
         numbers: Yup.number().required('Required'),
       })}
@@ -71,17 +71,12 @@ function DepositWithdrawTokensForm({
                 />
                 <Form.InputGroupAppend>
                   <Button
-                    RootComponent="a"
                     color="primary"
                     type="submit"
                     value="Submit"
                     className="color"
                     icon={ buttonIcon }
                     disabled={isSubmitting}
-                    onClick={() => {
-                      handleSubmit(values.numbers);
-                      // setFieldValue('numbers', null);
-                    }}
                   >
                     { buttonLabel }
                   </Button>

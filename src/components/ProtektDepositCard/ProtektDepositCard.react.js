@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import numeral from 'numeral';
 import { ethers } from "ethers";
+import _ from "lodash";
 
 import {
   Grid,
@@ -27,7 +28,7 @@ import ContentLoader from 'react-content-loader'
 import Card from "../tablerReactAlt/src/components/Card";
 import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
 
-import { useGasPrice, getCompoundDaiCoverageMetrics, getTokenBalances, getClaimsManager } from "../../hooks";
+import { useGasPrice, getCompoundDaiCoverageMetrics, useAccountBalances, getClaimsManager } from "../../hooks";
 import { Transactor } from "../../utils";
 import {Web3Context} from '../../App.react';
 
@@ -63,23 +64,16 @@ function ProtektDepositCard({
 }: Props): React.Node {
   const web3Context = useContext(Web3Context);
   const gasPrice = useGasPrice("fast");
-  const [accountBalances, setAccountBalances] = useState({loading: true});
+  const accountBalances = useAccountBalances(
+    web3Context.address,
+    tokenPrices,
+    contracts,
+    [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol],
+    [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals],
+    [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress],
+    [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol]
+  );
   const [claimsManager, setClaimsManager] = useState({loading: true});
-  useEffect( () => {
-    const getBals = async () => {
-      const bal = await getTokenBalances(
-        web3Context.address,
-        tokenPrices,
-        contracts,
-        [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol],
-        [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals],
-        [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress],
-        [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol]
-      )
-      setAccountBalances(bal)
-    }
-    getBals();
-  },[web3Context, contracts]);
   useEffect( () => {
     const getData = async () => {
       const data = await getClaimsManager(
@@ -90,7 +84,6 @@ function ProtektDepositCard({
     }
     getData();
   },[web3Context, contracts]);
-
   const [coverage, setCoverage] = useState({
     loading: true,
     pTokenTotalDepositTokens: 0,
@@ -119,14 +112,6 @@ function ProtektDepositCard({
     }
   },[web3Context, contracts, tokenPrices, lendingMarketMetrics]);
 
-  // const coverage = useCompoundDaiCoverageMetrics(
-  //   Web3Context.provider,
-  //   item,
-  //   contracts,
-  //   tokenPrices,
-  //   lendingMarketMetrics.length > 0 ? lendingMarketMetrics[0] : {}
-  // );
-
   async function handleTxSuccess() {
     console.log('Successful callback')
     // let prevAccountBalances = accountBalances;
@@ -134,14 +119,15 @@ function ProtektDepositCard({
       // console.log('Prev bals');
       // console.log(prevAccountBalances);
 
-    // setTimeout(async () => {
+    setTimeout(async () => {
+      window.location.reload();
       // let temp = await getAccountBalances(item, tokenPrices, contracts);
       // setAccountBalances(temp)
 
       // console.log('New bals');
       // console.log(temp);
 
-    // }, 5000);
+    }, 5000);
   }
 
   async function handleDepositTx(amount) {
@@ -300,7 +286,7 @@ function ProtektDepositCard({
               tokenPrices={tokenPrices}
               contracts={contracts}
               handleSubmit={handleWithdrawTx}
-              label={`For withdraw: ${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.pTokenDecimals)).format('0.00')} ${item.pTokenSymbol}`}
+              label={`For withdraw: ${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.pTokenDecimals)).format('0.00')} ${item.pTokenSymbol.toUpperCase()}`}
               buttonIcon={ "upload" }
               buttonLabel={ "Withdraw" }
             />
@@ -310,7 +296,11 @@ function ProtektDepositCard({
     )
   }
 
-  return ( coverage.loading ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
+
+  console.log(accountBalances)
+  console.log(coverage)
+
+  return ( (coverage.loading || _.isEmpty(accountBalances)) ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
     <AccordionItem>
       <Card>
         <AccordionItemHeading>

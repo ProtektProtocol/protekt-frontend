@@ -1,7 +1,9 @@
+import { useState, useEffect } from 'react';
 import { ethers } from "ethers";
-import { BigNumber } from '@ethersproject/bignumber'
+import { BigNumber } from '@ethersproject/bignumber';
+import _ from "lodash";
 
-export async function getTokenBalances(address, tokenPrices, contracts, tokens=[], decimals=[], allowances=[], depositedToken=[]) {
+export async function getAccountBalances(address, tokenPrices, contracts, tokens=[], decimals=[], allowances=[], depositedToken=[]) {
   let _balances = { loading: true };
 
   if(address && contracts && tokenPrices) {
@@ -53,4 +55,35 @@ export async function getTokenBalances(address, tokenPrices, contracts, tokens=[
     _balances.loading = false;
   }
   return _balances
+}
+
+
+export function useAccountBalances(
+  address,
+  tokenPrices,
+  contracts,
+  tokens=[],
+  decimals=[],
+  allowances=[],
+  depositedToken=[]) {
+  const [balances, setBalances] = useState();
+  useEffect(() => {
+    async function run() {
+      const bal = await getAccountBalances(
+        address,
+        tokenPrices,
+        contracts,
+        tokens,
+        decimals,
+        allowances,
+        depositedToken
+      );
+      setBalances(bal);
+    }
+    if(!_.isEmpty(tokenPrices)) {
+      run();      
+    }
+  },[tokenPrices]);
+
+  return balances;
 }

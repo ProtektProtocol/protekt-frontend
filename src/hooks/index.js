@@ -8,7 +8,7 @@ export { default as useUserProvider } from "./UserProvider";
 export { default as useContractReader } from "./ContractReader";
 export { default as useCompoundDaiCoverageMetrics } from "./GetCompoundDaiCoverageMetrics";
 export { default as getCompoundDaiCoverageMetrics } from "./GetCompoundDaiCoverageMetrics";
-export { getTokenBalances } from "./GetTokenBalances";
+export { getAccountBalances, useAccountBalances } from "./UseAccountBalances";
 export { getClaimsManager } from "./GetClaimsManager";
 // export { default as usePoller } from "./Poller";
 // export { default as useBalance } from "./Balance";
@@ -18,5 +18,5 @@ export { getClaimsManager } from "./GetClaimsManager";
 // export { default as useResolveName } from "./ResolveName";
 // export { default as useNonce } from "./Nonce";
 
-export { default as useTokenPrice } from "./TokenPrice";
+export { useTokenPrices } from "./TokenPrice";
 export { default as useLendingMarketMetrics } from "./LendingMarketMetrics";

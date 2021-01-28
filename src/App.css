@@ -5,6 +5,11 @@ body {
   font-family: "Segoe UI",'DM Sans', "Helvetica Neue", Arial, sans-serif;
 }
 
+footer {
+  background-color: transparent !important;
+  border-top: 1px solid rgba(0, 40, 100, 0.12) !important;
+}
+
 a:not([href]):not([tabindex]).btn-primary {
   color: white !important;
 }

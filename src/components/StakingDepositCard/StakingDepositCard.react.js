@@ -3,6 +3,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import numeral from 'numeral';
 import { ethers } from "ethers";
+import _ from "lodash";
 
 import {
   Grid,
@@ -25,7 +26,7 @@ import {
 import Card from "../tablerReactAlt/src/components/Card";
 import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
 
-import { useGasPrice, getCompoundDaiCoverageMetrics, getTokenBalances, getClaimsManager } from "../../hooks";
+import { useGasPrice, getCompoundDaiCoverageMetrics, useAccountBalances, getClaimsManager } from "../../hooks";
 import { Transactor } from "../../utils";
 import { Web3Context } from '../../App.react';
 
@@ -42,27 +43,21 @@ function StakingDepositCard({
   item,
   lendingMarketMetrics,
   tokenPrices,
-  contracts,
+  contracts
 }: Props): React.Node {
   const web3Context = useContext(Web3Context);
   const gasPrice = useGasPrice("fast");
-  const [accountBalances, setAccountBalances] = useState({loading: true})
+    // const [accountBalances, setAccountBalances] = useState({loading: true});
+  const accountBalances = useAccountBalances(
+    web3Context.address,
+    tokenPrices,
+    contracts,
+    [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol],
+    [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals],
+    [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress],
+    [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol]
+  );
   const [claimsManager, setClaimsManager] = useState({loading: true});
-  useEffect( () => {
-    const getBals = async () => {
-      const bal = await getTokenBalances(
-        web3Context.address,
-        tokenPrices,
-        contracts,
-        [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol],
-        [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals],
-        [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress],
-        [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol]
-      )
-      setAccountBalances(bal)
-    }
-    getBals();
-  },[web3Context, contracts]);
   useEffect( () => {
     const getData = async () => {
       const data = await getClaimsManager(
@@ -83,7 +78,7 @@ function StakingDepositCard({
     coverageRatioDisplay: '100%',
     coverageFeeAPR: 0,
     tempCoverage: 0,
-    compAPR: 0,
+    protocolAPR: 0,
     netAdjustedAPR: 0
   });
   useEffect( () => {
@@ -266,7 +261,7 @@ function StakingDepositCard({
     )
   }
 
-  return ( coverage.loading ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
+  return ( (coverage.loading || _.isEmpty(accountBalances)) ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
     <AccordionItem>
       <Card>
         <AccordionItemHeading>
@@ -318,7 +313,7 @@ function StakingDepositCard({
         </AccordionItemHeading>
         <AccordionItemPanel>
           { (web3Context.ready &&
-              !accountBalances.loading &&
+              !_.isEmpty(accountBalances) &&
                 accountBalances[item.shieldTokenSymbol]["token"] !== "0") ?
                   renderHoldingsCard() : <div></div>
           }
@@ -344,7 +339,7 @@ function StakingDepositCard({
           </Card.Body>
           { !web3Context.ready ?
               (<Card.Body><Header.H4 className="text-center">Connect Wallet <span role="img">👆</span></Header.H4></Card.Body>) : 
-                accountBalances.loading ? <Card.Body><Dimmer active loader /></Card.Body> : 
+                _.isEmpty(accountBalances) ? <Card.Body><Dimmer active loader /></Card.Body> : 
                   accountBalances[item.shieldTokenSymbol]["token"] === "0" ?
                     renderDepositCard() :
                       <div></div>

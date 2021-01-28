@@ -21,7 +21,7 @@ import Card from "../components/tablerReactAlt/src/components/Card";
 import ProtektDepositCard from "../components/ProtektDepositCard";
 import SiteWrapper from "../SiteWrapper.react";
 
-import { useTokenPrice, useContractLoader, useLendingMarketMetrics } from "../hooks";
+import { useTokenPrices, useContractLoader, useLendingMarketMetrics } from "../hooks";
 import {Web3Context} from '../App.react';
 import { default as protektData } from "../data";
 import { infuraProvider } from "../utils";
@@ -29,7 +29,10 @@ import { infuraProvider } from "../utils";
 function EarnYield() {
   const web3Context = useContext(Web3Context);
   const contracts = web3Context.ready ? useContractLoader(web3Context.provider) : useContractLoader(infuraProvider);
-  const tokenPrices = useTokenPrice(infuraProvider, 'DAI,cDAI,WETH', 600000);
+  const tokenPrices = useTokenPrices(
+    infuraProvider,
+    ['dai','cdai','weth','cusdc','usdc','ausdc']
+  );
   const lendingMarketMetrics = useLendingMarketMetrics(600000);
 
   function returnCards(items=[], lendingMarketMetrics, tokenPrices, contracts) {
