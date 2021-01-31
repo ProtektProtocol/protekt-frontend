@@ -72,8 +72,10 @@ function ProtektDepositCard({
   tokenPrices,
 }: Props): React.Node {
   const web3Context = useContext(Web3Context);
+  console.log(web3Context);
+
   const gasPrice = useGasPrice("fast");
-  const contracts = web3Context.ready ? useContractLoader(web3Context.provider) : useContractLoader(infuraProvider);
+  const contracts = useContractLoader(web3Context.provider);
   
   const coverage = useCompoundDaiCoverageMetrics(
     item,

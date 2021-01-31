@@ -10,8 +10,8 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import {  Web3Provider } from "@ethersproject/providers";
 import { useUserAddress } from "eth-hooks";
 import { shortenAddress } from "../../utils"
-import { INFURA_ID } from "../../config"
 import { Web3Context } from '../../App.react';
+import { INFURA_ID, network, infuraProvider } from "../../config";
 
 // const mainnetProvider = new JsonRpcProvider("https://mainnet.infura.io/v3/"+INFURA_ID)
 // const localProviderUrl = "http://"+window.location.hostname+":8545";
@@ -33,8 +33,13 @@ function Account() {
   const loadWeb3Modal = useCallback(async () => {
     const provider = await web3Modal.connect();
     const newProvider = new Web3Provider(provider);
-    web3Context.updateProvider(newProvider);
-    setInjectedProvider(newProvider);
+    const userNetwork = await newProvider.getNetwork();
+    if(network !== userNetwork.name) {
+      alert(`Wrong network! Please connect to ${network}`);
+    } else {
+      web3Context.updateProvider(newProvider);
+      setInjectedProvider(newProvider);
+    }
   }, [setInjectedProvider]);
 
   useEffect(() => {

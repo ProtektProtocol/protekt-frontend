@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
+import { network, infuraProvider } from "./config";
 import {
   Error400,
   Error401,
@@ -20,6 +21,7 @@ type Props = {||};
 
 export const Web3Context = React.createContext({
   provider: {},
+  infuraProvider: infuraProvider,
   updateProvider: () => {},
   updateAddress: () => {},
   ready: false,
@@ -28,7 +30,8 @@ export const Web3Context = React.createContext({
 
 function App(props: Props): React.Node {
   const [web3Context, setWeb3Context] = useState({
-    provider: {},
+    ready: false,
+    provider: infuraProvider,
     updateProvider: (_provider) => {
       setWeb3Context((prevState) => {
         let temp = Object.assign({}, prevState); 
