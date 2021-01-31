@@ -62,7 +62,7 @@ function App(props: Props): React.Node {
             <Route exact path="/503" component={Error503} />
             <Route exact path="/earn-yield" component={EarnYieldPage} />
             <Route exact path="/staking" component={StakingPage} />
-            <Route exact path="/how-it-works" component={HowItWorksPage} />
+            <Route exact path="/About" component={HowItWorksPage} />
             <Redirect to='/earn-yield' />
             <Route component={Error404} />
           </Switch>

@@ -24,7 +24,7 @@ import SiteWrapper from "../SiteWrapper.react";
 import { useTokenPrices, useContractLoader, useLendingMarketMetrics } from "../hooks";
 import {Web3Context} from '../App.react';
 import { default as protektData } from "../data";
-import { infuraProvider } from "../utils";
+import { infuraProvider } from "../config";
 
 function Staking() {
   const web3Context = useContext(Web3Context);

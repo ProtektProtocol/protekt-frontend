@@ -10,8 +10,8 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import {  Web3Provider } from "@ethersproject/providers";
 import { useUserAddress } from "eth-hooks";
 import { shortenAddress } from "../../utils"
-import { INFURA_ID } from "../../utils/constants"
-import {Web3Context} from '../../App.react';
+import { INFURA_ID } from "../../config"
+import { Web3Context } from '../../App.react';
 
 // const mainnetProvider = new JsonRpcProvider("https://mainnet.infura.io/v3/"+INFURA_ID)
 // const localProviderUrl = "http://"+window.location.hostname+":8545";

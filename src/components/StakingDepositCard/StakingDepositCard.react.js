@@ -31,11 +31,12 @@ import {
   getCompoundDaiCoverageMetrics,
   useCompoundDaiCoverageMetrics,
   useAccountBalances,
-  getClaimsManager,
+  useClaimsManager,
   useContractLoader
 } from "../../hooks";
 import { Transactor } from "../../utils";
 import { Web3Context } from '../../App.react';
+import { infuraProvider } from "../../config";
 
 type Props = {|
   +children?: React.Node,
@@ -49,38 +50,31 @@ function StakingDepositCard({
   children,
   item,
   lendingMarketMetrics,
-  tokenPrices,
-  contracts
+  tokenPrices
 }: Props): React.Node {
   const web3Context = useContext(Web3Context);
-  const readContracts = useContractLoader(web3Context.provider);
   const gasPrice = useGasPrice("fast");
+  const contracts = web3Context.ready ? useContractLoader(web3Context.provider) : useContractLoader(infuraProvider);
   const coverage = useCompoundDaiCoverageMetrics(
     item,
-    readContracts,
+    contracts,
     tokenPrices,
     lendingMarketMetrics[0]
   );
-  const [claimsManager, setClaimsManager] = useState({loading: true});
-  useEffect( () => {
-    const getData = async () => {
-      const data = await getClaimsManager(
-        item,
-        readContracts
-      )
-      setClaimsManager(data)
-    }
-    getData();
-  },[web3Context, readContracts]);
+  const claimsManager = useClaimsManager(
+    item,
+    contracts
+  );
   const accountBalances = useAccountBalances(
-    web3Context.address,
+    web3Context,
     tokenPrices,
-    readContracts,
+    contracts,
     [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol],
     [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals],
     [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress],
     [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol]
   );
+
 
   
   async function handleTxSuccess() {
@@ -248,7 +242,8 @@ function StakingDepositCard({
     )
   }
 
-  return ( (coverage.loading || _.isEmpty(accountBalances)) ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
+  console.log(accountBalances)
+  return ( coverage.loading ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
     <AccordionItem>
       <Card>
         <AccordionItemHeading>
@@ -300,7 +295,7 @@ function StakingDepositCard({
         </AccordionItemHeading>
         <AccordionItemPanel>
           { (web3Context.ready &&
-              !_.isEmpty(accountBalances) &&
+              accountBalances.ready &&
                 accountBalances[item.shieldTokenSymbol]["token"] !== "0") ?
                   renderHoldingsCard() : <div></div>
           }
@@ -325,11 +320,16 @@ function StakingDepositCard({
             </Grid.Row>
           </Card.Body>
           { !web3Context.ready ?
-              (<Card.Body><Header.H4 className="text-center">Connect Wallet <span role="img">👆</span></Header.H4></Card.Body>) : 
-                _.isEmpty(accountBalances) ? <Card.Body><Dimmer active loader /></Card.Body> : 
-                  accountBalances[item.shieldTokenSymbol]["token"] === "0" ?
-                    renderDepositCard() :
-                      <div></div>
+              (<Card.Body><Text className="text-center font-italic">Connect Wallet Above<span role="img">👆</span></Text></Card.Body>) : 
+                !accountBalances.ready ? <Card.Body><Dimmer active loader /></Card.Body> : (
+                  <div>
+                    {
+                      accountBalances[item.shieldTokenSymbol]["token"] === "0" ?
+                        renderDepositCard() :
+                          <div></div>
+                    }
+                  </div>      
+                )
           }
         </AccordionItemPanel>
       </Card>

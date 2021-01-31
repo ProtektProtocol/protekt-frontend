@@ -55,8 +55,8 @@ const navBarItems: Array<navItem> = [
     LinkComponent: withRouter(NavLink),
   },
   {
-    value: "How it Works",
-    to: "/how-it-works",
+    value: "About",
+    to: "/about",
     icon: "info",
     LinkComponent: withRouter(NavLink),
   }

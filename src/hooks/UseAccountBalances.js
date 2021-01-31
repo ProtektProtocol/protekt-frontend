@@ -4,7 +4,7 @@ import { BigNumber } from '@ethersproject/bignumber';
 import _ from "lodash";
 
 export async function getAccountBalances(address, tokenPrices, contracts, tokens=[], decimals=[], allowances=[], depositedToken=[]) {
-  let _balances = {loading: true};
+  let _balances = {ready: false};
 
   if(!_.isEmpty(address) && !_.isEmpty(contracts)) {
     try {
@@ -49,7 +49,7 @@ export async function getAccountBalances(address, tokenPrices, contracts, tokens
           depositedTokenBalanceUsd: depositedTokenBalanceUsd
         };
       };
-      _balances.loading = false;
+      _balances.ready = true;
     } catch (error) {
       console.error(error);
     }
@@ -59,18 +59,18 @@ export async function getAccountBalances(address, tokenPrices, contracts, tokens
 
 
 export function useAccountBalances(
-  address,
+  web3Context,
   tokenPrices,
   contracts,
   tokens=[],
   decimals=[],
   allowances=[],
   depositedToken=[]) {
-  const [balances, setBalances] = useState();
+  const [balances, setBalances] = useState({ready: false});
   useEffect(() => {
     async function run() {
       const bal = await getAccountBalances(
-        address,
+        web3Context.address,
         tokenPrices,
         contracts,
         tokens,
@@ -81,7 +81,7 @@ export function useAccountBalances(
       setBalances(bal);
     }
     run();      
-  },[contracts, address]);
+  },[contracts, web3Context]);
 
   return balances;
 }

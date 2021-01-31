@@ -100,10 +100,10 @@ export function useCompoundDaiCoverageMetrics(
       setMetrics(data);
     }
 
-    if(!_.isEmpty(contracts)) {
+    if(!_.isEmpty(contracts) && !_.isEmpty(tokenPrices)) {
       run();       
     }
-  },[contracts]);
+  },[contracts, tokenPrices]);
 
   return metrics;
 }

@@ -15,6 +15,7 @@ import {
   Text,
   Tag
 } from "tabler-react";
+import Account from "../Account";
 
 import {
   AccordionItem,
@@ -34,11 +35,12 @@ import {
   useCompoundDaiCoverageMetrics,
   useAccountBalances,
   useContractLoader,
+  useContractReader,
   useClaimsManager
 } from "../../hooks";
 import { Transactor } from "../../utils";
 import {Web3Context} from '../../App.react';
-import { infuraProvider } from "../../utils";
+import { infuraProvider } from "../../config";
 
 const MyLoader = () => (
   <ContentLoader
@@ -72,6 +74,7 @@ function ProtektDepositCard({
   const web3Context = useContext(Web3Context);
   const gasPrice = useGasPrice("fast");
   const contracts = web3Context.ready ? useContractLoader(web3Context.provider) : useContractLoader(infuraProvider);
+  
   const coverage = useCompoundDaiCoverageMetrics(
     item,
     contracts,
@@ -82,9 +85,8 @@ function ProtektDepositCard({
     item,
     contracts
   );
-
   const accountBalances = useAccountBalances(
-    web3Context.address,
+    web3Context,
     tokenPrices,
     contracts,
     [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol],
@@ -97,20 +99,21 @@ function ProtektDepositCard({
 
   async function handleTxSuccess() {
     console.log('Successful callback')
+    useContractReader(contracts,"pcdai", "balanceOf", [web3Context.address], 5000, false, (val) => console.log)
     // let prevAccountBalances = accountBalances;
 
       // console.log('Prev bals');
       // console.log(prevAccountBalances);
 
-    setTimeout(async () => {
-      window.location.reload();
+    // setTimeout(async () => {
+      // window.location.reload();
       // let temp = await getAccountBalances(item, tokenPrices, contracts);
       // setAccountBalances(temp)
 
       // console.log('New bals');
       // console.log(temp);
 
-    }, 5000);
+    // }, 7000);
   }
 
   async function handleDepositTx(amount) {
@@ -279,10 +282,6 @@ function ProtektDepositCard({
     )
   }
 
-
-  // console.log(claimsManager)
-  // console.log(coverage)
-
   return ( (coverage.loading) ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
     <AccordionItem>
       <Card>
@@ -326,8 +325,7 @@ function ProtektDepositCard({
           </AccordionItemButton>
         </AccordionItemHeading>
         <AccordionItemPanel>
-          { (web3Context.ready &&
-              !accountBalances.loading &&
+          { (accountBalances.ready &&
                 accountBalances[item.pTokenSymbol]["token"] !== "0") ?
                   renderHoldingsCard() : <div></div>
           }
@@ -352,8 +350,8 @@ function ProtektDepositCard({
             </Grid.Row>
           </Card.Body>
           { !web3Context.ready ?
-              (<Card.Body><Header.H4 className="text-center">Connect Wallet <span role="img">👆</span></Header.H4></Card.Body>) : 
-                accountBalances.loading ? <Card.Body><Dimmer active loader /></Card.Body> : 
+              (<Card.Body><Text className="text-center font-italic">Connect Wallet Above<span role="img">👆</span></Text></Card.Body>) : 
+                !accountBalances.ready ? <Card.Body><Dimmer active loader /></Card.Body> : 
                   accountBalances[item.pTokenSymbol]["token"] === "0" ?
                     renderDepositCard() :
                       (<div></div>)
