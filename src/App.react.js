@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { BrowserRouter as Router, Route, Switch, Redirect } from "react-router-dom";
-import { network, infuraProvider } from "./config";
+import { infuraProvider } from "./config";
 import {
   Error400,
   Error401,

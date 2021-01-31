@@ -32,7 +32,8 @@ import {
   useCompoundDaiCoverageMetrics,
   useAccountBalances,
   useClaimsManager,
-  useContractLoader
+  useContractLoader,
+  useContractReader
 } from "../../hooks";
 import { Transactor } from "../../utils";
 import { Web3Context } from '../../App.react';
@@ -54,8 +55,10 @@ function StakingDepositCard({
 }: Props): React.Node {
   const web3Context = useContext(Web3Context);
   const gasPrice = useGasPrice("fast");
-  const contracts = web3Context.ready ? useContractLoader(web3Context.provider) : useContractLoader(infuraProvider);
+  const contracts = useContractLoader(web3Context.provider);
+  const [requeryToggle, setRequeryToggle] = useState(false);
   const coverage = useCompoundDaiCoverageMetrics(
+    requeryToggle,
     item,
     contracts,
     tokenPrices,
@@ -66,6 +69,7 @@ function StakingDepositCard({
     contracts
   );
   const accountBalances = useAccountBalances(
+    requeryToggle,
     web3Context,
     tokenPrices,
     contracts,
@@ -76,22 +80,20 @@ function StakingDepositCard({
   );
 
 
-  
+  // Handle requeries after a transaction
+  let queryAddress = web3Context.address ? web3Context.address : "0x"
+  const pTokenBalanceListener = useContractReader(contracts,item.shieldTokenSymbol, "balanceOf", [web3Context.address], 2000, false, (val) => console.log);  
+  if(requeryToggle && pTokenBalanceListener && accountBalances.ready &&
+      pTokenBalanceListener.toString() !== accountBalances[item.shieldTokenSymbol]["token"]
+    ) {
+    setRequeryToggle(false);
+    console.log("Requery Balances")
+  }
+
+  // Called after a successful transaction
   async function handleTxSuccess() {
-    console.log('Successful callback')
-    // let prevAccountBalances = accountBalances;
-
-      // console.log('Prev bals');
-      // console.log(prevAccountBalances);
-
-    // setTimeout(async () => {
-      // let temp = await getAccountBalances(item, tokenPrices, contracts);
-      // setAccountBalances(temp)
-
-      // console.log('New bals');
-      // console.log(temp);
-
-    // }, 5000);
+    console.log('Successful tx')
+    setRequeryToggle(true);
   }
 
   async function handleDepositTx(amount) {

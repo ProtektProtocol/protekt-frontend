@@ -48,5 +48,5 @@ export function useClaimsManager(
     }
   },[contracts]);
 
-  return setOutput;
+  return output;
 }

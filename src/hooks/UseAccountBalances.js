@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { ethers } from "ethers";
-import { BigNumber } from '@ethersproject/bignumber';
 import _ from "lodash";
 
 export async function getAccountBalances(address, tokenPrices, contracts, tokens=[], decimals=[], allowances=[], depositedToken=[]) {
@@ -57,8 +56,8 @@ export async function getAccountBalances(address, tokenPrices, contracts, tokens
   return _balances
 }
 
-
 export function useAccountBalances(
+  requeryToggle,
   web3Context,
   tokenPrices,
   contracts,
@@ -81,7 +80,7 @@ export function useAccountBalances(
       setBalances(bal);
     }
     run();      
-  },[contracts, web3Context]);
+  },[contracts, web3Context, requeryToggle]);
 
   return balances;
 }

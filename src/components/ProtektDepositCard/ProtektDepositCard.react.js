@@ -72,12 +72,12 @@ function ProtektDepositCard({
   tokenPrices,
 }: Props): React.Node {
   const web3Context = useContext(Web3Context);
-  console.log(web3Context);
-
   const gasPrice = useGasPrice("fast");
   const contracts = useContractLoader(web3Context.provider);
-  
+  const [requeryToggle, setRequeryToggle] = useState(false);
+
   const coverage = useCompoundDaiCoverageMetrics(
+    requeryToggle,
     item,
     contracts,
     tokenPrices,
@@ -88,6 +88,7 @@ function ProtektDepositCard({
     contracts
   );
   const accountBalances = useAccountBalances(
+    requeryToggle,
     web3Context,
     tokenPrices,
     contracts,
@@ -97,25 +98,20 @@ function ProtektDepositCard({
     [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol]
   );
 
+  // Handle requeries after a transaction
+  let queryAddress = web3Context.address ? web3Context.address : "0x"
+  const pTokenBalanceListener = useContractReader(contracts,item.pTokenSymbol, "balanceOf", [web3Context.address], 2000, false, (val) => console.log);  
+  if(requeryToggle && pTokenBalanceListener && accountBalances.ready &&
+      pTokenBalanceListener.toString() !== accountBalances[item.pTokenSymbol]["token"]
+    ) {
+    setRequeryToggle(false);
+    console.log("Requery Balances")
+  }
 
-
+  // Called after a successful transaction
   async function handleTxSuccess() {
-    console.log('Successful callback')
-    useContractReader(contracts,"pcdai", "balanceOf", [web3Context.address], 5000, false, (val) => console.log)
-    // let prevAccountBalances = accountBalances;
-
-      // console.log('Prev bals');
-      // console.log(prevAccountBalances);
-
-    // setTimeout(async () => {
-      // window.location.reload();
-      // let temp = await getAccountBalances(item, tokenPrices, contracts);
-      // setAccountBalances(temp)
-
-      // console.log('New bals');
-      // console.log(temp);
-
-    // }, 7000);
+    console.log('Successful tx')
+    setRequeryToggle(true);
   }
 
   async function handleDepositTx(amount) {

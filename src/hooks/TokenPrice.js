@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
-import { usePoller } from "eth-hooks";
 
 function getPriceAddressForToken(symbol) {
   const addresses = {

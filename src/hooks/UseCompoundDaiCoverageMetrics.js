@@ -72,6 +72,7 @@ export async function getCompoundDaiCoverageMetrics(item, contracts, tokenPrices
 }
 
 export function useCompoundDaiCoverageMetrics(
+  requeryToggle,
   item,
   contracts,
   tokenPrices,
@@ -103,7 +104,7 @@ export function useCompoundDaiCoverageMetrics(
     if(!_.isEmpty(contracts) && !_.isEmpty(tokenPrices)) {
       run();       
     }
-  },[contracts, tokenPrices]);
+  },[contracts, tokenPrices, requeryToggle]);
 
   return metrics;
 }

@@ -11,11 +11,7 @@ import {
 } from "tabler-react";
 
 import {
-  Accordion,
-  AccordionItem,
-  AccordionItemHeading,
-  AccordionItemButton,
-  AccordionItemPanel,
+  Accordion
 } from 'react-accessible-accordion';
 
 import Card from "../components/tablerReactAlt/src/components/Card";

@@ -10,24 +10,18 @@ import {
 } from "tabler-react";
 
 import {
-  Accordion,
-  AccordionItem,
-  AccordionItemHeading,
-  AccordionItemButton,
-  AccordionItemPanel,
+  Accordion
 } from 'react-accessible-accordion';
 
 import Card from "../components/tablerReactAlt/src/components/Card";
 import StakingDepositCard from "../components/StakingDepositCard";
 import SiteWrapper from "../SiteWrapper.react";
 
-import { useTokenPrices, useContractLoader, useLendingMarketMetrics } from "../hooks";
-import {Web3Context} from '../App.react';
+import { useTokenPrices, useLendingMarketMetrics } from "../hooks";
 import { default as protektData } from "../data";
 import { infuraProvider } from "../config";
 
 function Staking() {
-  const web3Context = useContext(Web3Context);
   const tokenPrices = useTokenPrices(
     infuraProvider,
     ['dai','cdai','weth','cusdc','usdc','ausdc']
