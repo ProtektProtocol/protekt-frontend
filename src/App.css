@@ -23,6 +23,22 @@ a:not([href]):not([tabindex]).btn-primary {
   font-size: 1rem;
 }
 
+::-webkit-input-placeholder {
+   text-align: center;
+}
+
+:-moz-placeholder { /* Firefox 18- */
+   text-align: center;  
+}
+
+::-moz-placeholder {  /* Firefox 19+ */
+   text-align: center;  
+}
+
+:-ms-input-placeholder {  
+   text-align: center; 
+}
+
 .nav-tabs .nav-link {
   border-width: 3px;
 }
