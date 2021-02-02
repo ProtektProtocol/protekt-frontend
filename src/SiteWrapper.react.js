@@ -43,15 +43,15 @@ type navItem = {|
 
 const navBarItems: Array<navItem> = [
   {
-    value: "Earn Safe Yield",
-    to: "/earn-yield",
-    icon: "dollar-sign",
+    value: "Buy Ticket",
+    to: "/buy-ticket",
+    icon: "shopping-cart",
     LinkComponent: withRouter(NavLink),
   },
   {
-    value: "Stake to Shield Mine",
-    to: "/staking",
-    icon: "shield",
+    value: "Your Earning",
+    to: "/your-earnings",
+    icon: "info",
     LinkComponent: withRouter(NavLink),
   },
   {
@@ -71,17 +71,8 @@ class SiteWrapper extends React.Component<Props, State> {
         headerProps={{
           href: "/",
           alt: "Protekt Protocol",
-          imageURL: `${process.env.PUBLIC_URL}/static/logo_protekt.png`,
+          imageURL: `${process.env.PUBLIC_URL}/static/logo-train.png`,
           navItems: [
-            (
-              <Nav.Item type="div" className="d-flex" key={1}>
-                <List className="list-inline list-inline-dots mb-0 d-none d-md-flex">
-                  <List.Item className="list-inline-item">
-                    <a href="https://docs.protektprotocol.com" target="_blank" rel="noopener noreferrer">Documentation</a>
-                  </List.Item>
-                </List>
-              </Nav.Item>
-            ),
             (
               <Nav.Item type="div" className="d-flex" key={2}>
                 <Account />
