@@ -10,6 +10,9 @@ import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers'
 // import { INFURA_ID } from "./constants";
 
 export { default as Transactor } from "./Transactor";
+export { default as sendEmail } from "./SendEmail";
+export { default as generateBurnerAccount } from "./GenerateBurnerAccount";
+export { default as GetBalanceOfERC20ForAddress } from "./GetBalanceOfERC20ForAddress";
 
 // // returns the checksummed address if the address is valid, otherwise returns false
 export function isAddress(value: any): string | false {
