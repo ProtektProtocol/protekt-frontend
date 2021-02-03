@@ -68,8 +68,9 @@ function InviteFriendPage() {
 
   // Called after a successful approval
   async function handleTxSuccess() {
-    console.log('Successful tx')
-    setLoading(false)
+    console.log('Successful tx');
+    setLoading(false);
+    setNeedsApproval(!needsApproval);
   }
 
   async function handleDepositTx() {
