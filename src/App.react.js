@@ -14,9 +14,12 @@ import EarnYieldPage from "./pages/EarnYieldPage.react";
 import StakingPage from "./pages/StakingPage.react";
 import HowItWorksPage from "./pages/HowItWorksPage.react";
 import InviteFriendPage from "./pages/InviteFriendPage.react";
+import YourEarnings from "./pages/YourEarnings.react";
+import YourEarningsSimple from "./pages/YourEarningsSimple.react";
 
 import "tabler-react/dist/Tabler.css";
 import "./App.css";
+
 
 type Props = {||};
 
@@ -68,6 +71,8 @@ function App(props: Props): React.Node {
             <Route exact path="/earn-yield" component={EarnYieldPage} />
             <Route exact path="/staking" component={StakingPage} />
             <Route exact path="/About" component={HowItWorksPage} />
+            {/* <Route path="/your-earnings/:publicKey" component={YourEarningsSimple} /> */}
+            <Route path="/your-earnings/:publicKey" component={YourEarnings} />
             <Redirect to='/invite-friends' />
             <Route component={Error404} />
           </Switch>

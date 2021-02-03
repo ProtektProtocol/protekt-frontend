@@ -13,6 +13,8 @@ export { default as useLendingMarketMetrics } from "./LendingMarketMetrics";
 export { getCompoundDaiCoverageMetrics, useCompoundDaiCoverageMetrics } from "./UseCompoundDaiCoverageMetrics";
 export { getAccountBalances, useAccountBalances } from "./UseAccountBalances";
 export { getClaimsManager, useClaimsManager } from "./UseClaimsManager";
+
+export {useInterval} from "./UseInterval";
 // export { default as usePoller } from "./Poller";
 // export { default as useBalance } from "./Balance";
 // export { default as useEventListener } from "./EventListener";
