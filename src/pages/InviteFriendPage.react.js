@@ -102,7 +102,7 @@ function InviteFriendPage() {
 
   const formik = useFormik({
     initialValues: {
-      email: 'corbin.page+test@gmail.com',
+      email: '',
     },
     validate,
     onSubmit: values => {
@@ -193,7 +193,7 @@ function InviteFriendPage() {
           </Grid.Col>
         </Grid.Row>
         <Grid.Row className="d-flex justify-content-center">
-          <Grid.Col sm={12} xl={6}>
+          <Grid.Col sm={12} lg={8}>
             <Card className="mt-9 ml-7" title={(<h2 className="mb-0">How it Works</h2>)}>
             <Card.Body>
                 <Text>
@@ -215,7 +215,7 @@ function InviteFriendPage() {
                 <Grid.Row>
                   <Grid.Col xs={12} className="text-center">
                     <div>
-                      <img src={`${process.env.PUBLIC_URL}/static/DefiTrainFlow.png`} alt={`${process.env.PUBLIC_URL}/static/DefiTrainFlow.png`} />
+                      <img src={`${process.env.PUBLIC_URL}/static/DefiTrainDiagram.png`} alt={`${process.env.PUBLIC_URL}/static/DefiTrainFlow.png`} />
                     </div>
                   </Grid.Col>
                 </Grid.Row>
