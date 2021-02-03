@@ -36,9 +36,9 @@ import {
   useAccountBalances,
   useContractLoader,
   useContractReader,
-  useClaimsManager,
-  useInterval
+  useClaimsManager
 } from "../../hooks";
+
 import { Transactor } from "../../utils";
 import {Web3Context} from '../../App.react';
 import { infuraProvider } from "../../config";
@@ -66,7 +66,7 @@ type Props = {|
   +contracts: Object,
 |};
 
-function DefiTrainEarningsCard({
+function ProtektDepositCard({
   children,
   item,
   lendingMarketMetrics,
@@ -76,14 +76,6 @@ function DefiTrainEarningsCard({
   const gasPrice = useGasPrice("fast");
   const contracts = useContractLoader(web3Context.provider);
   const [requeryToggle, setRequeryToggle] = useState(false);
-
-  const [gains, setGains] = useState(5)
-
-  useInterval(()=>{
-      setGains(gains + 0.001)
-      // state bug with this not showing
-  },1000)
-
 
   const coverage = useCompoundDaiCoverageMetrics(
     requeryToggle,
@@ -322,8 +314,10 @@ function DefiTrainEarningsCard({
                     {isLoading(coverage.loading, `${numeral(parseFloat(ethers.utils.formatUnits(coverage.pTokenTotalDepositTokens,item.underlyingTokenDecimals))).format('0,0a')} ${item.underlyingTokenSymbol.toUpperCase()}`)}
                   </Text>
                 </Grid.Col>
-                <Grid.Col width={2}>
-                  <Text size="h4" align="center" className="mb-0">{isLoading(coverage.loading, `${numeral(gains).format('0.000')}`)}</Text>
+                <Grid.Col width={3} className="text-center">
+                  <Tag.List>
+                    <Tag rounded color="purple">{item.riskTag}</Tag>
+                  </Tag.List>
                 </Grid.Col>
               </Grid.Row>
             </Card.Body>
@@ -338,7 +332,7 @@ function DefiTrainEarningsCard({
             <Grid.Row>
               <Grid.Col width={6}>
                 <h5 className="m-0 text-muted">{`COST`}</h5>
-                <p>{coverage.loading ? <MyLoader/> : `${numeral(coverage.coverageFeeAPR).format('0.00')}% for ${coverage.coverageRatioDisplay} coverage`}</p>
+                <p>{`${numeral(coverage.coverageFeeAPR).format('0.00')}% for ${coverage.coverageRatioDisplay} coverage`}</p>
                 <h5 className="m-0 text-muted">{`BACKED BY`}</h5>
                 <p>{`${item.backedByDisplay}`}</p>
               </Grid.Col>
@@ -350,7 +344,7 @@ function DefiTrainEarningsCard({
             <Grid.Row>
               <Grid.Col width={12}>
                 <h5 className="m-0 text-muted">{`COVERAGE FOR`}</h5>
-                <p>{isLoading(coverage.loading, `${item.coverageDisplay}`)}</p>
+                <p>{`${item.coverageDisplay}`}</p>
               </Grid.Col>
             </Grid.Row>
           </Card.Body>
@@ -368,4 +362,4 @@ function DefiTrainEarningsCard({
 }
 
 /** @component */
-export default DefiTrainEarningsCard;
+export default ProtektDepositCard;

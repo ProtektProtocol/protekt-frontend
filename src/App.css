@@ -66,3 +66,27 @@ a:not([href]):not([tabindex]).btn-primary {
   outline: none !important;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
+@media (min-width: 576px) {
+  .ticket-form {
+    background-image: url(/static/referralTicket.png) !important;
+    background-repeat: no-repeat  !important;
+    background-size: 100% 100%  !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .ticket-form {
+  background: transparent !important;
+  }
+}
+
+.ticket-form {
+  height: 100%;
+  width: 100%;
+  min-height: 400px;
+  padding-top: 80px;
+}

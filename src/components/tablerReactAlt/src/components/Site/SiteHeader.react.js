@@ -1,7 +1,7 @@
 // @flow
 
 import * as React from "react";
-import { Container, Site, AccountDropdown } from "../";
+import { Container, Site, AccountDropdown, Header } from "../";
 import type { Props as NotificationTrayProps } from "../Notification/NotificationTray.react";
 import type { Props as AccountDropdownProps } from "../AccountDropdown/AccountDropdown.react";
 

@@ -69,6 +69,18 @@ export default function Transactor(provider, cb, gasPrice, etherscan) {
               onclick: () => window.open((etherscan || etherscanTxUrl) + transaction.hash),
             };
           });
+          emitter.on('txCancel', transaction => {
+            cb();
+            return {
+              onclick: () => window.open((etherscan || etherscanTxUrl) + transaction.hash),
+            };
+          });
+          emitter.on('txFailed', transaction => {
+            cb();
+            return {
+              onclick: () => window.open((etherscan || etherscanTxUrl) + transaction.hash),
+            };
+          });
         } else {
           notification.info({
             message: "Local Transaction Sent",
