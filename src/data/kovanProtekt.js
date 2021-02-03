@@ -28,7 +28,7 @@ const data = {
           underlyingTokenDecimals: 8,
           pTokenDecimals: 8,
           pTokenSymbol: 'pcdai',
-          pTokenAddress: '0xae3b9afFFDffB4ab625693655edB8107a8183A8E',
+          pTokenAddress: '0x5401a62844D9ff204B4d8246BCA9Dd4A7C5f5D7F',
           feeModelAddress: '0xDF1b1c58FC59cbCe9e11c37aD239B37Cf56e7a5A',
   
           // Shield Token

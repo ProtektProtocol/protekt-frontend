@@ -64,10 +64,9 @@ function InviteFriendPage() {
     if(web3Context.address && referralToken && !_.isEmpty(contracts)) {
       run();       
     }
-  },[web3Context, contracts]);
+  },[web3Context, contracts, loading]);
 
-
-  // Called after a successful transaction
+  // Called after a successful approval
   async function handleTxSuccess() {
     console.log('Successful tx')
     setLoading(false)
@@ -82,7 +81,7 @@ function InviteFriendPage() {
       const allowanceAmount = await contracts[referralToken.coreToken]["allowance"](...[web3Context.address, protektData.contracts[referralToken.pTokenSymbol]["address"]]);
 
       if(weiAmount.gt(allowanceAmount)) {
-        tx(contracts[referralToken.coreToken]["approve"](protektData.contracts[referralToken.pTokenSymbol]["address"], ethers.utils.parseUnits('1000000',referralToken.underlyingTokenDecimals)));
+        tx(contracts[referralToken.coreToken]["approve"](protektData.contracts[referralToken.pTokenSymbol]["address"], weiAmount));
       } else {
         // depositCoreTokens(uint256 _amount, address depositor, address referer)
         tx(contracts[referralToken.pTokenSymbol]["depositCoreTokens(uint256,address,address)"](weiAmount, burnerWalletAddress, web3Context.address));
@@ -92,9 +91,9 @@ function InviteFriendPage() {
 
   const validate = values => {
     const errors = {};
-    if (!values.email) {
+    if (!values.email && !needsApproval) {
       errors.email = 'Required';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)) {
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email) && !needsApproval) {
       errors.email = 'Invalid email';
     }
     return errors;
@@ -151,6 +150,7 @@ function InviteFriendPage() {
                                 name="email"
                                 type="email"
                                 placeholder="friend@tradfi.com"
+                                disabled={needsApproval}
                                 value={formik.values.email}
                                 className={"form-control input-group-text"}
                                 onChange={formik.handleChange}
@@ -171,7 +171,7 @@ function InviteFriendPage() {
                             value="Submit"
                             className="color mt-2 mr-2"
                             >
-                            {needsApproval ? "Approve" : "Approved"}
+                            {needsApproval ? "First you need to Approve" : "Approved"}
                           </Button>
                           <Button
                             color="teal"
