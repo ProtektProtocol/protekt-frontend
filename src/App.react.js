@@ -70,7 +70,7 @@ function App(props: Props): React.Node {
             <Route exact path="/choo" component={WaitingDeFiTrain} />
             <Route exact path="/buy-ticket" component={InviteFriendPage} />
             <Route exact path="/deposits/:address" component={DepositsPage} />
-            <Redirect to='/choo' />
+            <Redirect to='/buy-ticket' />
             <Route component={Error404} />
           </Switch>
         </Router>
