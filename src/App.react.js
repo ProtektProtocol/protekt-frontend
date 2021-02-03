@@ -15,6 +15,7 @@ import {
 import HowItWorksPage from "./pages/HowItWorksPage.react";
 import InviteFriendPage from "./pages/InviteFriendPage.react";
 import DepositsPage from "./pages/DepositsPage.react";
+import WaitingDeFiTrain from "./pages/WaitingDeFiTrain.react";
 
 import "tabler-react/dist/Tabler.css";
 import "./App.css";
@@ -59,6 +60,8 @@ function App(props: Props): React.Node {
       <Web3Context.Provider value={web3Context}>
         <Router>
           <Switch>
+            <Route exact path="/choo" component={WaitingDeFiTrain} />
+            <Route exact path="/400" component={Error400} />
             <Route exact path="/400" component={Error400} />
             <Route exact path="/401" component={Error401} />
             <Route exact path="/403" component={Error403} />
@@ -67,7 +70,7 @@ function App(props: Props): React.Node {
             <Route exact path="/503" component={Error503} />
             <Route exact path="/buy-ticket" component={InviteFriendPage} />
             <Route exact path="/deposits/:address" component={DepositsPage} />
-            <Redirect to='/buy-ticket' />
+            <Redirect to='/choo' />
             <Route component={Error404} />
           </Switch>
         </Router>
