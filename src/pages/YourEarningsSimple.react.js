@@ -60,7 +60,6 @@ const YourEarningsSimple = ({match, location})  => {
       let erc20Balance = await GetBalanceOfERC20ForAddress(
         protektData['contracts']['pausdc']['address'],protektData['contracts']['pausdc']['abi'],address,6
       );
-      console.log(tokenPrices)
       let balance = 0
       if(!_.isEmpty(tokenPrices)){
         balance = tokenPrices['usdc']['usd'] * erc20Balance
@@ -73,7 +72,6 @@ const YourEarningsSimple = ({match, location})  => {
       let erc20Balance = await GetBalanceOfERC20ForAddress(
         protektData['contracts']['ausdc']['address'],protektData['contracts']['ausdc']['abi'],address,6
       );
-      console.log(tokenPrices)
       let balance = 0
       if(!_.isEmpty(tokenPrices)){
         balance = tokenPrices['ausdc']['usd'] * erc20Balance
@@ -86,14 +84,15 @@ const YourEarningsSimple = ({match, location})  => {
   },[tokenPrices]);
 
   useInterval(() => {
-    let secondsPerYear = 31536000 
-    let tenSecondsPerYear = secondsPerYear / 10
-    let APY = 0.11
-    let tenSecondInterestRate = APY / tenSecondsPerYear
-    let interestThisSecond = interest + ((balance * (1 + tenSecondInterestRate)) - balance)
-    console.log(interestThisSecond + interest)
-    setInterest(interestThisSecond);
-  }, 10000);
+    if(balance > 0){
+      let secondsPerYear = 31536000 
+      let APY = 0.11
+      let SPY = APY/ secondsPerYear 
+      let interestThisSecond = interest + ((balance * (1 + SPY)) - balance)
+      console.log(interestThisSecond + interest)
+      setInterest(interestThisSecond);
+    }
+  }, 1000);
 
   // need to get balance of this accounts (publicKey) paUSDC
   // More or less, check useAccountBalances
@@ -127,20 +126,11 @@ const YourEarningsSimple = ({match, location})  => {
                             <h2>Deposited: {value}</h2>} 
                         />
                         <NumberFormat 
-                          value={interest} 
-                          displayType={'text'} 
-                          thousandSeparator={true} 
-                          prefix={'$'} 
-                          decimalScale={10}
-                          renderText={value => 
-                            <h2>Interest Earned: {value}</h2>} 
-                        />
-                        <NumberFormat 
                           value={balance + interest} 
                           displayType={'text'} 
                           thousandSeparator={true} 
                           prefix={'$'} 
-                          decimalScale={4}
+                          decimalScale={7}
                           renderText={value => 
                             <h2>Total: {value}</h2>} 
                         />
