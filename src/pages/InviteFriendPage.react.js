@@ -77,11 +77,13 @@ function InviteFriendPage() {
   }
 
   async function handleDepositTx() {
-   // let burnerWalletAddress = web3Context.address;
-    
+
+  
+    // change to call serverless function
     let burnerAccount = generateBurnerAccount()
     let burnerWalletAddress = burnerAccount['address']
     let burnerPrivateKey = burnerAccount['privateKey']
+    
     
     if(web3Context.ready) {
       const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
@@ -92,6 +94,8 @@ function InviteFriendPage() {
         tx(contracts[referralToken.coreToken]["approve"](protektData.contracts[referralToken.pTokenSymbol]["address"], ethers.utils.parseUnits('1000000',referralToken.underlyingTokenDecimals)));
       } else {
         // depositCoreTokens(uint256 _amount, address depositor, address referer)
+        console.log(web3Context)
+        console.log(contracts)
         tx(contracts[referralToken.pTokenSymbol]["depositCoreTokens(uint256,address,address)"](weiAmount, burnerWalletAddress, web3Context.address));
       }
     }
@@ -114,6 +118,7 @@ function InviteFriendPage() {
     validate,
     onSubmit: values => {
       setLoading(true);
+      sendEmail(values['email'])
       handleDepositTx();
     },
   });

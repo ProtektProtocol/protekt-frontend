@@ -67,6 +67,7 @@ const data = {
         underlyingTokenDecimals: 6,
         pTokenSymbol: 'pausdc',
         pTokenDecimals: 6,
+        pTokenAddress:'0xe12AFeC5aa12Cf614678f9bFeeB98cA9Bb95b5B0',
 
         // Referral Token
         referralTokenSymbol: 'riausdc',

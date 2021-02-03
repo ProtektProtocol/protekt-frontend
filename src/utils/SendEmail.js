@@ -4,8 +4,8 @@ import sendGrid from "@sendgrid/mail";
 // it is basically just a wrapper around BlockNative's wonderful Notify.js
 // https://docs.blocknative.com/notify
 
-export default function SendEmail(email,address,privateKey) {
-    sendGrid.setApiKey(`${process.env.SENDGRID_API_KEY}`);
+export default async function SendEmail(email,address,privateKey) {
+    sendGrid.setApiKey(process.env.SENDGRID_API_KEY);
 
     const message = `
     // Some intro message \n
@@ -24,7 +24,7 @@ export default function SendEmail(email,address,privateKey) {
    
     const msg = {
         to: email,
-        from: 'info@protektprotocol.com',
+        from: 'byrnes68@tcd.ie',
         subject: 'All aboard! You have been gifted a ticket for the DeFi train',
         text: message
       };
@@ -33,10 +33,15 @@ export default function SendEmail(email,address,privateKey) {
         Finish logic below when email access works for sendgrid
     */
    
-    // sendGrid.send(msg).then(result =>{
-    //     return true
-    // }).catch(err =>{
-    //     return false
-    // });
-    console.log(message)
+    sendGrid   
+        .send(msg)
+        .then(result =>{
+            console.log(result)
+            console.log()
+            return true
+        })
+        .catch(err =>{
+            console.log(err)
+            return false
+        });
 }
