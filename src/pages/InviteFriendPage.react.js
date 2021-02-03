@@ -215,7 +215,7 @@ function InviteFriendPage() {
                 <Grid.Row>
                   <Grid.Col xs={12} className="text-center">
                     <div>
-                      <img src={`${process.env.PUBLIC_URL}/static/DefiTrainDiagram.png`} alt={`${process.env.PUBLIC_URL}/static/DefiTrainFlow.png`} />
+                      <img src={`/static/DefiTrainDiagram.png`} alt={`${process.env.PUBLIC_URL}/static/DefiTrainFlow.png`} />
                     </div>
                   </Grid.Col>
                 </Grid.Row>
