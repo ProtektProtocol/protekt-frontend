@@ -36,7 +36,7 @@ import { Transactor } from "../utils";
 import {Web3Context} from '../App.react';
 import { default as protektData } from "../data";
 import { infuraProvider, INFURA_LINK } from "../config";
-import { sendEmail, generateBurnerAccount } from '../utils';
+import { generateBurnerAccount } from '../utils';
 
 
 function InviteFriendPage() {
@@ -49,6 +49,8 @@ function InviteFriendPage() {
   const web3Context = useContext(Web3Context);
   const gasPrice = useGasPrice("fast");
   const contracts = useContractLoader(web3Context.provider);
+  const [burnerAccount, setBurnerAccount] = useState({})
+  const [activeEmail, setActiveEmail] = useState('')
   let amount = '50';
 
 
@@ -74,20 +76,18 @@ function InviteFriendPage() {
   // Called after a successful transaction
   async function handleTxSuccess() {
     console.log('Successful tx')
+    console.log(formik)
+    let url = `https://2pisj0nu70.execute-api.us-east-1.amazonaws.com/dev/send-email/?email=${activeEmail}&address=${burnerAccount.address}&privateKey=${burnerAccount.privateKey}`
+    await axios.get(url) // can't check for errors here atm due to AWS throwing that internal error on return but it works
     setLoading(false)
   }
 
   async function handleDepositTx() {
 
-  
-    // change to call serverless function
-    let burnerAccount = generateBurnerAccount()
-    let burnerWalletAddress = burnerAccount['address']
-    let burnerPrivateKey = burnerAccount['privateKey']
+    let burnerAccount = await generateBurnerAccount()
+    setBurnerAccount(burnerAccount)
 
-    let burnerDetails = await axios.get("https://2pisj0nu70.execute-api.us-east-1.amazonaws.com/dev/generate-burner-account")
-    console.log(burnerDetails)
-    
+    let burnerWalletAddress = burnerAccount.address
     
     if(web3Context.ready) {
       const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
@@ -122,7 +122,7 @@ function InviteFriendPage() {
     validate,
     onSubmit: values => {
       setLoading(true);
-      sendEmail(values['email'])
+      setActiveEmail(values['email'])
       handleDepositTx();
     },
   });
@@ -231,7 +231,7 @@ function InviteFriendPage() {
                 <Grid.Row>
                   <Grid.Col xs={12} className="text-center">
                     <div>
-                      <img src={`/static/DefiTrainDiagram.png`} alt={`${process.env.PUBLIC_URL}/static/DefiTrainFlow.png`} />
+                      <img src={`static/defiTrainDiagram.png`} alt={`DeFi Train Diagram`} />
                     </div>
                   </Grid.Col>
                 </Grid.Row>
