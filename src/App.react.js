@@ -15,10 +15,13 @@ import {
 import HowItWorksPage from "./pages/HowItWorksPage.react";
 import InviteFriendPage from "./pages/InviteFriendPage.react";
 import DepositsPage from "./pages/DepositsPage.react";
+import YourEarningsSimple from "./pages/YourEarningsSimple.react";
+import YourEarnings from "./pages/YourEarnings.react";
 import WaitingDeFiTrain from "./pages/WaitingDeFiTrain.react";
 
 import "tabler-react/dist/Tabler.css";
 import "./App.css";
+
 
 type Props = {||};
 
@@ -70,6 +73,9 @@ function App(props: Props): React.Node {
             <Route exact path="/choo" component={WaitingDeFiTrain} />
             <Route exact path="/buy-ticket" component={InviteFriendPage} />
             <Route exact path="/deposits/:address" component={DepositsPage} />
+            <Route exact path="/your-earnings/:address" component={YourEarningsSimple} />
+            {/* <Route exact path="/your-earnings/" component={YourEarnings} /> */}
+            <Redirect to='/choo' />
             <Redirect to='/buy-ticket' />
             <Route component={Error404} />
           </Switch>
