@@ -1,1 +1,0 @@
-pausdc.js

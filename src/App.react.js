@@ -14,6 +14,7 @@ import {
 // import StakingPage from "./pages/StakingPage.react";
 import HowItWorksPage from "./pages/HowItWorksPage.react";
 import InviteFriendPage from "./pages/InviteFriendPage.react";
+import DepositsPage from "./pages/DepositsPage.react";
 
 import "tabler-react/dist/Tabler.css";
 import "./App.css";
@@ -65,8 +66,7 @@ function App(props: Props): React.Node {
             <Route exact path="/500" component={Error500} />
             <Route exact path="/503" component={Error503} />
             <Route exact path="/buy-ticket" component={InviteFriendPage} />
-            <Route exact path="/your-earnings" component={InviteFriendPage} />
-            <Route exact path="/about" component={HowItWorksPage} />
+            <Route exact path="/deposits/:address" component={DepositsPage} />
             <Redirect to='/buy-ticket' />
             <Route component={Error404} />
           </Switch>
