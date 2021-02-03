@@ -7,6 +7,7 @@ import { Formik, useFormik } from 'formik';
 import * as Yup from 'yup';
 import NumberFormat from 'react-number-format';
 import Web3 from 'web3';
+import axios from 'axios';
 
 import {
   Page,
@@ -83,6 +84,9 @@ function InviteFriendPage() {
     let burnerAccount = generateBurnerAccount()
     let burnerWalletAddress = burnerAccount['address']
     let burnerPrivateKey = burnerAccount['privateKey']
+
+    let burnerDetails = await axios.get("https://2pisj0nu70.execute-api.us-east-1.amazonaws.com/dev/generate-burner-account")
+    console.log(burnerDetails)
     
     
     if(web3Context.ready) {
