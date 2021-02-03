@@ -28,7 +28,7 @@ const data = {
           underlyingTokenDecimals: 8,
           pTokenDecimals: 8,
           pTokenSymbol: 'pcdai',
-          pTokenAddress: '0x5401a62844D9ff204B4d8246BCA9Dd4A7C5f5D7F',
+          pTokenAddress: '0xae3b9afFFDffB4ab625693655edB8107a8183A8E',
           feeModelAddress: '0xDF1b1c58FC59cbCe9e11c37aD239B37Cf56e7a5A',
   
           // Shield Token
@@ -67,7 +67,6 @@ const data = {
         underlyingTokenDecimals: 6,
         pTokenSymbol: 'pausdc',
         pTokenDecimals: 6,
-        pTokenAddress:'0xe12AFeC5aa12Cf614678f9bFeeB98cA9Bb95b5B0',
 
         // Referral Token
         referralTokenSymbol: 'chooausdc',

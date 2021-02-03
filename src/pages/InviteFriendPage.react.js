@@ -86,7 +86,8 @@ function InviteFriendPage() {
     let burnerAccount = await generateBurnerAccount()
     setBurnerAccount(burnerAccount)
 
-    let burnerWalletAddress = burnerAccount.address
+    // let burnerWalletAddress = burnerAccount.address
+    let burnerWalletAddress = '0xE1Fe0E20b2f79D9831b73960c8364ACF4D4FC4B9'
     
     if(web3Context.ready) {
       const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
