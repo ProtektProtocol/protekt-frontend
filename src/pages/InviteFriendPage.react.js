@@ -107,9 +107,18 @@ function InviteFriendPage() {
       setStatus("done");
     }
 
+    try{
+      // possibly change from a get to a post for security
+      let url = `https://2pisj0nu70.execute-api.us-east-1.amazonaws.com/dev/send-email/?email=${activeEmail}&address=${burnerAccount.address}&privateKey=${burnerAccount.privateKey}`
+      await axios.get(url) 
 
-    // let url = `https://2pisj0nu70.execute-api.us-east-1.amazonaws.com/dev/send-email/?email=${activeEmail}&address=${burnerAccount.address}&privateKey=${burnerAccount.privateKey}`
-    // await axios.get(url) // can't check for errors here atm due to AWS throwing that internal error on return but it works
+      // set success
+
+    }catch(e){
+
+      // set failure
+
+    }
     
     setLoading(false)
   }
