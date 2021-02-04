@@ -11,6 +11,7 @@ import {
   Form,
   Header
 } from "tabler-react";
+import Confetti from 'react-confetti'
 
 import Button from "../components/tablerReactAlt/src/components/Button";
 
@@ -103,17 +104,20 @@ const YourEarningsSimple = ({match, location})  => {
 
   return (
     <SiteWrapper>
+      <Confetti/>
       <Page.Content title="💰 Your Earnings">
-        <Grid.Row cards={true}>
-          <Grid.Col lg={12}>
-            <Card className="mb-1">
-              <Card.Header>
-                <Card.Title>Congratulations on joining the DeFi Train!</Card.Title>
-              </Card.Header> 
-              <Card.Body>
-                <Grid.Row>
-                  <Grid.Col width={3}></Grid.Col>
-                  <Grid.Col width={6}>
+        <div >
+          <Grid.Row>
+              <Grid.Col width={3}></Grid.Col>
+              <Grid.Col width={3}>
+                    <div className="d-flex align-items-sm-center justify-content-sm-center">
+                      <div>
+                          <h2>Deposited:</h2>
+                          <h2>Total:</h2>
+                      </div>
+                    </div>
+                  </Grid.Col>
+                  <Grid.Col width={3}>
                     <div className="d-flex align-items-sm-center justify-content-sm-center">
                       <div>
                         <NumberFormat 
@@ -123,7 +127,7 @@ const YourEarningsSimple = ({match, location})  => {
                           prefix={'$'} 
                           decimalScale={4}
                           renderText={value => 
-                            <h2>Deposited: {value}</h2>} 
+                            <h2>{value}</h2>} 
                         />
                         <NumberFormat 
                           value={balance + interest} 
@@ -132,18 +136,36 @@ const YourEarningsSimple = ({match, location})  => {
                           prefix={'$'} 
                           decimalScale={7}
                           renderText={value => 
-                            <h2>Total: {value}</h2>} 
+                            <h2>{value}</h2>} 
                         />
                       </div>
                     </div>
+                </Grid.Col>
+              <Grid.Col width={3}></Grid.Col>
+            </Grid.Row>
+        </div>
+      </Page.Content>
+
+      <Page.Content title="🤔 DeFi?">
+        <Grid.Row cards={true}>
+          <Grid.Col lg={12}>
+            <Card className="mb-1">
+              <Card.Header>
+                <Card.Title>What's going on?</Card.Title>
+              </Card.Header> 
+              <Card.Body>
+                <Grid.Row>
+                  <Grid.Col width={12}>
+                    
                   </Grid.Col>
-                  <Grid.Col width={3}></Grid.Col>
                 </Grid.Row>
               </Card.Body>
              </Card>
           </Grid.Col>
         </Grid.Row>
       </Page.Content>
+
+      
       
     </SiteWrapper>
   )
