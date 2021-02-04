@@ -78,23 +78,23 @@ function InviteFriendPage() {
 
 
   const [needsApproval, setNeedsApproval] = useState(true);
-  // useEffect(() => {
-  //   async function run() {
-  //     const weiAmount = ethers.utils.parseUnits('50', referralToken.underlyingTokenDecimals);
-  //     const allowanceAmount = await contracts[referralToken.coreToken]["allowance"](...[web3Context.address, protektData.contracts[referralToken.pTokenSymbol]["address"]]);
+  useEffect(() => {
+    async function run() {
+      const weiAmount = ethers.utils.parseUnits('50', referralToken.underlyingTokenDecimals);
+      const allowanceAmount = await contracts[referralToken.coreToken]["allowance"](...[web3Context.address, protektData.contracts[referralToken.pTokenSymbol]["address"]]);
 
-  //     if(weiAmount.gt(allowanceAmount)) {
-  //       setStatus("approval");
-  //     } else {
-  //       setStatus("deposit");
-  //     }
-  //   }
+      if(weiAmount.gt(allowanceAmount)) {
+        setStatus("approval");
+      } else {
+        setStatus("deposit");
+      }
+    }
 
-  //   if(web3Context.address && referralToken && !_.isEmpty(contracts)) {
-  //     console.log("rerun")
-  //     run();       
-  //   }
-  // },[web3Context, contracts]);
+    if(web3Context.address && referralToken && !_.isEmpty(contracts)) {
+      console.log("rerun")
+      run();       
+    }
+  },[web3Context, contracts]);
 
   // Called after a successful approval
   function handleTxSuccess() {
@@ -264,7 +264,7 @@ function InviteFriendPage() {
                                 value="Submit"
                                 className="color mt-2 ml-2"
                                 >
-                                { `Buy Ticket & Send` }
+                                { `Buy & Send` }
                               </Button>
                           </Form.Group>
                         </Form>
