@@ -33,11 +33,11 @@ import {
 } from "../hooks";
 
 import { Transactor } from "../utils";
-import {Web3Context} from '../App.react';
+import { Web3Context } from '../App.react';
 import { default as protektData } from "../data";
 import { infuraProvider, INFURA_LINK } from "../config";
 import { generateBurnerAccount } from '../utils';
-
+import { GetBalanceOfERC20ForAddress } from '../utils'
 
 function InviteFriendPage() {
   const [loading, setLoading] = useState(false);
@@ -52,12 +52,33 @@ function InviteFriendPage() {
   const [burnerAccount, setBurnerAccount] = useState({})
   const [activeEmail, setActiveEmail] = useState('')
   let amount = '50';
+  
+  const [balance, setBalance] = useState(0)
+  useEffect(() => {
+    async function run() {
+      let erc20Balance = await GetBalanceOfERC20ForAddress(
+        protektData['contracts']['pausdc']['address'],
+        protektData['contracts']['pausdc']['abi'],
+        web3Context.address,
+        6
+      );
+      let balance = 0
+      if(!_.isEmpty(tokenPrices)){
+        balance = tokenPrices['usdc']['usd'] * erc20Balance
+      }
+      setBalance(balance)
+    }
+
+    if(web3Context.ready && web3Context.address) {
+      run();       
+    }
+  },[tokenPrices, web3Context]);
 
 
   const [needsApproval, setNeedsApproval] = useState(true);
   useEffect(() => {
     async function run() {
-      const weiAmount = ethers.utils.parseUnits('30', referralToken.underlyingTokenDecimals);
+      const weiAmount = ethers.utils.parseUnits('50', referralToken.underlyingTokenDecimals);
       const allowanceAmount = await contracts[referralToken.coreToken]["allowance"](...[web3Context.address, protektData.contracts[referralToken.pTokenSymbol]["address"]]);
 
       if(weiAmount.gt(allowanceAmount)) {
@@ -68,17 +89,19 @@ function InviteFriendPage() {
     }
 
     if(web3Context.address && referralToken && !_.isEmpty(contracts)) {
+      console.log("rerun")
       run();       
     }
   },[web3Context, contracts, loading]);
 
   // Called after a successful approval
-  async function handleTxSuccess() {
+  function handleTxSuccess() {
     console.log('Successful tx')
     // let url = `https://2pisj0nu70.execute-api.us-east-1.amazonaws.com/dev/send-email/?email=${activeEmail}&address=${burnerAccount.address}&privateKey=${burnerAccount.privateKey}`
     // await axios.get(url) // can't check for errors here atm due to AWS throwing that internal error on return but it works
-    setLoading(false)
+    console.log(needsApproval)
     setNeedsApproval(!needsApproval);
+    setLoading(false)
   }
 
   async function handleDepositTx() {
@@ -113,6 +136,8 @@ function InviteFriendPage() {
       errors.email = 'Required';
     } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email) && !needsApproval) {
       errors.email = 'Invalid email';
+    } else if (web3Context.ready && balance < 50) {
+      errors.balance = 'Need at least $50 USDC';
     }
     return errors;
   };
@@ -120,6 +145,7 @@ function InviteFriendPage() {
   const formik = useFormik({
     initialValues: {
       email: '',
+      balance: 50
     },
     validate,
     onSubmit: values => {
@@ -137,7 +163,7 @@ function InviteFriendPage() {
   return (
     <SiteWrapper>
       <Page.Content>
-        <Grid.Row cards={true}>
+        <Grid.Row cards={true} className="d-flex justify-content-center">
           <Grid.Col xs={12} sm={12} lg={10} offsetSm={1} class="text-center position-relative">
             <div className="mb-1 position-relative ticket-form">
               <Card.Body className="text-center">
@@ -157,6 +183,7 @@ function InviteFriendPage() {
                         RootComponent="span" 
                       />
                     </div>
+                    {true && <span className="invalid-feedback">{"formik.errors.balance"}</span>}
                     <Text size="h5" className="mt-4">
                       {`GIVE TO`}
                     </Text>
@@ -173,7 +200,7 @@ function InviteFriendPage() {
                                 value={formik.values.email}
                                 className={"form-control input-group-text"}
                                 onChange={formik.handleChange}
-                                feedback={formik.errors.email}
+                                feedback={formik.errors.balance || formik.errors.email}
                                 invalid={formik.errors.email}
                               />
                             </Form.InputGroup>
@@ -213,7 +240,7 @@ function InviteFriendPage() {
         </Grid.Row>
         <Grid.Row className="d-flex justify-content-center">
           <Grid.Col sm={12} lg={8}>
-            <Card className="mt-9 ml-7" title={(<h2 className="mb-0">How it Works</h2>)}>
+            <Card className="mt-9" title={(<h2 className="mb-0">How it Works</h2>)}>
             <Card.Body>
                 <Text>
 👻 Using Aave is the best way to learn about DeFi...
