@@ -41,20 +41,7 @@ type navItem = {|
   +useExact?: boolean,
 |};
 
-const navBarItems: Array<navItem> = [
-  {
-    value: "Buy Ticket",
-    to: "/buy-ticket",
-    icon: "shopping-cart",
-    LinkComponent: withRouter(NavLink),
-  },
-  {
-    value: "Your Earning",
-    to: "/your-earnings",
-    icon: "info",
-    LinkComponent: withRouter(NavLink),
-  }
-];
+const navBarItems: Array<navItem> = [];
 
 class SiteWrapper extends React.Component<Props, State> {
   state = {};
@@ -65,7 +52,7 @@ class SiteWrapper extends React.Component<Props, State> {
         headerProps={{
           href: "/",
           alt: "Protekt Protocol",
-          imageURL: `${process.env.PUBLIC_URL}/static/logo-train.png`,
+          imageURL: `${process.env.PUBLIC_URL}/static/logo-train-long-no-title.png`,
           navItems: [
             (
               <Nav.Item type="div" className="d-flex" key={2}>
