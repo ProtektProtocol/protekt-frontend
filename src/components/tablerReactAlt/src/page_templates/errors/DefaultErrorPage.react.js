@@ -25,7 +25,8 @@ function DefaultErrorPage(props: Props): React.Node {
   };
 
   const {
-    title = "Error",
+    img,
+    title,
     subtitle = "Sorry an unkown error occurred",
     details,
     action = "Go back",
@@ -33,7 +34,8 @@ function DefaultErrorPage(props: Props): React.Node {
   return (
     <Page className="text-center">
       <Container>
-        <Header.H1 className="display-1 text-muted mb-5">{title}</Header.H1>
+        { img }
+        {title && <Header.H1 className="display-1 text-muted mb-5">{title}</Header.H1>}
         <Header.H2>{subtitle}</Header.H2>
         {details && (
           <Header.H4 className="text-muted font-weight-normal mb-7">

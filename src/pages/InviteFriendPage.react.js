@@ -19,6 +19,7 @@ import {
 } from "tabler-react";
 
 import Form from "../components/tablerReactAlt/src/components/Form";
+import Confetti from 'react-confetti'
 
 import Card from "../components/tablerReactAlt/src/components/Card";
 import Button from "../components/tablerReactAlt/src/components/Button";
@@ -41,6 +42,7 @@ import { GetBalanceOfERC20ForAddress } from '../utils'
 
 function InviteFriendPage() {
   const [loading, setLoading] = useState(false);
+  const [status, setStatus] = useState("done");
   const referralToken = protektData.referralToken;
   const tokenPrices = useTokenPrices(
     infuraProvider,
@@ -82,9 +84,9 @@ function InviteFriendPage() {
       const allowanceAmount = await contracts[referralToken.coreToken]["allowance"](...[web3Context.address, protektData.contracts[referralToken.pTokenSymbol]["address"]]);
 
       if(weiAmount.gt(allowanceAmount)) {
-        setNeedsApproval(true);
+        setStatus("approval");
       } else {
-        setNeedsApproval(false);
+        setStatus("deposit");
       }
     }
 
@@ -92,20 +94,27 @@ function InviteFriendPage() {
       console.log("rerun")
       run();       
     }
-  },[web3Context, contracts, loading]);
+  },[web3Context, contracts]);
 
   // Called after a successful approval
   function handleTxSuccess() {
     console.log('Successful tx')
+    if(status === "approval") {
+      // Approval tx
+      setStatus("deposit");
+    } else if (status === "deposit") {
+      // Deposit Tx
+      setStatus("done");
+    }
+
+
     // let url = `https://2pisj0nu70.execute-api.us-east-1.amazonaws.com/dev/send-email/?email=${activeEmail}&address=${burnerAccount.address}&privateKey=${burnerAccount.privateKey}`
     // await axios.get(url) // can't check for errors here atm due to AWS throwing that internal error on return but it works
-    console.log(needsApproval)
-    setNeedsApproval(!needsApproval);
+    
     setLoading(false)
   }
 
   async function handleDepositTx() {
-
     let burnerAccount = await generateBurnerAccount()
     setBurnerAccount(burnerAccount)
 
@@ -132,12 +141,13 @@ function InviteFriendPage() {
 
   const validate = values => {
     const errors = {};
-    if (!values.email && !needsApproval) {
+    if (web3Context.ready && balance < 50) {
+      errors.email = `You'll need at least $50 USDC`;
+    }
+    else if (!values.email && status === "deposit") {
       errors.email = 'Required';
-    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email) && !needsApproval) {
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i.test(values.email)  && status === "deposit") {
       errors.email = 'Invalid email';
-    } else if (web3Context.ready && balance < 50) {
-      errors.balance = 'Need at least $50 USDC';
     }
     return errors;
   };
@@ -155,86 +165,116 @@ function InviteFriendPage() {
     },
   });
 
-  // console.log('needsApproval',needsApproval);
   // console.log('loading',loading);
-  // console.log('txStatus',txStatus);
+  console.log('status',status);
   // console.log(contracts[referralToken.pTokenSymbol]);
 
   return (
     <SiteWrapper>
       <Page.Content>
+        { status === "done" ? <Confetti/> : <div></div> }
         <Grid.Row cards={true} className="d-flex justify-content-center">
-          <Grid.Col xs={12} sm={12} lg={10} offsetSm={1} class="text-center position-relative">
+          <Grid.Col xs={12} sm={12} lg={10} class="text-center position-relative">
             <div className="mb-1 position-relative ticket-form">
-              <Card.Body className="text-center">
-                <Grid.Row cards={true}>
-                  <Grid.Col xs={12} sm={8} offsetSm={1} class="text-center">
-                    <div className="d-flex align-items-sm-center justify-content-sm-center">
-                      <Text size="h5" className="mr-2 mb-0" RootComponent="span" >
-                        {`BUY FOR`}
-                      </Text>
-                      <Text size="h2" align="center" RootComponent="span" className="mr-2 mb-0">{`$${amount}`}</Text>
-                      <Text size="h5" className="mr-2 mb-0" RootComponent="span" >
-                        {`IN`}
-                      </Text>
-                      <Avatar
-                        imageURL={`assets/${`usdc-logo`}.png`}
-                        style={{"verticalAlign":"middle"}}
-                        RootComponent="span" 
-                      />
-                    </div>
-                    {true && <span className="invalid-feedback">{"formik.errors.balance"}</span>}
-                    <Text size="h5" className="mt-4">
-                      {`GIVE TO`}
-                    </Text>
-                    <Form onSubmit={formik.handleSubmit}> 
-                      <Form.Group>
-                        <Grid.Row>
-                          <Grid.Col xs={12} sm={8} offsetSm={2}>
-                            <Form.InputGroup>
-                              <Form.Input
-                                name="email"
-                                type="email"
-                                placeholder="friend@tradfi.com"
-                                disabled={needsApproval}
-                                value={formik.values.email}
-                                className={"form-control input-group-text"}
-                                onChange={formik.handleChange}
-                                feedback={formik.errors.balance || formik.errors.email}
-                                invalid={formik.errors.email}
-                              />
-                            </Form.InputGroup>
-                          </Grid.Col>
-                        </Grid.Row>
-                      </Form.Group>
-                        <Form.Group>
-                          <Button
-                            color="secondary"
-                            icon={needsApproval ? "toggle-left" : "toggle-right"}
-                            loading={loading && needsApproval}
-                            disabled={!needsApproval}
-                            type="submit"
-                            value="Submit"
-                            className="color mt-2 mr-2"
-                            >
-                            {needsApproval ? "First you need to Approve" : "Approved"}
-                          </Button>
+              { status === "done" ?
+                (
+                  <Card.Body className="text-center">
+                    <Grid.Row className="d-flex">
+                      <Grid.Col xs={12} sm={8} offsetSm={1} class="text-center">
+                        <div className="d-flex flex-column align-items-center justify-content-center">
+                          <Text size="h1" align="center" className="" >
+                            {`+1 user to DeFi!`}
+                          </Text>
+                          <Text size="h5" align="center" className="" >
+                            {`Congrats on bringing a new user to the DeFi Train!!`}
+                          </Text>
+                          <div>
+                            <img style={{maxHeight: '150px'}} src={`static/logo-train-long-no-title.png`} alt={`DeFi Train Logo`} />
+                          </div>
                           <Button
                             color="teal"
-                            icon="download"
-                            loading={loading && !needsApproval}
-                            disabled={needsApproval}
-                            type="submit"
-                            value="Submit"
-                            className="color mt-2 ml-2"
+                            icon="rotate-cw"
+                            className="color mt-5"
+                            onClick={() => setStatus("approval")}
                             >
-                            { `Deposit` }
+                            { `Reset` }
                           </Button>
-                      </Form.Group>
-                    </Form>
-                  </Grid.Col>
-                </Grid.Row>
-              </Card.Body>
+                        </div>
+                      </Grid.Col>
+                    </Grid.Row>
+                  </Card.Body>
+                ) : (
+                  <Card.Body className="text-center">
+                    <Grid.Row className="d-flex">
+                      <Grid.Col xs={12} sm={8} offsetSm={1} class="text-center">
+                        <div className="d-flex align-items-center justify-content-center">
+                          <Text size="h5" className="mr-2 mb-0" RootComponent="span" >
+                            {`BUY FOR`}
+                          </Text>
+                          <Text size="h2" align="center" RootComponent="span" className="mr-2 mb-0">{`$${amount}`}</Text>
+                          <Text size="h5" className="mr-2 mb-0" RootComponent="span" >
+                            {`IN`}
+                          </Text>
+                          <Avatar
+                            imageURL={`assets/${`usdc-logo`}.png`}
+                            style={{"verticalAlign":"middle"}}
+                            RootComponent="span" 
+                          />
+                        </div>
+                        {true && <span className="invalid-feedback">{"formik.errors.balance"}</span>}
+                        <Text size="h5" className="mt-4">
+                          {`GIVE TO`}
+                        </Text>
+                        <Form onSubmit={formik.handleSubmit}> 
+                          <Form.Group>
+                            <Grid.Row>
+                              <Grid.Col xs={12} sm={8} offsetSm={2}>
+                                <Form.InputGroup>
+                                  <Form.Input
+                                    name="email"
+                                    type="email"
+                                    placeholder="friend@tradfi.com"
+                                    disabled={status !== "deposit"}
+                                    value={formik.values.email}
+                                    className={"form-control input-group-text"}
+                                    onChange={formik.handleChange}
+                                    feedback={formik.errors.email}
+                                    invalid={formik.errors.email}
+                                  />
+                                </Form.InputGroup>
+                              </Grid.Col>
+                            </Grid.Row>
+                          </Form.Group>
+                            <Form.Group>
+                              <Button
+                                color="secondary"
+                                icon={status === "approval" ? "toggle-left" : "toggle-right"}
+                                loading={loading && status === "approval"}
+                                disabled={status !== "approval"}
+                                type="submit"
+                                value="Submit"
+                                className="color mt-2 mr-2"
+                                >
+                                {status === "approval" ? "First you need to Approve" : "Approved"}
+                              </Button>
+                              <Button
+                                color="teal"
+                                icon="send"
+                                loading={loading && status === "deposit"}
+                                disabled={status !== "deposit"}
+                                type="submit"
+                                value="Submit"
+                                className="color mt-2 ml-2"
+                                >
+                                { `Buy & Send` }
+                              </Button>
+                          </Form.Group>
+                        </Form>
+                      </Grid.Col>
+                    </Grid.Row>
+                  </Card.Body>
+                )
+              }
             </div>
           </Grid.Col>
         </Grid.Row>

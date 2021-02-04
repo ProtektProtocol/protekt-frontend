@@ -61,7 +61,6 @@ class SiteWrapper extends React.Component<Props, State> {
             )
           ]
         }}
-        navProps={{ itemsObjects: navBarItems }}
         routerContextComponentType={withRouter(RouterContextProvider)}
         footerProps={{
           copyright: (

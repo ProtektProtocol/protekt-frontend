@@ -7,14 +7,16 @@ import DefaultErrorPage from "../components/tablerReactAlt/src/page_templates/er
 type Props = {||};
 
 function WaitingDeFiTrain({
-  title = "🚂",
   subtitle = "The DeFi Train will be pulling into the station soon...",
   details = "$CHOO",
   action = "You're not ready"
 }: DefaultErrorProps): React.Node {
   return (
     <DefaultErrorPage
-      title={title}
+      img={(
+        <div>
+          <img style={{maxHeight: '150px'}} className="mb-2" src={`static/logo-train-long-no-title.png`} alt={`DeFi Train Logo`} />
+        </div>)}
       subtitle={subtitle}
       details={details}
       action={action}
