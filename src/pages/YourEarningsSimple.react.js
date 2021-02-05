@@ -106,42 +106,41 @@ const YourEarningsSimple = ({match, location})  => {
     <SiteWrapper>
       <Confetti/>
       <Page.Content title="💰 Your Earnings">
-        <div >
-          <Grid.Row>
-              <Grid.Col width={3}></Grid.Col>
-              <Grid.Col width={3}>
-                    <div className="d-flex align-items-sm-center justify-content-sm-center">
-                      <div>
-                          <h2>Deposited:</h2>
-                          <h2>Total:</h2>
-                      </div>
-                    </div>
-                  </Grid.Col>
-                  <Grid.Col width={3}>
-                    <div className="d-flex align-items-sm-center justify-content-sm-center">
-                      <div>
-                        <NumberFormat 
-                          value={balance} 
-                          displayType={'text'} 
-                          thousandSeparator={true} 
-                          prefix={'$'} 
-                          decimalScale={4}
-                          renderText={value => 
-                            <h2>{value}</h2>} 
-                        />
-                        <NumberFormat 
-                          value={balance + interest} 
-                          displayType={'text'} 
-                          thousandSeparator={true} 
-                          prefix={'$'} 
-                          decimalScale={7}
-                          renderText={value => 
-                            <h2>{value}</h2>} 
-                        />
-                      </div>
-                    </div>
-                </Grid.Col>
-              <Grid.Col width={3}></Grid.Col>
+        <div className="earnings-image">
+          <Grid.Row className="full-height center-items">
+              <Grid.Col width={7}></Grid.Col>
+              <Grid.Col width={2}>
+                <div className="d-flex align-items-sm-center justify-content-sm-center">
+                  <div>
+                    <h2>Deposited:</h2>
+                    <h2>Total:</h2>
+                  </div>
+                </div>
+              </Grid.Col>
+              <Grid.Col width={2}>
+                <div className="">
+                  <div>
+                    <NumberFormat 
+                      value={balance} 
+                      displayType={'text'} 
+                      thousandSeparator={true} 
+                      prefix={'$'} 
+                      decimalScale={4}
+                      renderText={value => 
+                          <h2>{value}</h2>} 
+                      />
+                    <NumberFormat 
+                      value={balance + interest} 
+                      displayType={'text'} 
+                      thousandSeparator={true} 
+                      prefix={'$'} 
+                      decimalScale={7}
+                      renderText={value => 
+                          <h2>{value}</h2>} 
+                    />
+                   </div>
+                 </div>
+              </Grid.Col>
             </Grid.Row>
         </div>
       </Page.Content>
