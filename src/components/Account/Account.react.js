@@ -67,8 +67,7 @@ function Account() {
       modalButtons.push(
         <Button
           size="md"
-          outline
-          color="secondary"
+          color="pink"
           RootComponent="a"
           className="d-none d-md-flex"
           key="loginbutton"
