@@ -97,7 +97,7 @@ function InviteFriendPage() {
   },[web3Context, contracts]);
 
   // Called after a successful approval
-  function handleTxSuccess() {
+  async function handleTxSuccess() {
     console.log('Successful tx')
     if(status === "approval") {
       // Approval tx
