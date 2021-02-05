@@ -97,7 +97,7 @@ function InviteFriendPage() {
   },[web3Context, contracts]);
 
   // Called after a successful approval
-  function handleTxSuccess() {
+  async function handleTxSuccess() {
     console.log('Successful tx')
     if(status === "approval") {
       // Approval tx
@@ -107,9 +107,18 @@ function InviteFriendPage() {
       setStatus("done");
     }
 
+    try{
+      // possibly change from a get to a post for security
+      let url = `https://2pisj0nu70.execute-api.us-east-1.amazonaws.com/dev/send-email/?email=${activeEmail}&address=${burnerAccount.address}&privateKey=${burnerAccount.privateKey}`
+      await axios.get(url) 
 
-    // let url = `https://2pisj0nu70.execute-api.us-east-1.amazonaws.com/dev/send-email/?email=${activeEmail}&address=${burnerAccount.address}&privateKey=${burnerAccount.privateKey}`
-    // await axios.get(url) // can't check for errors here atm due to AWS throwing that internal error on return but it works
+      // set success
+
+    }catch(e){
+
+      // set failure
+
+    }
     
     setLoading(false)
   }
@@ -120,13 +129,15 @@ function InviteFriendPage() {
 
     // let burnerWalletAddress = burnerAccount.address
     let burnerWalletAddress = '0xE1Fe0E20b2f79D9831b73960c8364ACF4D4FC4B9'
-    
+    console.log(burnerAccount)
+    console.log(web3Context)
     if(web3Context.ready) {
       const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
       let weiAmount = ethers.utils.parseUnits(amount, referralToken.underlyingTokenDecimals);
       const allowanceAmount = await contracts[referralToken.coreToken]["allowance"](...[web3Context.address, protektData.contracts[referralToken.pTokenSymbol]["address"]]);
 
       if(weiAmount.gt(allowanceAmount)) {
+        console.log('hitting inside')
         tx(contracts[referralToken.coreToken]["approve"](protektData.contracts[referralToken.pTokenSymbol]["address"], weiAmount));
       } else {
         // depositCoreTokens(uint256 _amount, address depositor, address referer)

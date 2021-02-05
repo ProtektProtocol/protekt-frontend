@@ -13,7 +13,9 @@ export default function Transactor(provider, cb, gasPrice, etherscan) {
     // eslint-disable-next-line consistent-return
     return async tx => {
       const signer = provider.getSigner();
+      console.log(signer)
       const network = await provider.getNetwork();
+      console.log('\nsigner:')
       console.log("network", network);
       const options = {
         dappId: "e6afe269-3ff9-4c3f-897e-6350774f7355", // GET YOUR OWN KEY AT https://account.blocknative.com
