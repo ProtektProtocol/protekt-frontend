@@ -42,7 +42,7 @@ import { GetBalanceOfERC20ForAddress } from '../utils'
 
 function InviteFriendPage() {
   const [loading, setLoading] = useState(false);
-  const [status, setStatus] = useState("done");
+  const [status, setStatus] = useState("approval");
   const referralToken = protektData.referralToken;
   const tokenPrices = useTokenPrices(
     infuraProvider,
@@ -59,8 +59,8 @@ function InviteFriendPage() {
   useEffect(() => {
     async function run() {
       let erc20Balance = await GetBalanceOfERC20ForAddress(
-        protektData['contracts']['pausdc']['address'],
-        protektData['contracts']['pausdc']['abi'],
+        protektData['contracts']['usdc']['address'],
+        protektData['contracts']['usdc']['abi'],
         web3Context.address,
         6
       );
