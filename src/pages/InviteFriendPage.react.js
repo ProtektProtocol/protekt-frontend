@@ -150,7 +150,10 @@ function InviteFriendPage() {
 
   const validate = values => {
     const errors = {};
-    if (web3Context.ready && balance < 50) {
+    if (!web3Context.ready) {
+      errors.email = `You'll need to connect a wallet first`;
+    }
+    else if (web3Context.ready && balance < 50) {
       errors.email = `You'll need at least $50 USDC`;
     }
     else if (!values.email && status === "deposit") {
