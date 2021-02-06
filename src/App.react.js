@@ -18,6 +18,7 @@ import DepositsPage from "./pages/DepositsPage.react";
 import YourEarningsSimple from "./pages/YourEarningsSimple.react";
 import YourEarnings from "./pages/YourEarnings.react";
 import WaitingDeFiTrain from "./pages/WaitingDeFiTrain.react";
+import Onboarding from './pages/Onboarding.react'
 
 import "tabler-react/dist/Tabler.css";
 import "./App.css";
@@ -72,6 +73,7 @@ function App(props: Props): React.Node {
             <Route exact path="/503" component={Error503} />
             <Route exact path="/choo" component={WaitingDeFiTrain} />
             <Route exact path="/buy-ticket" component={InviteFriendPage} />
+            <Route exact path="/onboarding" component={Onboarding} />
             <Route exact path="/deposits/:address" component={DepositsPage} />
             <Route exact path="/your-earnings/:address" component={YourEarningsSimple} />
             <Redirect to='/buy-ticket'/>

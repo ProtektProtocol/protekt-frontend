@@ -131,24 +131,35 @@ const YourEarningsSimple = ({match, location})  => {
         </div>
         </Page.Content>
 
-      <Page.Content title="🤔 DeFi?">
-        <Grid.Row cards={true}>
-          <Grid.Col lg={12}>
-            <Card className="mb-1">
-              <Card.Header>
-                <Card.Title>What's going on?</Card.Title>
-              </Card.Header> 
-              <Card.Body>
-                <Grid.Row>
-                  <Grid.Col width={12}>
-                    
-                  </Grid.Col>
-                </Grid.Row>
-              </Card.Body>
-             </Card>
+        <Grid.Row className="d-flex justify-content-center">
+          <Grid.Col sm={12} lg={8}>
+            <Card className="mt-9" title={(<h2 className="mb-0">How it Works</h2>)}>
+            <Card.Body>
+                <Text>
+🚂 A friend has bought you a $50 ticket to board the DeFi train!
+                </Text>
+                <br/>
+                <Text>
+👻 Your $50 has been deposited into Aave and you can see it earning interest already above! 
+                </Text>
+                <br/>
+                <Text>
+🤔 To access the new decentralized web and use your earnings with decentralized apps theres a few more steps...
+                </Text>
+                <br/>
+                <Text>
+🤗 We've put together a quick guide <a href="/onboarding">here</a> to get you started!
+                </Text>
+                <br/>
+                <br/>
+                <Text>
+Cheers,<br/>
+🛡🛡 <a href={`https://www.protektprotocol.com/`} target="_blank">Protekt Protocol Team</a> 🛡🛡
+                </Text>
+            </Card.Body>
+            </Card>
           </Grid.Col>
         </Grid.Row>
-      </Page.Content>
 
       
       
