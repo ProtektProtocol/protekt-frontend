@@ -171,7 +171,7 @@ function InviteFriendPage() {
       balance: 50
     },
     validate,
-    onSubmit: values => {
+    onSubmit: ( values ) => {
       setLoading(true);
       setActiveEmail(values['email'])
       console.log('in values')
@@ -210,7 +210,10 @@ function InviteFriendPage() {
                             color="teal"
                             icon="rotate-cw"
                             className="color mt-5"
-                            onClick={() => setStatus("approval")}
+                            onClick={() => {
+                              formik.setValues({email: ''});
+                              setStatus("approval");
+                            }}
                             >
                             { `Reset` }
                           </Button>
@@ -236,10 +239,10 @@ function InviteFriendPage() {
                             RootComponent="span" 
                           />
                         </div>
-                        {true && <span className="invalid-feedback">{"formik.errors.balance"}</span>}
                         <Text size="h5" className="mt-4">
                           {`GIVE TO`}
                         </Text>
+                        {true && <span className="invalid-feedback">{"formik.errors.balance"}</span>}
                         <Form onSubmit={formik.handleSubmit}> 
                           <Form.Group>
                             <Grid.Row>
@@ -310,13 +313,13 @@ function InviteFriendPage() {
                 </Text>
                 <br/>
                 <Text>
-🤝 For the referral, 20% of the interest accrues to you, so your friend, you, and the DeFi space all win together!
+🤝 For the referral, 20% of the interest accrues to you, so your friend, you, and the DeFi community all win together!
                 </Text>
                 <br/>
                 <Grid.Row>
                   <Grid.Col xs={12} className="text-center">
                     <div>
-                      <img src={`${process.env.PUBLIC_URL}/static/defiTrainDiagram.png`} alt={`DeFi Train Diagram`} />
+                      <img src={`${process.env.PUBLIC_URL}/static/diagram.png`} alt={`DeFi Train Diagram`} />
                     </div>
                   </Grid.Col>
                 </Grid.Row>
