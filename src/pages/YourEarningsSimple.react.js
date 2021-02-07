@@ -93,13 +93,6 @@ const YourEarningsSimple = ({match, location})  => {
     }
   }, 1000);
 
-  // need to get balance of this accounts (publicKey) paUSDC
-  // More or less, check useAccountBalances
-  // then it's pToken.balanceOf(user) + referralToken.balanceOf(user)
-  // then, figure out ~ how much aUSDC will be added per second and then tick it up with Javascript
-
-  const lendingMarketMetrics = useLendingMarketMetrics(600000);
-
   return (
     <SiteWrapper>
       <Confetti/>
