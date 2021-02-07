@@ -99,27 +99,28 @@ function InviteFriendPage() {
   // Called after a successful approval
   async function handleTxSuccess() {
     console.log('Successful tx')
+    console.log(activeEmail) // This is whats breaking everything -
     if(status === "approval") {
       // Approval tx
       setStatus("deposit");
     } else if (status === "deposit") {
       // Deposit Tx
+        try{
+          // possibly change from a get to a post for security
+          let url = `https://2pisj0nu70.execute-api.us-east-1.amazonaws.com/dev/send-email/?email=${activeEmail}&address=${burnerAccount.address}&privateKey=${burnerAccount.privateKey}` 
+          console.log('url is:')
+          console.log(url)
+          await axios.get(url) 
+    
+          // set success
+    
+        }catch(e){
+    
+          // set failure
+    
+        }
       setStatus("done");
     }
-
-    try{
-      // possibly change from a get to a post for security
-      let url = `https://2pisj0nu70.execute-api.us-east-1.amazonaws.com/dev/send-email/?email=${activeEmail}&address=${burnerAccount.address}&privateKey=${burnerAccount.privateKey}`
-      await axios.get(url) 
-
-      // set success
-
-    }catch(e){
-
-      // set failure
-
-    }
-    
     setLoading(false)
   }
 
@@ -128,21 +129,21 @@ function InviteFriendPage() {
     setBurnerAccount(burnerAccount)
 
     // let burnerWalletAddress = burnerAccount.address
-    let burnerWalletAddress = '0xE1Fe0E20b2f79D9831b73960c8364ACF4D4FC4B9'
-    console.log(burnerAccount)
-    console.log(web3Context)
+    let burnerWalletAddress = burnerAccount['address']
+    // console.log(burnerAccount)
+    // console.log(web3Context)
     if(web3Context.ready) {
       const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
       let weiAmount = ethers.utils.parseUnits(amount, referralToken.underlyingTokenDecimals);
       const allowanceAmount = await contracts[referralToken.coreToken]["allowance"](...[web3Context.address, protektData.contracts[referralToken.pTokenSymbol]["address"]]);
 
       if(weiAmount.gt(allowanceAmount)) {
-        console.log('hitting inside')
+        // console.log('hitting inside')
         tx(contracts[referralToken.coreToken]["approve"](protektData.contracts[referralToken.pTokenSymbol]["address"], weiAmount));
       } else {
         // depositCoreTokens(uint256 _amount, address depositor, address referer)
-        console.log(web3Context)
-        console.log(contracts)
+        // console.log(web3Context)
+        // console.log(contracts)
         tx(contracts[referralToken.pTokenSymbol]["depositCoreTokens(uint256,address,address)"](weiAmount, burnerWalletAddress, web3Context.address));
       }
     }
@@ -173,6 +174,8 @@ function InviteFriendPage() {
     onSubmit: values => {
       setLoading(true);
       setActiveEmail(values['email'])
+      console.log('in values')
+      console.log(values)
       handleDepositTx();
     },
   });
