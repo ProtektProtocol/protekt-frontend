@@ -77,7 +77,6 @@ const YourEarningsSimple = ({match, location})  => {
       if(!_.isEmpty(tokenPrices)){
         balance = tokenPrices['ausdc']['usd'] * erc20Balance
       }
-      console.log(` aUSDC ${balance}`)
       setInterest(balance)
     })();
 
@@ -90,7 +89,6 @@ const YourEarningsSimple = ({match, location})  => {
       let APY = 0.11
       let SPY = APY/ secondsPerYear 
       let interestThisSecond = interest + ((balance * (1 + SPY)) - balance)
-      console.log(interestThisSecond + interest)
       setInterest(interestThisSecond);
     }
   }, 1000);

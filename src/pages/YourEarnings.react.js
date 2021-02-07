@@ -38,7 +38,6 @@ const YourEarnings = ()  => {
     ['usdc','ausdc'] // need to add in two protekt tokens
   );
 
-  console.log(tokenPrices)
 
 
 

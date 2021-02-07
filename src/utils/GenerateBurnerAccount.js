@@ -1,9 +1,6 @@
 import Web3 from "web3";
 import { INFURA_LINK } from "../config";
 
-// this should probably just be renamed to "notifier"
-// it is basically just a wrapper around BlockNative's wonderful Notify.js
-// https://docs.blocknative.com/notify
 
 export default async function GenerateBurnerAccount() {
     const web3 = new Web3(new Web3.providers.HttpProvider(INFURA_LINK));
