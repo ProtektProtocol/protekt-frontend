@@ -52,7 +52,7 @@ function InviteFriendPage() {
   const gasPrice = useGasPrice("fast");
   const contracts = useContractLoader(web3Context.provider);
   const [burnerAccount, setBurnerAccount] = useState({})
-  let amount = '50';
+  let amount = '51';
   
   const [balance, setBalance] = useState(0)
   useEffect(() => {
@@ -79,7 +79,7 @@ function InviteFriendPage() {
   const [needsApproval, setNeedsApproval] = useState(true);
   useEffect(() => {
     async function run() {
-      const weiAmount = ethers.utils.parseUnits('50', referralToken.underlyingTokenDecimals);
+      const weiAmount = ethers.utils.parseUnits(amount, referralToken.underlyingTokenDecimals);
       const allowanceAmount = await contracts[referralToken.coreToken]["allowance"](...[web3Context.address, protektData.contracts[referralToken.pTokenSymbol]["address"]]);
 
       if(weiAmount.gt(allowanceAmount)) {
@@ -118,10 +118,11 @@ function InviteFriendPage() {
     setLoading(false)
   }
 
-  async function handleDepositTx(l) {
+  async function handleDepositTx() {
     let burnerAccount = await generateBurnerAccount()
     setBurnerAccount(burnerAccount)
     let burnerWalletAddress = burnerAccount['address']
+
     if(web3Context.ready) {
       const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
       let weiAmount = ethers.utils.parseUnits(amount, referralToken.underlyingTokenDecimals);
@@ -141,8 +142,8 @@ function InviteFriendPage() {
     if (!web3Context.ready) {
       errors.email = `You'll need to connect a wallet first`;
     }
-    else if (web3Context.ready && balance < 50) {
-      errors.email = `You'll need at least $50 USDC`;
+    else if (web3Context.ready && balance < amount) {
+      errors.email = `You'll need at least $${amount} USDC`;
     }
     else if (!values.email && status === "deposit") {
       errors.email = 'Required';
@@ -155,7 +156,7 @@ function InviteFriendPage() {
   const formik = useFormik({
     initialValues: {
       email: '',
-      balance: 50
+      balance: amount
     },
     validate,
     onSubmit: ( values ) => {
