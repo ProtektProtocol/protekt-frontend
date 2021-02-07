@@ -210,7 +210,7 @@ function InviteFriendPage() {
                           <Text size="h5" className="mr-2 mb-0" RootComponent="span" >
                             {`BUY FOR`}
                           </Text>
-                          <Text size="h2" align="center" RootComponent="span" className="mr-2 mb-0">{`$${amount}`}</Text>
+                          <Text size="h2" align="center" RootComponent="span" className="mr-2 mb-0">{`$${'50'}`}</Text>
                           <Text size="h5" className="mr-2 mb-0" RootComponent="span" >
                             {`IN`}
                           </Text>
