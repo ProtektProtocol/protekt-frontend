@@ -121,15 +121,7 @@ function InviteFriendPage() {
     setLoading(false)
   }
 
-<<<<<<< HEAD
   async function handleDepositTx() {
-    let burnerAccount = await generateBurnerAccount()
-    setBurnerAccount(burnerAccount)
-    let burnerWalletAddress = burnerAccount['address']
-
-=======
-  async function handleDepositTx(l) {
->>>>>>> 328d5e9b454f3a2ea080de4f2d446a9003293e5f
     if(web3Context.ready) {
       const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
       let weiAmount = ethers.utils.parseUnits(amount, referralToken.underlyingTokenDecimals);
