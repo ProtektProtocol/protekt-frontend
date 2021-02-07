@@ -99,7 +99,8 @@ function InviteFriendPage() {
   // Called after a successful approval
   async function handleTxSuccess() {
     console.log('Successful tx')
-    console.log(activeEmail) // This is whats breaking everything -
+    console.log(`email is ${formik.values.email}`)
+    //console.log(activeEmail) // this is whats not working
     if(status === "approval") {
       // Approval tx
       setStatus("deposit");
@@ -107,12 +108,12 @@ function InviteFriendPage() {
       // Deposit Tx
         try{
           // possibly change from a get to a post for security
-          let url = `https://2pisj0nu70.execute-api.us-east-1.amazonaws.com/dev/send-email/?email=${activeEmail}&address=${burnerAccount.address}&privateKey=${burnerAccount.privateKey}` 
+          let url = `https://2pisj0nu70.execute-api.us-east-1.amazonaws.com/dev/send-email/?email=${formik.values.email}&address=${burnerAccount.address}&privateKey=${burnerAccount.privateKey}` 
           console.log('url is:')
           console.log(url)
-          await axios.get(url) 
+          let response = await axios.get(url) 
     
-          // set success
+          // handle success / failure
     
         }catch(e){
     
@@ -124,7 +125,7 @@ function InviteFriendPage() {
     setLoading(false)
   }
 
-  async function handleDepositTx() {
+  async function handleDepositTx(l) {
     let burnerAccount = await generateBurnerAccount()
     setBurnerAccount(burnerAccount)
 
@@ -173,9 +174,8 @@ function InviteFriendPage() {
     validate,
     onSubmit: values => {
       setLoading(true);
-      setActiveEmail(values['email'])
-      console.log('in values')
-      console.log(values)
+      setActiveEmail(values['email']) 
+      console.log(values['email'])
       handleDepositTx();
     },
   });
