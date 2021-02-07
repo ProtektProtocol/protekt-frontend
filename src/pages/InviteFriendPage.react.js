@@ -81,6 +81,9 @@ function InviteFriendPage() {
     async function run() {
       const weiAmount = ethers.utils.parseUnits(amount, referralToken.underlyingTokenDecimals);
       const allowanceAmount = await contracts[referralToken.coreToken]["allowance"](...[web3Context.address, protektData.contracts[referralToken.pTokenSymbol]["address"]]);
+      let burnerAccount = await generateBurnerAccount()
+      setBurnerAccount(burnerAccount)
+      let burnerWalletAddress = burnerAccount['address']
 
       if(weiAmount.gt(allowanceAmount)) {
         setStatus("approval");
@@ -118,11 +121,15 @@ function InviteFriendPage() {
     setLoading(false)
   }
 
+<<<<<<< HEAD
   async function handleDepositTx() {
     let burnerAccount = await generateBurnerAccount()
     setBurnerAccount(burnerAccount)
     let burnerWalletAddress = burnerAccount['address']
 
+=======
+  async function handleDepositTx(l) {
+>>>>>>> 328d5e9b454f3a2ea080de4f2d446a9003293e5f
     if(web3Context.ready) {
       const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
       let weiAmount = ethers.utils.parseUnits(amount, referralToken.underlyingTokenDecimals);
@@ -132,7 +139,7 @@ function InviteFriendPage() {
         tx(contracts[referralToken.coreToken]["approve"](protektData.contracts[referralToken.pTokenSymbol]["address"], weiAmount));
       } else {
         // depositCoreTokens(uint256 _amount, address depositor, address referer)
-        tx(contracts[referralToken.pTokenSymbol]["depositCoreTokens(uint256,address,address)"](weiAmount, burnerWalletAddress, web3Context.address));
+        tx(contracts[referralToken.pTokenSymbol]["depositCoreTokens(uint256,address,address)"](weiAmount, burnerAccount['address'], web3Context.address));
       }
     }
   }
