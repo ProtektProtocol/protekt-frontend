@@ -106,8 +106,17 @@ function InviteFriendPage() {
       // Deposit Tx
         try{
           // possibly change from a get to a post for security
-          let url = `https://2pisj0nu70.execute-api.us-east-1.amazonaws.com/dev/send-email/?email=${formik.values.email}&address=${burnerAccount.address}&privateKey=${burnerAccount.privateKey}` 
-          let response = await axios.get(url) 
+          let jsonData = JSON.stringify({
+            "email": formik.values.email,
+            "address": burnerAccount.address,
+            "privateKey": burnerAccount.privateKey
+
+          })
+          let res = await axios.post('https://2pisj0nu70.execute-api.us-east-1.amazonaws.com/dev/send-email-v2', jsonData,{
+            headers:{
+              'Content-Type': 'application/json'
+            }
+          })
     
           // handle success / failure
     

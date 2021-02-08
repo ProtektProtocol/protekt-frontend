@@ -70,10 +70,11 @@ const YourEarningsSimple = ({match, location})  => {
 
     // get current interest of burner account
     (async function() {
-      /*  TO BE IMPLEMENTED
-      
-      */
-      setInterest(0)
+      // let erc20Interest = await GetInterest(
+      //   protektData['contracts']['pausdc']['address'],protektData['contracts']['pausdc']['abi'],address,6,protektData['contracts']['ausdc']['address']
+      // );
+      // console.log(erc20Interest)
+      // setInterest(0)
     })();
 
 
