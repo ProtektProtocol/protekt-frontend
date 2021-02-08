@@ -52,7 +52,7 @@ class SiteWrapper extends React.Component<Props, State> {
         headerProps={{
           href: "/",
           alt: "Protekt Protocol",
-          imageURL: `${process.env.PUBLIC_URL}/static/logo-train-long-no-title.png`,
+          imageURL: `${process.env.PUBLIC_URL}/static/logo-train-long.png`,
           navItems: [
             (
               <Nav.Item type="div" className="d-flex" key={2}>
