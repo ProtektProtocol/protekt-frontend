@@ -13,6 +13,7 @@ export { default as Transactor } from "./Transactor";
 export { default as TransactorEmail } from "./TransactorEmail";
 export { default as generateBurnerAccount } from "./GenerateBurnerAccount";
 export { default as GetBalanceOfERC20ForAddress } from "./GetBalanceOfERC20ForAddress";
+export { default as getPricePerFullShare } from "./GetPricePerFullShare";
 export { default as GetInterest } from "./GetInterest";
 
 // // returns the checksummed address if the address is valid, otherwise returns false

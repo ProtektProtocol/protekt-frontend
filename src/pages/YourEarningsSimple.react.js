@@ -32,6 +32,7 @@ import _ from 'lodash';
 
 
 import { Web3Context } from '../App.react';
+import GetBalancePricePerFullShare from '../utils/GetPricePerFullShare';
 
 
 /*  
@@ -61,9 +62,13 @@ const YourEarningsSimple = ({match, location})  => {
       let erc20Balance = await GetBalanceOfERC20ForAddress(
         protektData['contracts']['pausdc']['address'],protektData['contracts']['pausdc']['abi'],address,6
       );
+      console.log(erc20Balance)
+      let pricePerFullShare = await GetBalancePricePerFullShare(
+        protektData['contracts']['pausdc']['address'],protektData['contracts']['pausdc']['abi'],address,6
+      )
       let balance = 0
       if(!_.isEmpty(tokenPrices)){
-        balance = tokenPrices['usdc']['usd'] * erc20Balance
+        balance = tokenPrices['usdc']['usd'] * (erc20Balance * pricePerFullShare)
       }
       setBalance(balance)
     })();
