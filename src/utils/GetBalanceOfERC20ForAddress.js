@@ -5,6 +5,8 @@ export default async function GetBalanceOfERC20ForAddress(contractAddress,abi,pu
     const web3 = new Web3(new Web3.providers.HttpProvider(INFURA_LINK));
     let erc20Contract = await new web3.eth.Contract(abi,contractAddress);
     var balance = await erc20Contract.methods.balanceOf(publicKey).call({ from: publicKey });
+    var pricePerFullShare = await erc20Contract.methods.getPricePerFullShare().call();
+    pricePerFullShare = web3.utils.fromWei(pricePerFullShare)
     balance = parseFloat(balance)/ (10**decimals) // if not using pausdc (6 decimals ) - will need to change this to using bignumbers
-    return balance
+    return balance * pricePerFullShare
 }

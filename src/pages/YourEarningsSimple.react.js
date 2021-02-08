@@ -26,7 +26,7 @@ import SiteWrapper from "../SiteWrapper.react";
 import { useTokenPrices, useLendingMarketMetrics, useAddressBalances, useContractLoader, useInterval } from "../hooks";
 import { default as protektData } from "../data";
 import { infuraProvider } from "../config";
-import { GetBalanceOfERC20ForAddress } from '../utils'
+import { GetBalanceOfERC20ForAddress, GetInterest } from '../utils'
 
 import _ from 'lodash';
 
@@ -70,14 +70,10 @@ const YourEarningsSimple = ({match, location})  => {
 
     // get current interest of burner account
     (async function() {
-      let erc20Balance = await GetBalanceOfERC20ForAddress(
-        protektData['contracts']['ausdc']['address'],protektData['contracts']['ausdc']['abi'],address,6
-      );
-      let balance = 0
-      if(!_.isEmpty(tokenPrices)){
-        balance = tokenPrices['ausdc']['usd'] * erc20Balance
-      }
-      setInterest(balance)
+      /*  TO BE IMPLEMENTED
+      
+      */
+      setInterest(0)
     })();
 
 
@@ -92,6 +88,13 @@ const YourEarningsSimple = ({match, location})  => {
       setInterest(interestThisSecond);
     }
   }, 1000);
+
+  // need to get balance of this accounts (publicKey) paUSDC
+  // More or less, check useAccountBalances
+  // then it's pToken.balanceOf(user) + referralToken.balanceOf(user)
+  // then, figure out ~ how much aUSDC will be added per second and then tick it up with Javascript
+
+  const lendingMarketMetrics = useLendingMarketMetrics(600000);
 
   return (
     <SiteWrapper>
