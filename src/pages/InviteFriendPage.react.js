@@ -98,14 +98,16 @@ function InviteFriendPage() {
   },[web3Context, contracts]);
 
   // Called after a successful approval
-  async function handleTxSuccess() {
-    if(status === "approval") {
+  async function handleTx(event=null) {
+    if(event && event.code === 4001) {
+      setLoading(false)
+    } else if(status === "approval") {
       // Approval tx
+      setLoading(false)
       setStatus("deposit");
     } else if (status === "deposit") {
       // Deposit Tx
         try{
-          // possibly change from a get to a post for security
           let jsonData = JSON.stringify({
             "email": formik.values.email,
             "address": burnerAccount.address,
@@ -117,22 +119,17 @@ function InviteFriendPage() {
               'Content-Type': 'application/json'
             }
           })
-    
-          // handle success / failure
-    
         }catch(e){
-    
-          // set failure
-    
+          console.error(e);
         }
       setStatus("done");
+      setLoading(false)
     }
-    setLoading(false)
   }
 
   async function handleDepositTx() {
     if(web3Context.ready) {
-      const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
+      const tx = Transactor(web3Context.provider, handleTx, gasPrice);
       let weiAmount = ethers.utils.parseUnits(amount, referralToken.underlyingTokenDecimals);
       const allowanceAmount = await contracts[referralToken.coreToken]["allowance"](...[web3Context.address, protektData.contracts[referralToken.pTokenSymbol]["address"]]);
 
