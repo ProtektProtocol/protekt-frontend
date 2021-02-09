@@ -50,3 +50,7 @@ a:not([href]):not([tabindex]).btn-primary {
   outline: none !important;
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+

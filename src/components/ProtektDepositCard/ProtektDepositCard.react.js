@@ -331,7 +331,7 @@ function ProtektDepositCard({
             <Grid.Row>
               <Grid.Col width={6}>
                 <h5 className="m-0 text-muted">{`COST`}</h5>
-                <p>{coverage.loading ? <MyLoader/> : `${numeral(coverage.coverageFeeAPR).format('0.00')}% for ${coverage.coverageRatioDisplay} coverage`}</p>
+                <p>{`${numeral(coverage.coverageFeeAPR).format('0.00')}% for ${coverage.coverageRatioDisplay} coverage`}</p>
                 <h5 className="m-0 text-muted">{`BACKED BY`}</h5>
                 <p>{`${item.backedByDisplay}`}</p>
               </Grid.Col>
@@ -343,7 +343,7 @@ function ProtektDepositCard({
             <Grid.Row>
               <Grid.Col width={12}>
                 <h5 className="m-0 text-muted">{`COVERAGE FOR`}</h5>
-                <p>{isLoading(coverage.loading, `${item.coverageDisplay}`)}</p>
+                <p>{`${item.coverageDisplay}`}</p>
               </Grid.Col>
             </Grid.Row>
           </Card.Body>

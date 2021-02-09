@@ -14,7 +14,6 @@ export default function Transactor(provider, cb, gasPrice, etherscan) {
     return async tx => {
       const signer = provider.getSigner();
       const network = await provider.getNetwork();
-      console.log("network", network);
       const options = {
         dappId: "e6afe269-3ff9-4c3f-897e-6350774f7355", // GET YOUR OWN KEY AT https://account.blocknative.com
         system: "ethereum",
@@ -69,6 +68,18 @@ export default function Transactor(provider, cb, gasPrice, etherscan) {
               onclick: () => window.open((etherscan || etherscanTxUrl) + transaction.hash),
             };
           });
+          emitter.on('txCancel', transaction => {
+            cb();
+            return {
+              onclick: () => window.open((etherscan || etherscanTxUrl) + transaction.hash),
+            };
+          });
+          emitter.on('txFailed', transaction => {
+            cb();
+            return {
+              onclick: () => window.open((etherscan || etherscanTxUrl) + transaction.hash),
+            };
+          });
         } else {
           notification.info({
             message: "Local Transaction Sent",
@@ -79,8 +90,7 @@ export default function Transactor(provider, cb, gasPrice, etherscan) {
 
         return result;
       } catch (e) {
-        console.log(e);
-        console.log("Transaction Error:", e.message);
+        cb(e);
         notification.error({
           message: "Transaction Error",
           description: e.message,

@@ -20,4 +20,5 @@ export { getClaimsManager, useClaimsManager } from "./UseClaimsManager";
 // export { default as useLookupAddress } from "./LookupAddress";
 // export { default as useResolveName } from "./ResolveName";
 // export { default as useNonce } from "./Nonce";
-
+export { useAddressBalances } from "./UseAddressBalances";
+export {useInterval} from "./UseInterval";

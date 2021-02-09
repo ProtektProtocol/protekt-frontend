@@ -8,6 +8,10 @@ import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers'
 // import { ChainId, JSBI, Percent, Token, CurrencyAmount, Currency, ETHER } from '@uniswap/sdk'
 // import { TokenAddressMap } from '../state/lists/hooks'
 // import { INFURA_ID } from "./constants";
+export { default as GetBalanceOfERC20ForAddress } from "./GetBalanceOfERC20ForAddress";
+export { default as getPricePerFullShare } from "./GetPricePerFullShare";
+export { default as GetInterest } from "./GetInterest";
+
 
 export { default as Transactor } from "./Transactor";
 

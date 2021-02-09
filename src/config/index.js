@@ -1,8 +1,8 @@
 import { JsonRpcProvider } from '@ethersproject/providers'
 
-export const env = process.env.APP_ENV || 'test'; // defaulting to after ||
+export const env = process.env.REACT_APP_APP_ENV || 'test'; // defaulting to after ||
 export const network = env === "production" ?
-  `mainnet` :
+  `homestead` :
   `kovan`;
 export const INFURA_ID = '395c09a1d60042e2bcb49522b34fcb4e';
 export const INFURA_LINK = env === "production" ?
