@@ -3,6 +3,7 @@ import axios from 'axios';
 import _ from 'lodash';
 import numeral from 'numeral';
 import { ethers } from "ethers";
+import { usePoller } from "eth-hooks";
 
 async function getProtocolAPR(symbol) {
   let apr = 0;
@@ -105,6 +106,41 @@ export function useCompoundDaiCoverageMetrics(
       run();       
     }
   },[contracts, tokenPrices, requeryToggle]);
+
+  return metrics;
+}
+
+export function usePolledCompoundDaiCoverageMetrics(
+  item,
+  contracts,
+  tokenPrices,
+  lendingMarket) {
+  const [metrics, setMetrics] = useState({
+    loading: true,
+    pTokenTotalDepositTokens: 0,
+    pTokenTotalDepositUsd: 0,
+    shieldTokenTotalDepositTokens: 0,
+    shieldTokenTotalDepositUsd: 0,
+    coverageRatio: 100,
+    coverageRatioDisplay: '100%',
+    coverageFeeAPR: 0,
+    tempCoverage: 0,
+    compAPR: 0,
+    netAdjustedAPR: 0
+  });
+
+  async function run() {
+    if(!_.isEmpty(contracts) && !_.isEmpty(tokenPrices)) {
+      const data = await getCompoundDaiCoverageMetrics(
+        item,
+        contracts,
+        tokenPrices,
+        lendingMarket
+      );
+      setMetrics(data);
+    }
+  }
+  usePoller(run, 2000);
 
   return metrics;
 }

@@ -2,12 +2,13 @@
 /* eslint-disable global-require */
 import { Contract } from "@ethersproject/contracts";
 import { useState, useEffect } from "react";
+import { default as protektData } from "../data";
 
 
 const loadContract = (contractName, signer) => {
   let c = {};
   try {
-    c = require(`../contracts/${contractName}.js`);
+    c = protektData.contracts[contractName];
   } catch (e) {
     console.log(e);
   }
@@ -43,7 +44,8 @@ export default function useContractLoader(providerOrSigner) {
             signer = providerOrSigner;
           }
 
-          const contractList = require("../contracts/contracts.js");
+          // const contractList = require("../contracts/contracts.js");
+          const contractList = Object.keys(protektData.contracts);
 
           const newContracts = contractList.reduce((accumulator, contractName) => {
             accumulator[contractName] = loadContract(contractName, signer);

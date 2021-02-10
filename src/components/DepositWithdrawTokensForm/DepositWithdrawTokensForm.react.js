@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, { useState } from 'react';
 import { Formik } from 'formik';
 import * as Yup from 'yup';
 import NumberFormat from 'react-number-format';
@@ -33,11 +33,7 @@ function DepositWithdrawTokensForm({
   buttonIcon,
   buttonLabel
 }: Props): React.Node {
-  // const [balances, setBalances] = useState(accountBalances);
-
-  // useEffect(() => {
-  //   setBalances(accountBalances);
-  // }, [accountBalances]);
+  const [loading, setLoading] = useState(false);
 
   return (
     <Formik
@@ -46,8 +42,11 @@ function DepositWithdrawTokensForm({
         numbers: Yup.number().required('Required'),
       })}
       onSubmit={ async (values, actions) => {
-        handleSubmit(values.numbers);
-        actions.resetForm();
+        setLoading(true);
+        const afterMine = (error) => {
+          setLoading(false);
+        }
+        handleSubmit(values.numbers, afterMine);
       }}
     >
       {props => {
@@ -77,6 +76,7 @@ function DepositWithdrawTokensForm({
                     className="color"
                     icon={ buttonIcon }
                     disabled={isSubmitting}
+                    loading={loading}
                   >
                     { buttonLabel }
                   </Button>

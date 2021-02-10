@@ -2,7 +2,7 @@ import production from "./kovanProtekt";
 import test from "./kovanProtekt";
 import development from "./kovanProtekt";
 
-const env = process.env.APP_ENV || 'test'; // defaulting to after ||
+const env = process.env.REACT_APP_APP_ENV || 'test'; // defaulting to after ||
 
 const config = {
   development,
