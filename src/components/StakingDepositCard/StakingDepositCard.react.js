@@ -244,7 +244,6 @@ function StakingDepositCard({
     )
   }
 
-  console.log(accountBalances)
   return ( coverage.loading ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
     <AccordionItem>
       <Card>
