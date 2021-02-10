@@ -1,45 +1,19 @@
 // @flow
 
-import React, { useState, useEffect, useContext } from 'react';
+import React from 'react';
 import numeral from 'numeral';
 import { ethers } from "ethers";
-import _ from "lodash";
 
 import {
   Grid,
-  Header,
   Dimmer,
   Button,
   Form,
-  Avatar,
-  Text,
-  Tag
 } from "tabler-react";
-import Account from "../Account";
-
-import {
-  AccordionItem,
-  AccordionItemHeading,
-  AccordionItemButton,
-  AccordionItemPanel,
-} from 'react-accessible-accordion';
-
-import ContentLoader from 'react-content-loader'
 
 import Card from "../tablerReactAlt/src/components/Card";
 import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
-
-import {
-  useGasPrice,
-  usePolledCompoundDaiCoverageMetrics,
-  usePolledAccountBalances,
-  useContractLoader,
-  useContractReader,
-  useClaimsManager
-} from "../../hooks";
 import { Transactor } from "../../utils";
-import {Web3Context} from '../../App.react';
-import { infuraProvider } from "../../config";
 
 type Props = {|
   +item?: Object,
@@ -94,9 +68,11 @@ function ProtektHoldingSection({
 
   if(!accountBalances.ready || accountBalances[item.pTokenSymbol]["token"] === "0") {
     return (<div></div>)
+  } else if(coverage.loading) {
+    return (<Card.Body><Dimmer active loader /></Card.Body>)
   }
 
-  return ( coverage.loading ? <Card.Body><Dimmer active loader /></Card.Body> : 
+  return (
     <Card.Body>
       <Grid.Row>
         <Grid.Col width={6}>
