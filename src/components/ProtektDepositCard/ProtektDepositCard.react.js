@@ -88,20 +88,21 @@ function ProtektDepositCard({
     web3Context,
     tokenPrices,
     contracts,
-    [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol],
-    [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals],
-    [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress],
-    [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol]
+    [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol, item.coreTokenSymbol],
+    [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals, item.coreTokenDecimals],
+    [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress, item.pTokenAddress],
+    [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol, null]
   );
+  
 
   async function handleDepositTx(amount, cb) {
     if(web3Context.ready) {
       const tx = Transactor(web3Context.provider, cb, gasPrice);
-      let weiAmount = ethers.utils.parseUnits(amount.toString(), item.underlyingTokenDecimals);
-      const allowanceAmount = await contracts[item.underlyingTokenSymbol]["allowance"](...[web3Context.address, item.pTokenAddress]);
+      let weiAmount = ethers.utils.parseUnits(amount.toString(), item.coreTokenDecimals);
+      const allowanceAmount = await contracts[item.coreTokenSymbol]["allowance"](...[web3Context.address, item.pTokenAddress]);
 
       if(weiAmount.gt(allowanceAmount)) {
-        tx(contracts[item.underlyingTokenSymbol]["approve"](item.pTokenAddress, ethers.utils.parseUnits('1000000',item.underlyingTokenDecimals)), cb);
+        tx(contracts[item.coreTokenSymbol]["approve"](item.pTokenAddress, ethers.utils.parseUnits('1000000',item.coreTokenDecimals)), cb);
       } else {
         console.log(contracts[item.pTokenSymbol])
         tx(contracts[item.pTokenSymbol]["depositCoreTokens(uint256)"](weiAmount), cb);
@@ -123,7 +124,7 @@ function ProtektDepositCard({
       tx(contracts[item.claimsContractId]["submitClaim"]());
     }
   }
-
+  
   function renderDepositCard() {
     return (
       <Card.Body>
@@ -139,16 +140,16 @@ function ProtektDepositCard({
               tokenPrices={tokenPrices}
               contracts={contracts}
               handleSubmit={handleDepositTx}
-              label={`Your wallet: ${numeral(ethers.utils.formatUnits(accountBalances[item.underlyingTokenSymbol]["token"],item.underlyingTokenDecimals)).format('0.00')} ${item.underlyingTokenSymbol.toUpperCase()}`}
-              buttonIcon={ accountBalances[item.underlyingTokenSymbol] && 
-                            accountBalances[item.underlyingTokenSymbol]["allowance"] &&
-                              accountBalances[item.underlyingTokenSymbol]["allowance"].gt(0) ?
+              label={`Your wallet: ${numeral(ethers.utils.formatUnits(accountBalances[item.coreTokenSymbol]["token"],item.coreTokenDecimals)).format('0.00')} ${item.coreTokenSymbol.toUpperCase()}`}
+              buttonIcon={ accountBalances[item.coreTokenSymbol] && 
+                            accountBalances[item.coreTokenSymbol]["allowance"] &&
+                              accountBalances[item.coreTokenSymbol]["allowance"].gt(0) ?
                                 "download" : 
                                   "toggle-left"
                         }
-              buttonLabel={ accountBalances[item.underlyingTokenSymbol] && 
-                        accountBalances[item.underlyingTokenSymbol]["allowance"] &&
-                          accountBalances[item.underlyingTokenSymbol]["allowance"].gt(0) ?
+              buttonLabel={ accountBalances[item.coreTokenSymbol] && 
+                        accountBalances[item.coreTokenSymbol]["allowance"] &&
+                          accountBalances[item.coreTokenSymbol]["allowance"].gt(0) ?
                             "Deposit" : 
                               "Approve"
                     }
