@@ -217,7 +217,7 @@ function StakingDepositCard({
                 color="cyan"
                 className="color mt-1 mb-3"
                 icon={ "award" }
-                href={`https://protekt-redeem-${item.rewardToken}-kovan.herokuapp.com`}
+                href={`https://${item.protektRedeemId}.herokuapp.com`}
                 target="_blank"
               >
                 { `Go to Redeem App` }

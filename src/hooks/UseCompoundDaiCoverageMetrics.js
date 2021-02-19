@@ -19,7 +19,7 @@ async function getProtocolAPR(symbol) {
       return e.symbol === symbol;
     });
 
-    apr = temp[0].comp_supply_apy.value
+    apr = _.get(temp[0], 'comp_supply_apy.value', 0);
   } catch (error) {
     console.error(error);
   }
