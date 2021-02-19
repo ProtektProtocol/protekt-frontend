@@ -123,6 +123,10 @@ function ProtektDepositCard({
     }
   }
 
+
+  console.log(accountBalances)
+
+
   function renderDepositCard() {
     return (
       <Card.Body>
@@ -177,7 +181,7 @@ function ProtektDepositCard({
 
   return ( (coverage.loading) ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
     <AccordionItem>
-      <Card>
+      <Card className="mb-1">
         <AccordionItemHeading>
           <AccordionItemButton>
             <Card.Body>
@@ -195,7 +199,7 @@ function ProtektDepositCard({
                     style={{"verticalAlign":"middle"}}
                     size="lg"
                   />
-                  <Text size="h4" align="center" RootComponent="span" className="ml-0">{item.underlyingProtocol.toUpperCase()}</Text>
+                  <Text size="h4" align="center" RootComponent="span" className="ml-1">{item.underlyingProtocol.toUpperCase()}</Text>
                 </Grid.Col>
                 <Grid.Col width={2}>
                   <Text size="h4" align="center" className="mb-0">{`${numeral(coverage.netAdjustedAPR).format('0.00')}%`}</Text>

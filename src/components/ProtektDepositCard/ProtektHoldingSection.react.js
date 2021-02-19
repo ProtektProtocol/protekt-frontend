@@ -22,7 +22,7 @@ type Props = {|
   +gasPrice?: Object,
   +contracts?: Object,
   +claimsManager?: Object,
-  +accountBalances?: Object,
+  +accountBalances: Object,
 |};
 
 function ProtektHoldingSection({
@@ -34,7 +34,7 @@ function ProtektHoldingSection({
   coverage,
   claimsManager,
   accountBalances
-}: Props): React.Node {
+}: Props): React.Component {
 
 
   async function handleDepositTx(amount, cb) {
@@ -72,6 +72,9 @@ function ProtektHoldingSection({
     return (<Card.Body><Dimmer active loader /></Card.Body>)
   }
 
+  console.log(accountBalances)
+  console.log(accountBalances[item.pTokenSymbol]["token"])
+
   return (
     <Card.Body>
       <Grid.Row>
@@ -93,7 +96,7 @@ function ProtektHoldingSection({
               color="cyan"
               className="color mt-1 mb-3"
               icon={ "award" }
-              href={`https://protekt-redeem-${item.rewardToken}-kovan.herokuapp.com`}
+              href={`https://${item.protektRedeemId}.herokuapp.com`}
               target="_blank"
             >
               { `Go to Redeem App` }

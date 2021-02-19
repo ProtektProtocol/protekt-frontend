@@ -61,7 +61,7 @@ class SiteWrapper extends React.PureComponent<Props, State> {
           {header}
           {nav}
           <Alert type="primary" className="d-flex justify-content-center">
-            <strong>This project is experimental. Use at your own risk!</strong>
+            <strong>This project is still early! The contracts have NOT been audited! Only use funds you can lose!</strong>
           </Alert>
           {children}
         </Page.Main>
