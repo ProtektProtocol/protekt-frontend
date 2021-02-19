@@ -72,9 +72,6 @@ function ProtektHoldingSection({
     return (<Card.Body><Dimmer active loader /></Card.Body>)
   }
 
-  console.log(accountBalances)
-  console.log(accountBalances[item.pTokenSymbol]["token"])
-
   return (
     <Card.Body>
       <Grid.Row>

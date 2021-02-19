@@ -123,10 +123,6 @@ function ProtektDepositCard({
     }
   }
 
-
-  console.log(accountBalances)
-
-
   function renderDepositCard() {
     return (
       <Card.Body>
