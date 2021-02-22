@@ -83,29 +83,32 @@ function ProtektDepositCard({
     // 10M coreTokens are approved. Assuming no approval needed until user gets below 10k
     let weiAmount = ethers.utils.parseUnits('10000', item.coreTokenDecimals);
     let allowanceAmount = accountBalances[item.coreTokenSymbol] ? accountBalances[item.coreTokenSymbol]["allowance"] : 0;
-    console.log('allowanceAmount',allowanceAmount)
-    console.log('needsApproval',weiAmount.gt(allowanceAmount))
     setNeedsApproval(weiAmount.gt(allowanceAmount));
   },[accountBalances]);
 
   
 
-  async function handleDepositTx(amount, cb) {
+  async function handleDepositTx(amount, successCb, failedCb) {
     if(web3Context.ready) {
-      const tx = Transactor(web3Context.provider, cb, gasPrice);
-
       if(needsApproval) {
-        tx(contracts[item.coreTokenSymbol]["approve"](item.pTokenAddress, ethers.utils.parseUnits('10000000',item.coreTokenDecimals)), cb);
+        const callback = () => {
+          setNeedsApproval(false);
+          successCb();
+        }
+        const tx = Transactor(web3Context.provider, callback, failedCb, gasPrice);
+
+        tx(contracts[item.coreTokenSymbol]["approve"](item.pTokenAddress, ethers.utils.parseUnits('10000000',item.coreTokenDecimals)));
       } else {
+        const tx = Transactor(web3Context.provider, successCb, failedCb, gasPrice);
         let weiAmount = ethers.utils.parseUnits(amount.toString(), item.coreTokenDecimals);
-        tx(contracts[item.pTokenSymbol]["depositCoreTokens(uint256)"](weiAmount), cb);
+        tx(contracts[item.pTokenSymbol]["depositCoreTokens(uint256)"](weiAmount));
       }
     }
   }
 
-  async function handleWithdrawTx(amount, cb) {
+  async function handleWithdrawTx(amount, successCb, failedCb) {
     if(web3Context.ready && amount > 0) {
-      const tx = Transactor(web3Context.provider, cb, gasPrice);
+      const tx = Transactor(web3Context.provider, successCb, failedCb, gasPrice);
       let weiAmount = ethers.utils.parseUnits(amount.toString(), item.pTokenDecimals);
       tx(contracts[item.pTokenSymbol]["withdraw"](weiAmount));
     }
@@ -113,7 +116,7 @@ function ProtektDepositCard({
 
   async function handleSubmitClaimTx(cb) {
     if(web3Context.ready) {
-      const tx = Transactor(web3Context.provider, cb, gasPrice);
+      const tx = Transactor(web3Context.provider, cb, cb, gasPrice);
       tx(contracts[item.claimsContractId]["submitClaim"]());
     }
   }
