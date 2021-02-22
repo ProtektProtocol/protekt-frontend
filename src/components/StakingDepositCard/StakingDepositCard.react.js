@@ -28,7 +28,6 @@ import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
 
 import {
   useGasPrice,
-  getCompoundDaiCoverageMetrics,
   useCompoundDaiCoverageMetrics,
   useAccountBalances,
   useClaimsManager,
@@ -56,9 +55,7 @@ function StakingDepositCard({
   const web3Context = useContext(Web3Context);
   const gasPrice = useGasPrice("fast");
   const contracts = useContractLoader(web3Context.provider);
-  const [requeryToggle, setRequeryToggle] = useState(false);
   const coverage = useCompoundDaiCoverageMetrics(
-    requeryToggle,
     item,
     contracts,
     tokenPrices,
@@ -69,31 +66,30 @@ function StakingDepositCard({
     contracts
   );
   const accountBalances = useAccountBalances(
-    requeryToggle,
     web3Context,
     tokenPrices,
     contracts,
-    [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol],
-    [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals],
-    [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress],
-    [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol]
+    [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol, item.coreTokenSymbol],
+    [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals, item.coreTokenDecimals],
+    [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress, item.pTokenAddress],
+    [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol, null]
   );
 
 
   // Handle requeries after a transaction
-  let queryAddress = web3Context.address ? web3Context.address : "0x"
-  const pTokenBalanceListener = useContractReader(contracts,item.shieldTokenSymbol, "balanceOf", [web3Context.address], 2000, false, (val) => console.log);  
-  if(requeryToggle && pTokenBalanceListener && accountBalances.ready &&
-      pTokenBalanceListener.toString() !== accountBalances[item.shieldTokenSymbol]["token"]
-    ) {
-    setRequeryToggle(false);
-    console.log("Requery Balances")
-  }
+  // let queryAddress = web3Context.address ? web3Context.address : "0x"
+  // const pTokenBalanceListener = useContractReader(contracts,item.shieldTokenSymbol, "balanceOf", [web3Context.address], 2000, false, (val) => console.log);  
+  // if(requeryToggle && pTokenBalanceListener && accountBalances.ready &&
+  //     pTokenBalanceListener.toString() !== accountBalances[item.shieldTokenSymbol]["token"]
+  //   ) {
+  //   setRequeryToggle(false);
+  //   console.log("Requery Balances")
+  // }
 
   // Called after a successful transaction
   async function handleTxSuccess() {
     console.log('Successful tx')
-    setRequeryToggle(true);
+    // setRequeryToggle(true);
   }
 
   async function handleDepositTx(amount) {

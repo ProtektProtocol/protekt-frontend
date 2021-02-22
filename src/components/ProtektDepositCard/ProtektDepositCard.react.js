@@ -32,8 +32,8 @@ import ProtektHoldingSection from "./ProtektHoldingSection.react";
 
 import {
   useGasPrice,
-  usePolledCompoundDaiCoverageMetrics,
-  usePolledAccountBalances,
+  useCompoundDaiCoverageMetrics,
+  useAccountBalances,
   useContractLoader,
   useContractReader,
   useClaimsManager
@@ -74,7 +74,8 @@ function ProtektDepositCard({
   const web3Context = useContext(Web3Context);
   const gasPrice = useGasPrice("fast");
   const contracts = useContractLoader(web3Context.provider);
-  const coverage = usePolledCompoundDaiCoverageMetrics(
+  console.log(item)
+  const coverage = useCompoundDaiCoverageMetrics(
     item,
     contracts,
     tokenPrices,
@@ -84,7 +85,7 @@ function ProtektDepositCard({
     item,
     contracts
   );
-  const accountBalances = usePolledAccountBalances(
+  const accountBalances = useAccountBalances(
     web3Context,
     tokenPrices,
     contracts,

@@ -58,7 +58,6 @@ export async function getAccountBalances(address, tokenPrices, contracts, tokens
 }
 
 export function useAccountBalances(
-  requeryToggle,
   web3Context,
   tokenPrices,
   contracts,
@@ -81,7 +80,7 @@ export function useAccountBalances(
       setBalances(bal);
     }
     run();      
-  },[contracts, web3Context, requeryToggle]);
+  },[contracts, web3Context]);
 
   return balances;
 }
