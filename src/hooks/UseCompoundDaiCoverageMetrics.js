@@ -43,8 +43,6 @@ export async function getCompoundDaiCoverageMetrics(item, contracts, tokenPrices
 
   _coverage.protocolAPR = await getProtocolAPR(item.underlyingTokenSymbol);
 
-  console.log(contracts)
-
   if(!_.isEmpty(contracts)) {
     try {
       _coverage.pTokenTotalDepositTokens = await contracts[item.underlyingTokenSymbol]["balanceOf"](...[item.pTokenAddress]);
