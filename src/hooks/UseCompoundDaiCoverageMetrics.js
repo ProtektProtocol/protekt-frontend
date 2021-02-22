@@ -43,6 +43,8 @@ export async function getCompoundDaiCoverageMetrics(item, contracts, tokenPrices
 
   _coverage.protocolAPR = await getProtocolAPR(item.underlyingTokenSymbol);
 
+  console.log(contracts)
+
   if(!_.isEmpty(contracts)) {
     try {
       _coverage.pTokenTotalDepositTokens = await contracts[item.underlyingTokenSymbol]["balanceOf"](...[item.pTokenAddress]);
@@ -73,7 +75,6 @@ export async function getCompoundDaiCoverageMetrics(item, contracts, tokenPrices
 }
 
 export function useCompoundDaiCoverageMetrics(
-  requeryToggle,
   item,
   contracts,
   tokenPrices,
@@ -105,7 +106,7 @@ export function useCompoundDaiCoverageMetrics(
     if(!_.isEmpty(contracts) && !_.isEmpty(tokenPrices)) {
       run();       
     }
-  },[contracts, tokenPrices, requeryToggle]);
+  },[contracts, tokenPrices]);
 
   return metrics;
 }

@@ -54,59 +54,59 @@ const data = {
           // Claims Fields
           claimsContractId: 'compound-dai-manual-claims',
           claimsManagerAddress: '0x205Fb9e7d44AFBcac3e987640C936531eE865990'
-        },
-        {
-          // Aave-USDC-Manual-kovan
-          id: 'Aave-USDC-Manual-kovan',
-          name: 'Aave USDC Manual (Kovan) ',
-          underlyingProtocol: 'aave',
-          protocolLogo: 'aave-logo',
-          logo: 'aUSDC-logo',
-          maxBlockFeeAPR: 2.60,
-          riskTag: 'Smart Contract Bugs',
-
-          // Display fields
-          backedByDisplay: 'wETH (Not re-invested)',
-          strategyDisplay: 'Deposits not re-invested',
-          claimsManagerDisplay: 'Claims are investigated for a period of 1 week, and the payout decision is made by a DAO vote.',
-          coverageDisplay: `Protection against 1) smart contract bugs that allow hackers to steal or lock DAI and 2) risk that admin keys are stolen or used to withdraw DAI. Not covered: 1) Risk of a Maker hack or DAI lossing its peg. 2) Risk of flash loan or other financial exploit.`,
-  
-          // Core Token
-          coreToken: 'usdc',
-          coreTokenSymbol: 'usdc',
-          coreTokenAddress: '0xe22da380ee6b445bb8273c81944adeb6e8450422',
-          coreTokenDecimals: 6,
-          coreTokenLogo: 'usdc-logo',
-
-          // pToken
-          underlyingTokenSymbol: 'ausdc',
-          underlyingTokenAddress: '0xe12afec5aa12cf614678f9bfeeb98ca9bb95b5b0',
-          underlyingTokenDecimals: 6,
-          pTokenDecimals: 6,
-          pTokenSymbol: 'pausdc',
-          pTokenAddress: '0xce330128A997546b1e98aFaaA01246bE8EE6fA1B',
-          feeModelAddress: '0xDF1b1c58FC59cbCe9e11c37aD239B37Cf56e7a5A',
-  
-          // Shield Token
-          reserveTokenSymbol: 'weth',
-          reserveTokenLogo: 'weth-logo',
-          reserveTokenAddress: '0xd0A1E359811322d97991E03f863a0C30C2cF029C',
-          reserveTokenDecimals: 18,
-          shieldTokenSymbol: 'shpcdai',
-          shieldTokenDecimals: 18,
-          shieldTokenAddress: '0xD2D3587a541EA696a8d1c6Be784Bc5935c8B6885',
-          controllerAddress: '0x7Af5f4481c3F3b42c7234086EA49bEa47A9c0a00',
-          strategyAddress: '0x582aC3E383F34C44d0B5e7CbAd4F4AaAdb93416C',
-  
-          // Rewards
-          rewardToken: 'ausdc',
-          rewardTokenDecimals: 6,
-          protektRedeemId: 'protekt-redeem-ausdc-kovan',
-
-          // Claims Fields
-          claimsContractId: 'compound-dai-manual-claims',
-          claimsManagerAddress: '0xE9915f6915908C99f7163D304fe78386bc36f8e5'
         }
+        // {
+        //   // Aave-USDC-Manual-kovan
+        //   id: 'Aave-USDC-Manual-kovan',
+        //   name: 'Aave USDC Manual (Kovan) ',
+        //   underlyingProtocol: 'aave',
+        //   protocolLogo: 'aave-logo',
+        //   logo: 'aUSDC-logo',
+        //   maxBlockFeeAPR: 2.60,
+        //   riskTag: 'Smart Contract Bugs',
+
+        //   // Display fields
+        //   backedByDisplay: 'wETH (Not re-invested)',
+        //   strategyDisplay: 'Deposits not re-invested',
+        //   claimsManagerDisplay: 'Claims are investigated for a period of 1 week, and the payout decision is made by a DAO vote.',
+        //   coverageDisplay: `Protection against 1) smart contract bugs that allow hackers to steal or lock DAI and 2) risk that admin keys are stolen or used to withdraw DAI. Not covered: 1) Risk of a Maker hack or DAI lossing its peg. 2) Risk of flash loan or other financial exploit.`,
+  
+        //   // Core Token
+        //   coreToken: 'usdc',
+        //   coreTokenSymbol: 'usdc',
+        //   coreTokenAddress: '0xe22da380ee6b445bb8273c81944adeb6e8450422',
+        //   coreTokenDecimals: 6,
+        //   coreTokenLogo: 'usdc-logo',
+
+        //   // pToken
+        //   underlyingTokenSymbol: 'ausdc',
+        //   underlyingTokenAddress: '0xe12afec5aa12cf614678f9bfeeb98ca9bb95b5b0',
+        //   underlyingTokenDecimals: 6,
+        //   pTokenDecimals: 6,
+        //   pTokenSymbol: 'pausdc',
+        //   pTokenAddress: '0xce330128A997546b1e98aFaaA01246bE8EE6fA1B',
+        //   feeModelAddress: '0xDF1b1c58FC59cbCe9e11c37aD239B37Cf56e7a5A',
+  
+        //   // Shield Token
+        //   reserveTokenSymbol: 'weth',
+        //   reserveTokenLogo: 'weth-logo',
+        //   reserveTokenAddress: '0xd0A1E359811322d97991E03f863a0C30C2cF029C',
+        //   reserveTokenDecimals: 18,
+        //   shieldTokenSymbol: 'shpcdai',
+        //   shieldTokenDecimals: 18,
+        //   shieldTokenAddress: '0xD2D3587a541EA696a8d1c6Be784Bc5935c8B6885',
+        //   controllerAddress: '0x7Af5f4481c3F3b42c7234086EA49bEa47A9c0a00',
+        //   strategyAddress: '0x582aC3E383F34C44d0B5e7CbAd4F4AaAdb93416C',
+  
+        //   // Rewards
+        //   rewardToken: 'ausdc',
+        //   rewardTokenDecimals: 6,
+        //   protektRedeemId: 'protekt-redeem-ausdc-kovan',
+
+        //   // Claims Fields
+        //   claimsContractId: 'compound-dai-manual-claims',
+        //   claimsManagerAddress: '0xE9915f6915908C99f7163D304fe78386bc36f8e5'
+        // }
       ],
       contracts: {
         dai: {
