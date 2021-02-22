@@ -23,6 +23,8 @@ type Props = {|
   +contracts?: Object,
   +claimsManager?: Object,
   +accountBalances: Object,
+  +needsApproval: boolean,
+  +setNeedsApproval: fn,
 |};
 
 function ProtektHoldingSection({
@@ -33,27 +35,34 @@ function ProtektHoldingSection({
   contracts,
   coverage,
   claimsManager,
-  accountBalances
+  accountBalances,
+  needsApproval,
+  setNeedsApproval
 }: Props): React.Component {
 
 
-  async function handleDepositTx(amount, cb) {
-    if(web3Context.ready) {
-      const tx = Transactor(web3Context.provider, cb, gasPrice);
-      let weiAmount = ethers.utils.parseUnits(amount.toString(), item.coreTokenDecimals);
-      const allowanceAmount = await contracts[item.coreTokenSymbol]["allowance"](...[web3Context.address, item.pTokenAddress]);
 
-      if(weiAmount.gt(allowanceAmount)) {
-        tx(contracts[item.coreTokenSymbol]["approve"](item.pTokenAddress, ethers.utils.parseUnits('1000000',item.coreTokenDecimals)), cb);
+  async function handleDepositTx(amount, successCb, failedCb) {
+    if(web3Context.ready) {
+      if(needsApproval) {
+        const callback = () => {
+          setNeedsApproval(false);
+          successCb();
+        }
+        const tx = Transactor(web3Context.provider, callback, failedCb, gasPrice);
+
+        tx(contracts[item.coreTokenSymbol]["approve"](item.pTokenAddress, ethers.utils.parseUnits('10000000',item.coreTokenDecimals)));
       } else {
-        tx(contracts[item.pTokenSymbol]["deposit"](weiAmount), cb);
+        const tx = Transactor(web3Context.provider, successCb, failedCb, gasPrice);
+        let weiAmount = ethers.utils.parseUnits(amount.toString(), item.coreTokenDecimals);
+        tx(contracts[item.pTokenSymbol]["depositCoreTokens(uint256)"](weiAmount));
       }
     }
   }
 
-  async function handleWithdrawTx(amount, cb) {
+  async function handleWithdrawTx(amount, successCb, failedCb) {
     if(web3Context.ready && amount > 0) {
-      const tx = Transactor(web3Context.provider, cb, gasPrice);
+      const tx = Transactor(web3Context.provider, successCb, failedCb, gasPrice);
       let weiAmount = ethers.utils.parseUnits(amount.toString(), item.pTokenDecimals);
       tx(contracts[item.pTokenSymbol]["withdraw"](weiAmount));
     }
@@ -61,7 +70,7 @@ function ProtektHoldingSection({
 
   async function handleSubmitClaimTx(cb) {
     if(web3Context.ready) {
-      const tx = Transactor(web3Context.provider, cb, gasPrice);
+      const tx = Transactor(web3Context.provider, cb, cb, gasPrice);
       tx(contracts[item.claimsContractId]["submitClaim"]());
     }
   }
@@ -108,18 +117,14 @@ function ProtektHoldingSection({
             contracts={contracts}
             handleSubmit={handleDepositTx}
             label={`Your wallet: ${numeral(ethers.utils.formatUnits(accountBalances[item.coreTokenSymbol]["token"],item.coreTokenDecimals)).format('0.00')} ${item.coreTokenSymbol.toUpperCase()}`}
-            buttonIcon={ accountBalances[item.coreTokenSymbol] && 
-                          accountBalances[item.coreTokenSymbol]["allowance"] &&
-                            accountBalances[item.coreTokenSymbol]["allowance"].gt(0) ?
-                              "download" : 
-                                "toggle-left"
-                      }
-            buttonLabel={ accountBalances[item.coreTokenSymbol] && 
-                      accountBalances[item.coreTokenSymbol]["allowance"] &&
-                        accountBalances[item.coreTokenSymbol]["allowance"].gt(0) ?
-                          "Deposit" : 
-                            "Approve"
-                  }
+            buttonIcon={ needsApproval ?
+                                "toggle-left" :
+                                "download"
+                        }
+            buttonLabel={ needsApproval ?
+                            "Approve" :
+                            "Deposit"
+                        }
           />
         </Grid.Col>
         <Grid.Col width={5} offset={1}>

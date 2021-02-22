@@ -8,7 +8,7 @@ import Notify from "bnc-notify";
 // it is basically just a wrapper around BlockNative's wonderful Notify.js
 // https://docs.blocknative.com/notify
 
-export default function Transactor(provider, cb, gasPrice, etherscan) {
+export default function Transactor(provider, successCb, failedCb, gasPrice, etherscan) {
   if (typeof provider !== "undefined") {
     // eslint-disable-next-line consistent-return
     return async tx => {
@@ -63,19 +63,19 @@ export default function Transactor(provider, cb, gasPrice, etherscan) {
             };
           });
           emitter.on('txConfirmed', transaction => {
-            cb();
+            successCb();
             return {
               onclick: () => window.open((etherscan || etherscanTxUrl) + transaction.hash),
             };
           });
           emitter.on('txCancel', transaction => {
-            cb();
+            failedCb();
             return {
               onclick: () => window.open((etherscan || etherscanTxUrl) + transaction.hash),
             };
           });
           emitter.on('txFailed', transaction => {
-            cb();
+            failedCb();
             return {
               onclick: () => window.open((etherscan || etherscanTxUrl) + transaction.hash),
             };
@@ -90,7 +90,7 @@ export default function Transactor(provider, cb, gasPrice, etherscan) {
 
         return result;
       } catch (e) {
-        cb(e);
+        failedCb(e);
         notification.error({
           message: "Transaction Error",
           description: e.message,

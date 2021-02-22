@@ -43,10 +43,16 @@ function DepositWithdrawTokensForm({
       })}
       onSubmit={ async (values, actions) => {
         setLoading(true);
-        const afterMine = (error) => {
+        const successCb = () => {
+          actions.resetForm({
+             values: { numbers: '' }
+          });
           setLoading(false);
         }
-        handleSubmit(values.numbers, afterMine);
+        const failedCb = () => {
+          setLoading(false);
+        }
+        handleSubmit(values.numbers, successCb, failedCb);
       }}
     >
       {props => {

@@ -42,21 +42,6 @@ import { Transactor } from "../../utils";
 import {Web3Context} from '../../App.react';
 import { infuraProvider } from "../../config";
 
-const MyLoader = () => (
-  <ContentLoader
-    height={20}
-    width={30}>
-    <rect x="0" y="0" rx="0" ry="0" width="30" height="20" />
-  </ContentLoader>
-)
-
-const isLoading = (loading, node) => {
-  if(!loading) {
-    return node;
-  }
-  return <MyLoader />;
-}
-
 type Props = {|
   +children?: React.Node,
   +item?: Object,
@@ -74,7 +59,6 @@ function ProtektDepositCard({
   const web3Context = useContext(Web3Context);
   const gasPrice = useGasPrice("fast");
   const contracts = useContractLoader(web3Context.provider);
-  console.log(item)
   const coverage = useCompoundDaiCoverageMetrics(
     item,
     contracts,
@@ -94,18 +78,26 @@ function ProtektDepositCard({
     [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress, item.pTokenAddress],
     [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol, null]
   );
+  const [needsApproval, setNeedsApproval] = useState(true);
+  useEffect(() => {
+    // 10M coreTokens are approved. Assuming no approval needed until user gets below 10k
+    let weiAmount = ethers.utils.parseUnits('10000', item.coreTokenDecimals);
+    let allowanceAmount = accountBalances[item.coreTokenSymbol] ? accountBalances[item.coreTokenSymbol]["allowance"] : 0;
+    console.log('allowanceAmount',allowanceAmount)
+    console.log('needsApproval',weiAmount.gt(allowanceAmount))
+    setNeedsApproval(weiAmount.gt(allowanceAmount));
+  },[accountBalances]);
+
   
 
   async function handleDepositTx(amount, cb) {
     if(web3Context.ready) {
       const tx = Transactor(web3Context.provider, cb, gasPrice);
-      let weiAmount = ethers.utils.parseUnits(amount.toString(), item.coreTokenDecimals);
-      const allowanceAmount = await contracts[item.coreTokenSymbol]["allowance"](...[web3Context.address, item.pTokenAddress]);
 
-      if(weiAmount.gt(allowanceAmount)) {
-        tx(contracts[item.coreTokenSymbol]["approve"](item.pTokenAddress, ethers.utils.parseUnits('1000000',item.coreTokenDecimals)), cb);
+      if(needsApproval) {
+        tx(contracts[item.coreTokenSymbol]["approve"](item.pTokenAddress, ethers.utils.parseUnits('10000000',item.coreTokenDecimals)), cb);
       } else {
-        console.log(contracts[item.pTokenSymbol])
+        let weiAmount = ethers.utils.parseUnits(amount.toString(), item.coreTokenDecimals);
         tx(contracts[item.pTokenSymbol]["depositCoreTokens(uint256)"](weiAmount), cb);
       }
     }
@@ -142,17 +134,13 @@ function ProtektDepositCard({
               contracts={contracts}
               handleSubmit={handleDepositTx}
               label={`Your wallet: ${numeral(ethers.utils.formatUnits(accountBalances[item.coreTokenSymbol]["token"],item.coreTokenDecimals)).format('0.00')} ${item.coreTokenSymbol.toUpperCase()}`}
-              buttonIcon={ accountBalances[item.coreTokenSymbol] && 
-                            accountBalances[item.coreTokenSymbol]["allowance"] &&
-                              accountBalances[item.coreTokenSymbol]["allowance"].gt(0) ?
-                                "download" : 
-                                  "toggle-left"
+              buttonIcon={ needsApproval ?
+                                "toggle-left" :
+                                "download"
                         }
-              buttonLabel={ accountBalances[item.coreTokenSymbol] && 
-                        accountBalances[item.coreTokenSymbol]["allowance"] &&
-                          accountBalances[item.coreTokenSymbol]["allowance"].gt(0) ?
-                            "Deposit" : 
-                              "Approve"
+              buttonLabel={ needsApproval ?
+                            "Approve" :
+                            "Deposit"
                     }
             />
           </Grid.Col>
@@ -167,7 +155,7 @@ function ProtektDepositCard({
               tokenPrices={tokenPrices}
               contracts={contracts}
               handleSubmit={handleWithdrawTx}
-              label={`Your deposits: ${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.pTokenDecimals)).format('0.00')} ${item.pTokenSymbol}`}
+              label={`Your deposits: ${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.pTokenDecimals)).format('0.00')} ${item.pTokenSymbol.toUpperCase()}`}
               buttonIcon={ "upload" }
               buttonLabel={ "Withdraw" }
             />
@@ -230,6 +218,8 @@ function ProtektDepositCard({
             coverage={coverage}
             claimsManager={claimsManager}
             accountBalances={accountBalances}
+            needsApproval={needsApproval}
+            setNeedsApproval={setNeedsApproval}
           />
           <Card.Body>
             <Grid.Row>
