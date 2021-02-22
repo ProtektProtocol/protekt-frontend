@@ -173,7 +173,6 @@ function ProtektDepositCard({
           </Grid.Col>
         </Grid.Row>
       </Card.Body>
-
     )
   }
 
