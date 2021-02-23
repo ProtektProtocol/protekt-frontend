@@ -73,6 +73,8 @@ function ProtektHoldingSection({
     return (<Card.Body><Dimmer active loader /></Card.Body>)
   }
 
+  console.log('logging balance holdings', accountBalances[item.pTokenSymbol]["token"])
+
   return (
     <Card.Body>
       <Grid.Row>

@@ -97,6 +97,11 @@ function ProtektDepositCard({
     [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress, item.pTokenAddress],
     [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol, null]
   );
+
+  console.log('logging account balances')
+  console.log(accountBalances)
+  
+  
   
 
   async function handleDepositTx(amount, cb) {

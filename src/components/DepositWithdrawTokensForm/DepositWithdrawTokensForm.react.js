@@ -22,6 +22,10 @@ type Props = {|
   +label: string
 |};
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function DepositWithdrawTokensForm({
   item,
   accountBalances,
@@ -44,7 +48,8 @@ function DepositWithdrawTokensForm({
       })}
       onSubmit={ async (values, actions) => {
         setLoading(true);
-        const afterMine = (error) => {
+        const afterMine = async (error) => {
+          await sleep(15000)
           onRequery()
           console.log('on Requery hit')
           setLoading(false);
