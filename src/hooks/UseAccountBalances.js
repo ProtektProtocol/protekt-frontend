@@ -5,7 +5,7 @@ import { usePoller } from "eth-hooks";
 
 export async function getAccountBalances(address, tokenPrices, contracts, tokens=[], decimals=[], allowances=[], depositedToken=[]) {
   let _balances = {ready: false};
-
+  console.log('hitting')
   if(!_.isEmpty(address) && !_.isEmpty(contracts)) {
     try {
       for (let i = 0; i < tokens.length; i++) {
@@ -58,6 +58,7 @@ export async function getAccountBalances(address, tokenPrices, contracts, tokens
 }
 
 export function useAccountBalances(
+  requery,
   web3Context,
   tokenPrices,
   contracts,
@@ -77,10 +78,11 @@ export function useAccountBalances(
         allowances,
         depositedToken
       );
+      console.log(bal)
       setBalances(bal);
     }
     run();      
-  },[contracts, web3Context]);
+  },[contracts, web3Context,requery]);
 
   return balances;
 }

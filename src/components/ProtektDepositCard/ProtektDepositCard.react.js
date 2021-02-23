@@ -74,6 +74,8 @@ function ProtektDepositCard({
   const web3Context = useContext(Web3Context);
   const gasPrice = useGasPrice("fast");
   const contracts = useContractLoader(web3Context.provider);
+  const [requery,setRequery] = useState(0)
+  console.log(requery)
   console.log(item)
   const coverage = useCompoundDaiCoverageMetrics(
     item,
@@ -86,6 +88,7 @@ function ProtektDepositCard({
     contracts
   );
   const accountBalances = useAccountBalances(
+    requery,
     web3Context,
     tokenPrices,
     contracts,
@@ -154,6 +157,7 @@ function ProtektDepositCard({
                             "Deposit" : 
                               "Approve"
                     }
+              onRequery={()=>setRequery(prevState=>prevState + 1)}
             />
           </Grid.Col>
           <Grid.Col width={5} offset={1}>
@@ -170,6 +174,7 @@ function ProtektDepositCard({
               label={`Your deposits: ${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.pTokenDecimals)).format('0.00')} ${item.pTokenSymbol}`}
               buttonIcon={ "upload" }
               buttonLabel={ "Withdraw" }
+              onRequery={()=>setRequery(prevState=>prevState + 1)}
             />
           </Grid.Col>
         </Grid.Row>
@@ -230,6 +235,7 @@ function ProtektDepositCard({
             coverage={coverage}
             claimsManager={claimsManager}
             accountBalances={accountBalances}
+            onRequery={()=>setRequery(prevState=>prevState + 1)}
           />
           <Card.Body>
             <Grid.Row>

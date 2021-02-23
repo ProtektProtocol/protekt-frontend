@@ -33,7 +33,8 @@ function ProtektHoldingSection({
   contracts,
   coverage,
   claimsManager,
-  accountBalances
+  accountBalances,
+  onRequery,
 }: Props): React.Component {
 
 
@@ -120,6 +121,7 @@ function ProtektHoldingSection({
                           "Deposit" : 
                             "Approve"
                   }
+            onRequery={onRequery}
           />
         </Grid.Col>
         <Grid.Col width={5} offset={1}>
@@ -149,6 +151,7 @@ function ProtektHoldingSection({
             label={`For withdraw: ${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.pTokenDecimals)).format('0.00')} ${item.pTokenSymbol.toUpperCase()}`}
             buttonIcon={ "upload" }
             buttonLabel={ "Withdraw" }
+            onRequery={onRequery}
           />
         </Grid.Col>
       </Grid.Row>
