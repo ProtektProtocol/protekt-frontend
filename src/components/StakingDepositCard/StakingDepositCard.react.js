@@ -75,7 +75,6 @@ function StakingDepositCard({
         [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress, item.pTokenAddress],
         [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol, null]
       )
-
       setAccountBalances({...newAccountBalances})
     })();
   }, 5000)
@@ -83,8 +82,9 @@ function StakingDepositCard({
 
   // Called after a successful transaction
   async function handleTxSuccess() {
-    console.log('Successful tx')
-    
+    /*
+      This doing nothing possibly remove?
+    */
   }
 
   async function handleDepositTx(amount) {

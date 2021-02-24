@@ -36,7 +36,6 @@ function DepositWithdrawTokensForm({
   label,
   buttonIcon,
   buttonLabel,
-  onRequery
 }: Props): React.Node {
   const [loading, setLoading] = useState(false);
 
@@ -51,7 +50,6 @@ function DepositWithdrawTokensForm({
         const afterMine = async (error) => {
           await sleep(15000)
           setLoading(false);
-          onRequery()
         }
         handleSubmit(values.numbers, afterMine);
       }}

@@ -12,15 +12,17 @@ import ContentLoader from 'react-content-loader'
 import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
 import ProtektHoldingSection from "./ProtektHoldingSection.react";
 
-import Dimmer from '../tablerReactAlt/src/components/Dimmer'
-import Tag from '../tablerReactAlt/src/components/Tag'
-import Avatar from '../tablerReactAlt/src/components/Avatar'
-
-import Accordion from 'react-bootstrap/Accordion'
-import Card from 'react-bootstrap/Card'
-import Button from 'react-bootstrap/Button'
-import Row from 'react-bootstrap/Row'
-import Col from 'react-bootstrap/Col'
+import {
+  Grid,
+  Header,
+  Dimmer,
+  Button,
+  Form,
+  Avatar,
+  Text,
+  Tag
+} from "tabler-react";
+import Card from "../tablerReactAlt/src/components/Card";
 
 import {
   useGasPrice,
@@ -67,8 +69,6 @@ function ProtektDepositCard({
   const web3Context = useContext(Web3Context);
   const gasPrice = useGasPrice("fast");
   const contracts = useContractLoader(web3Context.provider);
-  const [requery,setRequery] = useState(0)
-  // const [,forceUpdate] = useReducer(x=>x+1,0)
 
   const coverage = useCompoundDaiCoverageMetrics(
     item,
@@ -76,7 +76,6 @@ function ProtektDepositCard({
     tokenPrices,
     lendingMarketMetrics[0]
   );
-
 
   const claimsManager = useClaimsManager(
     item,
@@ -101,20 +100,6 @@ function ProtektDepositCard({
     })();
   }, 5000)
 
-  // const [accountBalances] = useAccountBalances(
-  //   requery,
-  //   web3Context,
-  //   tokenPrices,
-  //   contracts,
-  //   [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol, item.coreTokenSymbol],
-  //   [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals, item.coreTokenDecimals],
-  //   [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress, item.pTokenAddress],
-  //   [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol, null]
-  // );
-
-  console.log('logging account balances')
-  console.log(accountBalances)
-
 
   async function handleDepositTx(amount, cb) {
     if(web3Context.ready) {
@@ -125,7 +110,6 @@ function ProtektDepositCard({
       if(weiAmount.gt(allowanceAmount)) {
         tx(contracts[item.coreTokenSymbol]["approve"](item.pTokenAddress, ethers.utils.parseUnits('1000000',item.coreTokenDecimals)), cb);
       } else {
-        console.log('logging amount',amount)
         tx(contracts[item.pTokenSymbol]["depositCoreTokens(uint256)"](weiAmount), cb);
       }
     }
@@ -149,11 +133,11 @@ function ProtektDepositCard({
   function renderDepositCard() {
     return (
       <Card.Body>
-        <Row>
-          <Col lg={5} >
-            <h4>
+        <Grid.Row>
+          <Grid.Col width={5} >
+            <Header.H4>
               Start earning safely
-            </h4>
+            </Header.H4>
             <DepositWithdrawTokensForm
               item={item}
               accountBalances={accountBalances}
@@ -174,17 +158,12 @@ function ProtektDepositCard({
                             "Deposit" : 
                               "Approve"
                     }
-              onRequery={()=>{
-                setRequery(prevState=>prevState + 1)
-              }}
-              actionCount={requery}
-              key={accountBalances}
             />
-          </Col>
-          <Col lg={5} offset={1}>
-            <h4>
+          </Grid.Col>
+          <Grid.Col width={5} offset={1}>
+            <Header.H4>
               Withdraw anytime
-            </h4>
+            </Header.H4>
             <DepositWithdrawTokensForm
               item={item}
               accountBalances={accountBalances}
@@ -195,14 +174,9 @@ function ProtektDepositCard({
               label={`Your deposits: ${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.pTokenDecimals)).format('0.00')} ${item.pTokenSymbol}`}
               buttonIcon={ "upload" }
               buttonLabel={ "Withdraw" }
-              onRequery={()=>{
-                setRequery(prevState=>prevState + 1)
-              }}
-              actionCount={requery}
-              key={accountBalances}
             />
-          </Col>
-        </Row>
+          </Grid.Col>
+        </Grid.Row>
       </Card.Body>
 
     )
@@ -210,49 +184,42 @@ function ProtektDepositCard({
 
   return ( (coverage.loading) ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
       <Card className="mb-1">
-        <Card.Body>
-          <Row className="center full-height">
-            <Col className="vertical-center" lg={2}>
-              <div>
-                <Avatar
-                  imageURL={`assets/${item.coreTokenLogo}.png`}
-                  style={{"verticalAlign":"middle"}}
+            <Card.Body>
+              <Grid.Row alignItems="center" justifyContent="center">
+                <Grid.Col width={2}>
+                  <Avatar
+                    imageURL={`assets/${item.coreTokenLogo}.png`}
+                    style={{"verticalAlign":"middle"}}
                   />
-                <h4  className="ml-2">{item.coreToken.toUpperCase()}</h4>
-              </div>
-            </Col>
-            <Col className="vertical-center" lg={3}>
-                <div>
+                  <Text size="h4" align="center" RootComponent="span" className="ml-2">{item.coreToken.toUpperCase()}</Text>
+                </Grid.Col>
+                <Grid.Col width={3}>
                   <Avatar
                     imageURL={`assets/${item.protocolLogo}.png`}
                     style={{"verticalAlign":"middle"}}
                     size="lg"
                   />
-                  <h4 className="ml-1">{item.underlyingProtocol.toUpperCase()}</h4>
-                </div>
-              </Col>
-              <Col className="vertical-center" lg={2}>
-                <div>
-                  <h4 className="mb-0">{`${numeral(coverage.netAdjustedAPR).format('0.00')}%`}</h4>
-                </div>
-              </Col>
-              <Col className="vertical-center" lg={2}>
-                <div>
-                  <p>
-                      {`${numeral(coverage.pTokenTotalDepositUsd).format('$0,0a')}`}
-                  </p>
-                  <p className="center muted">
-                      {`${numeral(parseFloat(ethers.utils.formatUnits(coverage.pTokenTotalDepositTokens,item.underlyingTokenDecimals))).format('0,0a')} ${item.underlyingTokenSymbol.toUpperCase()}`}
-                  </p>
-                </div>
-              </Col>
-              <Col lg={3} className="vertical-center">
-                <Tag.List>
-                  <Tag rounded color="purple">{item.riskTag}</Tag>
-                </Tag.List>
-              </Col>
-            </Row>
-          </Card.Body>
+                  <Text size="h4" align="center" RootComponent="span" className="ml-1">{item.underlyingProtocol.toUpperCase()}</Text>
+                </Grid.Col>
+                <Grid.Col width={2}>
+                  <Text size="h4" align="center" className="mb-0">{`${numeral(coverage.netAdjustedAPR).format('0.00')}%`}</Text>
+                </Grid.Col>
+                <Grid.Col width={2}>
+                  <Text align="center">
+                    {`${numeral(coverage.pTokenTotalDepositUsd).format('$0,0a')}`}
+                  </Text>
+                  <Text align="center" size="sm" muted>
+                    {`${numeral(parseFloat(ethers.utils.formatUnits(coverage.pTokenTotalDepositTokens,item.underlyingTokenDecimals))).format('0,0a')} ${item.underlyingTokenSymbol.toUpperCase()}`}
+                  </Text>
+                </Grid.Col>
+                <Grid.Col width={3} className="text-center">
+                  <Tag.List>
+                    <Tag rounded color="purple">{item.riskTag}</Tag>
+                  </Tag.List>
+                </Grid.Col>
+              </Grid.Row>
+            </Card.Body>
+
           <ProtektHoldingSection
             item={item}
             tokenPrices={tokenPrices}
@@ -262,35 +229,29 @@ function ProtektDepositCard({
             coverage={coverage}
             claimsManager={claimsManager}
             accountBalances={accountBalances}
-            onRequery={()=>{
-                console.log('forcing update')
-                setRequery(prevState=>prevState + 1)
-              }}
-            actionCount={requery}
-            key={accountBalances}
           />
           <Card.Body>
-            <Row>
-              <Col lg={6}>
+            <Grid.Row>
+              <Grid.Col width={6}>
                 <h5 className="m-0 text-muted">{`COST`}</h5>
                 <p>{`${numeral(coverage.coverageFeeAPR).format('0.00')}% for ${coverage.coverageRatioDisplay} coverage`}</p>
                 <h5 className="m-0 text-muted">{`BACKED BY`}</h5>
                 <p>{`${item.backedByDisplay}`}</p>
-              </Col>
-              <Col isLoading={6}>
+              </Grid.Col>
+              <Grid.Col width={6}>
                 <h5 className="m-0 text-muted">{`CLAIMS`}</h5>
                 <p>{`${item.claimsManagerDisplay}`}</p>
-              </Col>
-            </Row>
-            <Row>
-              <Col lg={12}>
+              </Grid.Col>
+            </Grid.Row>
+            <Grid.Row>
+              <Grid.Col width={12}>
                 <h5 className="m-0 text-muted">{`COVERAGE FOR`}</h5>
                 <p>{`${item.coverageDisplay}`}</p>
-              </Col>
-            </Row>
+              </Grid.Col>
+            </Grid.Row>
           </Card.Body>
           { !web3Context.ready ?
-              (<Card.Body><h4 className="text-center font-italic">Connect Wallet Above<span role="img">👆</span></h4></Card.Body>) : 
+              (<Card.Body><Text className="text-center font-italic">Connect Wallet Above<span role="img">👆</span></Text></Card.Body>) : 
                 !accountBalances.ready ? <Card.Body><Dimmer active loader /></Card.Body> : 
                   accountBalances[item.pTokenSymbol]["token"] === "0" ?
                     renderDepositCard() :

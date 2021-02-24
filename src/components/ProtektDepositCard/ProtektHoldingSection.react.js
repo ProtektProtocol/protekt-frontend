@@ -34,15 +34,7 @@ function ProtektHoldingSection({
   coverage,
   claimsManager,
   accountBalances,
-  onRequery,
-  actionCount
 }: Props): React.Component {
-
-  const [count, updateCount] = useState(actionCount);
-
-  useEffect(() => {
-    updateCount(actionCount)
-  }, [actionCount])
 
 
   async function handleDepositTx(amount, cb) {
@@ -54,7 +46,6 @@ function ProtektHoldingSection({
       if(weiAmount.gt(allowanceAmount)) {
         tx(contracts[item.coreTokenSymbol]["approve"](item.pTokenAddress, ethers.utils.parseUnits('1000000',item.coreTokenDecimals)), cb);
       } else {
-        console.log('logging amount',amount)
         tx(contracts[item.pTokenSymbol]["depositCoreTokens(uint256)"](weiAmount), cb);
       }
     }
@@ -80,8 +71,6 @@ function ProtektHoldingSection({
   } else if(coverage.loading) {
     return (<Card.Body><Dimmer active loader /></Card.Body>)
   }
-
-  console.log('logging balance holdings', accountBalances[item.pTokenSymbol]["token"])
 
   return (
     <Card.Body
@@ -133,7 +122,6 @@ function ProtektHoldingSection({
                           "Deposit" : 
                             "Approve"
                   }
-            onRequery={onRequery}
             key={accountBalances}
           />
         </Grid.Col>
@@ -164,7 +152,6 @@ function ProtektHoldingSection({
             label={`For withdraw: ${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.pTokenDecimals)).format('0.00')} ${item.pTokenSymbol.toUpperCase()}`}
             buttonIcon={ "upload" }
             buttonLabel={ "Withdraw" }
-            onRequery={onRequery}
             key={accountBalances}
           />
         </Grid.Col>
