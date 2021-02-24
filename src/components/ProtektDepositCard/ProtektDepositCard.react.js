@@ -107,8 +107,6 @@ function ProtektDepositCard({
       )
       console.log('retrieved account balances')
       console.log(newAccountBalances)
-      console.log('retrieved pcdai')
-      console.log(pcDaiValue)
       if(newAccountBalances['pcdai']){
         const pTokenValue = newAccountBalances['pcdai']['token']
         setPCDaiValue(pTokenValue)
@@ -131,6 +129,9 @@ function ProtektDepositCard({
 
   console.log('logging account balances')
   console.log(accountBalances)
+
+  console.log('retrieved pcdai')
+  console.log(pcDaiValue)
 
   async function handleDepositTx(amount, cb) {
     if(web3Context.ready) {
