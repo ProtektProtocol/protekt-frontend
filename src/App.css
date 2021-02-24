@@ -54,3 +54,18 @@ button:disabled {
   cursor: not-allowed;
 }
 
+.center{
+  text-align: center;
+  justify-content: center;
+}
+
+.full-height{
+  height:100%;
+}
+
+.vertical-center{
+    display: flex;
+    align-items: center; 
+    justify-content: center;
+}
+

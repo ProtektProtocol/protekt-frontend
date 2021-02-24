@@ -16,20 +16,13 @@ import {
   Tag
 } from "tabler-react";
 
-import {
-  AccordionItem,
-  AccordionItemHeading,
-  AccordionItemButton,
-  AccordionItemPanel,
-} from 'react-accessible-accordion';
-
 import Card from "../tablerReactAlt/src/components/Card";
 import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
 
 import {
   useGasPrice,
   useCompoundDaiCoverageMetrics,
-  useAccountBalances,
+  useInterval,
   useClaimsManager,
   useContractLoader,
   useContractReader
@@ -37,6 +30,9 @@ import {
 import { Transactor } from "../../utils";
 import { Web3Context } from '../../App.react';
 import { infuraProvider } from "../../config";
+
+import {GetAccountBalances} from '../../utils/';
+
 
 type Props = {|
   +children?: React.Node,
@@ -65,31 +61,30 @@ function StakingDepositCard({
     item,
     contracts
   );
-  const accountBalances = useAccountBalances(
-    web3Context,
-    tokenPrices,
-    contracts,
-    [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol, item.coreTokenSymbol],
-    [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals, item.coreTokenDecimals],
-    [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress, item.pTokenAddress],
-    [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol, null]
-  );
+  
+  const [accountBalances, setAccountBalances] = useState({ready:false})
 
+  useInterval(async () => {
+    (async function(){
+      const newAccountBalances = await GetAccountBalances(
+        web3Context.address,
+        tokenPrices,
+        contracts,
+        [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol, item.coreTokenSymbol],
+        [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals, item.coreTokenDecimals],
+        [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress, item.pTokenAddress],
+        [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol, null]
+      )
 
-  // Handle requeries after a transaction
-  // let queryAddress = web3Context.address ? web3Context.address : "0x"
-  // const pTokenBalanceListener = useContractReader(contracts,item.shieldTokenSymbol, "balanceOf", [web3Context.address], 2000, false, (val) => console.log);  
-  // if(requeryToggle && pTokenBalanceListener && accountBalances.ready &&
-  //     pTokenBalanceListener.toString() !== accountBalances[item.shieldTokenSymbol]["token"]
-  //   ) {
-  //   setRequeryToggle(false);
-  //   console.log("Requery Balances")
-  // }
+      setAccountBalances({...newAccountBalances})
+    })();
+  }, 5000)
+
 
   // Called after a successful transaction
   async function handleTxSuccess() {
     console.log('Successful tx')
-    // setRequeryToggle(true);
+    
   }
 
   async function handleDepositTx(amount) {
@@ -241,10 +236,7 @@ function StakingDepositCard({
   }
 
   return ( coverage.loading ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
-    <AccordionItem>
       <Card>
-        <AccordionItemHeading>
-          <AccordionItemButton>
             <Card.Body>
               <Grid.Row alignItems="center" justifyContent="center">
                 <Grid.Col width={2} className="text-center">
@@ -288,9 +280,6 @@ function StakingDepositCard({
                 </Grid.Col>
               </Grid.Row>
             </Card.Body>
-          </AccordionItemButton>
-        </AccordionItemHeading>
-        <AccordionItemPanel>
           { (web3Context.ready &&
               accountBalances.ready &&
                 accountBalances[item.shieldTokenSymbol]["token"] !== "0") ?
@@ -328,9 +317,7 @@ function StakingDepositCard({
                   </div>      
                 )
           }
-        </AccordionItemPanel>
       </Card>
-      </AccordionItem>
   )
 }
 

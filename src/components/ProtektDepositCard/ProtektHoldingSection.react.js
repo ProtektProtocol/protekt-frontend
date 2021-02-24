@@ -54,7 +54,8 @@ function ProtektHoldingSection({
       if(weiAmount.gt(allowanceAmount)) {
         tx(contracts[item.coreTokenSymbol]["approve"](item.pTokenAddress, ethers.utils.parseUnits('1000000',item.coreTokenDecimals)), cb);
       } else {
-        tx(contracts[item.pTokenSymbol]["deposit"](weiAmount), cb);
+        console.log('logging amount',amount)
+        tx(contracts[item.pTokenSymbol]["depositCoreTokens(uint256)"](weiAmount), cb);
       }
     }
   }
@@ -86,7 +87,6 @@ function ProtektHoldingSection({
     <Card.Body
       key={accountBalances}
     >
-    <div>{JSON.stringify(accountBalances)} - from holding</div>
       <Grid.Row>
         <Grid.Col width={6}>
           <h5 className="m-0 text-muted">{`YOUR DEPOSITS`}</h5>
@@ -136,7 +136,6 @@ function ProtektHoldingSection({
             onRequery={onRequery}
             key={accountBalances}
           />
-          <p>Action Count {count}</p>
         </Grid.Col>
         <Grid.Col width={5} offset={1}>
           <h5 className="m-0 text-muted">{`SUBMIT CLAIM`}</h5>
