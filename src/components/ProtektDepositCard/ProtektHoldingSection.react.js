@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import numeral from 'numeral';
 import { ethers } from "ethers";
 
@@ -33,7 +33,7 @@ function ProtektHoldingSection({
   contracts,
   coverage,
   claimsManager,
-  accountBalances
+  accountBalances,
 }: Props): React.Component {
 
 
@@ -46,7 +46,7 @@ function ProtektHoldingSection({
       if(weiAmount.gt(allowanceAmount)) {
         tx(contracts[item.coreTokenSymbol]["approve"](item.pTokenAddress, ethers.utils.parseUnits('1000000',item.coreTokenDecimals)), cb);
       } else {
-        tx(contracts[item.pTokenSymbol]["deposit"](weiAmount), cb);
+        tx(contracts[item.pTokenSymbol]["depositCoreTokens(uint256)"](weiAmount), cb);
       }
     }
   }
@@ -73,7 +73,9 @@ function ProtektHoldingSection({
   }
 
   return (
-    <Card.Body>
+    <Card.Body
+      key={accountBalances}
+    >
       <Grid.Row>
         <Grid.Col width={6}>
           <h5 className="m-0 text-muted">{`YOUR DEPOSITS`}</h5>
@@ -120,6 +122,7 @@ function ProtektHoldingSection({
                           "Deposit" : 
                             "Approve"
                   }
+            key={accountBalances}
           />
         </Grid.Col>
         <Grid.Col width={5} offset={1}>
@@ -149,6 +152,7 @@ function ProtektHoldingSection({
             label={`For withdraw: ${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.pTokenDecimals)).format('0.00')} ${item.pTokenSymbol.toUpperCase()}`}
             buttonIcon={ "upload" }
             buttonLabel={ "Withdraw" }
+            key={accountBalances}
           />
         </Grid.Col>
       </Grid.Row>

@@ -1,9 +1,8 @@
-import { useState, useEffect } from 'react';
+
 import { ethers } from "ethers";
 import _ from "lodash";
-import { usePoller } from "eth-hooks";
 
-export async function getAccountBalances(address, tokenPrices, contracts, tokens=[], decimals=[], allowances=[], depositedToken=[]) {
+export default async function getAccountBalances(address, tokenPrices, contracts, tokens=[], decimals=[], allowances=[], depositedToken=[]) {
   let _balances = {ready: false};
   console.log('hitting')
   if(!_.isEmpty(address) && !_.isEmpty(contracts)) {
@@ -55,63 +54,4 @@ export async function getAccountBalances(address, tokenPrices, contracts, tokens
     }
   }
   return _balances
-}
-
-export function useAccountBalances(
-  requery,
-  web3Context,
-  tokenPrices,
-  contracts,
-  tokens=[],
-  decimals=[],
-  allowances=[],
-  depositedToken=[]) {
-  const [balances, setBalances] = useState({ready: false});
-  useEffect(() => {
-    async function run() {
-      const bal = await getAccountBalances(
-        web3Context.address,
-        tokenPrices,
-        contracts,
-        tokens,
-        decimals,
-        allowances,
-        depositedToken
-      );
-      console.log(bal)
-      setBalances(bal);
-    }
-    run();      
-  },[contracts, web3Context,requery]);
-
-  return balances;
-}
-
-export function usePolledAccountBalances(
-  web3Context,
-  tokenPrices,
-  contracts,
-  tokens=[],
-  decimals=[],
-  allowances=[],
-  depositedToken=[]) {
-  const [balances, setBalances] = useState({ready: false});
-  async function run() {
-    if(!_.isEmpty(contracts) && !_.isEmpty(tokenPrices) && web3Context.ready) {
-      setBalances({ready: false});
-      const bal = await getAccountBalances(
-        web3Context.address,
-        tokenPrices,
-        contracts,
-        tokens,
-        decimals,
-        allowances,
-        depositedToken
-      );
-      setBalances(bal);
-    }
-  }
-  usePoller(run, 2000);      
-
-  return balances;
 }

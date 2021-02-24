@@ -11,6 +11,7 @@ import { JsonRpcProvider, Web3Provider } from '@ethersproject/providers'
 export { default as GetBalanceOfERC20ForAddress } from "./GetBalanceOfERC20ForAddress";
 export { default as getPricePerFullShare } from "./GetPricePerFullShare";
 export { default as GetInterest } from "./GetInterest";
+export {default as GetAccountBalances} from "./GetAccountBalances";
 
 
 export { default as Transactor } from "./Transactor";

@@ -1,9 +1,16 @@
 // @flow
 
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useReducer } from 'react';
 import numeral from 'numeral';
 import { ethers } from "ethers";
 import _ from "lodash";
+
+import Account from "../Account";
+
+import ContentLoader from 'react-content-loader'
+
+import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
+import ProtektHoldingSection from "./ProtektHoldingSection.react";
 
 import {
   Grid,
@@ -15,20 +22,7 @@ import {
   Text,
   Tag
 } from "tabler-react";
-import Account from "../Account";
-
-import {
-  AccordionItem,
-  AccordionItemHeading,
-  AccordionItemButton,
-  AccordionItemPanel,
-} from 'react-accessible-accordion';
-
-import ContentLoader from 'react-content-loader'
-
 import Card from "../tablerReactAlt/src/components/Card";
-import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
-import ProtektHoldingSection from "./ProtektHoldingSection.react";
 
 import {
   useGasPrice,
@@ -36,9 +30,10 @@ import {
   useAccountBalances,
   useContractLoader,
   useContractReader,
-  useClaimsManager
+  useClaimsManager,
+  useInterval
 } from "../../hooks";
-import { Transactor } from "../../utils";
+import { GetAccountBalances, Transactor } from "../../utils";
 import {Web3Context} from '../../App.react';
 import { infuraProvider } from "../../config";
 
@@ -74,27 +69,37 @@ function ProtektDepositCard({
   const web3Context = useContext(Web3Context);
   const gasPrice = useGasPrice("fast");
   const contracts = useContractLoader(web3Context.provider);
-  console.log(item)
+
   const coverage = useCompoundDaiCoverageMetrics(
     item,
     contracts,
     tokenPrices,
     lendingMarketMetrics[0]
   );
+
   const claimsManager = useClaimsManager(
     item,
     contracts
   );
-  const accountBalances = useAccountBalances(
-    web3Context,
-    tokenPrices,
-    contracts,
-    [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol, item.coreTokenSymbol],
-    [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals, item.coreTokenDecimals],
-    [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress, item.pTokenAddress],
-    [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol, null]
-  );
-  
+
+  const [accountBalances, setAccountBalances] = useState({ready:false})
+
+  useInterval(async () => {
+    (async function(){
+      const newAccountBalances = await GetAccountBalances(
+        web3Context.address,
+        tokenPrices,
+        contracts,
+        [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol, item.coreTokenSymbol],
+        [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals, item.coreTokenDecimals],
+        [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress, item.pTokenAddress],
+        [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol, null]
+      )
+
+      setAccountBalances({...newAccountBalances})
+    })();
+  }, 5000)
+
 
   async function handleDepositTx(amount, cb) {
     if(web3Context.ready) {
@@ -105,7 +110,6 @@ function ProtektDepositCard({
       if(weiAmount.gt(allowanceAmount)) {
         tx(contracts[item.coreTokenSymbol]["approve"](item.pTokenAddress, ethers.utils.parseUnits('1000000',item.coreTokenDecimals)), cb);
       } else {
-        console.log(contracts[item.pTokenSymbol])
         tx(contracts[item.pTokenSymbol]["depositCoreTokens(uint256)"](weiAmount), cb);
       }
     }
@@ -179,10 +183,7 @@ function ProtektDepositCard({
   }
 
   return ( (coverage.loading) ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
-    <AccordionItem>
       <Card className="mb-1">
-        <AccordionItemHeading>
-          <AccordionItemButton>
             <Card.Body>
               <Grid.Row alignItems="center" justifyContent="center">
                 <Grid.Col width={2}>
@@ -218,9 +219,7 @@ function ProtektDepositCard({
                 </Grid.Col>
               </Grid.Row>
             </Card.Body>
-          </AccordionItemButton>
-        </AccordionItemHeading>
-        <AccordionItemPanel>
+
           <ProtektHoldingSection
             item={item}
             tokenPrices={tokenPrices}
@@ -258,9 +257,7 @@ function ProtektDepositCard({
                     renderDepositCard() :
                       (<div></div>)
           }
-        </AccordionItemPanel>
       </Card>
-    </AccordionItem>
   )
 }
 

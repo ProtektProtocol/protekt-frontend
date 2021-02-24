@@ -22,6 +22,10 @@ type Props = {|
   +label: string
 |};
 
+function sleep(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
 function DepositWithdrawTokensForm({
   item,
   accountBalances,
@@ -31,7 +35,7 @@ function DepositWithdrawTokensForm({
   handleSubmit,
   label,
   buttonIcon,
-  buttonLabel
+  buttonLabel,
 }: Props): React.Node {
   const [loading, setLoading] = useState(false);
 
@@ -43,7 +47,8 @@ function DepositWithdrawTokensForm({
       })}
       onSubmit={ async (values, actions) => {
         setLoading(true);
-        const afterMine = (error) => {
+        const afterMine = async (error) => {
+          await sleep(15000)
           setLoading(false);
         }
         handleSubmit(values.numbers, afterMine);
