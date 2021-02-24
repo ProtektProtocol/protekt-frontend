@@ -86,6 +86,7 @@ function ProtektHoldingSection({
     <Card.Body
       key={accountBalances}
     >
+    <div>{JSON.stringify(accountBalances)} - from holding</div>
       <Grid.Row>
         <Grid.Col width={6}>
           <h5 className="m-0 text-muted">{`YOUR DEPOSITS`}</h5>

@@ -36,9 +36,10 @@ import {
   useAccountBalances,
   useContractLoader,
   useContractReader,
-  useClaimsManager
+  useClaimsManager,
+  useInterval
 } from "../../hooks";
-import { Transactor } from "../../utils";
+import { GetAccountBalances, Transactor } from "../../utils";
 import {Web3Context} from '../../App.react';
 import { infuraProvider } from "../../config";
 
@@ -90,17 +91,43 @@ function ProtektDepositCard({
     contracts
   );
 
+  const [accountBalances, setAccountBalances] = useState({ready:false})
+  const [pcDaiValue, setPCDaiValue] = useState(0)
 
-  const accountBalances = useAccountBalances(
-    requery,
-    web3Context,
-    tokenPrices,
-    contracts,
-    [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol, item.coreTokenSymbol],
-    [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals, item.coreTokenDecimals],
-    [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress, item.pTokenAddress],
-    [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol, null]
-  );
+  useInterval(async () => {
+    (async function(){
+      const newAccountBalances = await GetAccountBalances(
+        web3Context.address,
+        tokenPrices,
+        contracts,
+        [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol, item.coreTokenSymbol],
+        [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals, item.coreTokenDecimals],
+        [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress, item.pTokenAddress],
+        [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol, null]
+      )
+      console.log('retrieved account balances')
+      console.log(newAccountBalances)
+      console.log('retrieved pcdai')
+      console.log(pcDaiValue)
+      if(newAccountBalances['pcdai']){
+        const pTokenValue = newAccountBalances['pcdai']['token']
+        setPCDaiValue(pTokenValue)
+      }
+      
+      setAccountBalances({...newAccountBalances})
+    })();
+  }, 5000)
+
+  // const [accountBalances] = useAccountBalances(
+  //   requery,
+  //   web3Context,
+  //   tokenPrices,
+  //   contracts,
+  //   [item.underlyingTokenSymbol, item.pTokenSymbol, item.reserveTokenSymbol, item.shieldTokenSymbol, item.coreTokenSymbol],
+  //   [item.underlyingTokenDecimals, item.pTokenDecimals, item.reserveTokenDecimals, item.shieldTokenDecimals, item.coreTokenDecimals],
+  //   [item.pTokenAddress, item.pTokenAddress, item.shieldTokenAddress, item.shieldTokenAddress, item.pTokenAddress],
+  //   [null, item.underlyingTokenSymbol, null, item.reserveTokenSymbol, null]
+  // );
 
   console.log('logging account balances')
   console.log(accountBalances)
@@ -201,6 +228,7 @@ function ProtektDepositCard({
     <AccordionItem
       key={accountBalances}
     >
+     <div>PCDAI VALUE: {String(pcDaiValue)}</div>
       <Card className="mb-1">
         <AccordionItemHeading>
           <AccordionItemButton>
