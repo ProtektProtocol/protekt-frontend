@@ -93,6 +93,7 @@ function ProtektDepositCard({
 
   const [accountBalances, setAccountBalances] = useState({ready:false})
   const [pcDaiValue, setPCDaiValue] = useState(0)
+  const [counter, setCounter] = useState(0)
 
   useInterval(async () => {
     (async function(){
@@ -111,7 +112,7 @@ function ProtektDepositCard({
         const pTokenValue = newAccountBalances['pcdai']['token']
         setPCDaiValue(pTokenValue)
       }
-      
+      setCounter(counter+1)
       setAccountBalances({...newAccountBalances})
     })();
   }, 5000)
@@ -132,6 +133,8 @@ function ProtektDepositCard({
 
   console.log('retrieved pcdai')
   console.log(pcDaiValue)
+
+  console.log(`logging counter: ${counter}`)
 
   async function handleDepositTx(amount, cb) {
     if(web3Context.ready) {
@@ -229,7 +232,7 @@ function ProtektDepositCard({
     <AccordionItem
       key={accountBalances}
     >
-     <div>PCDAI VALUE: {String(pcDaiValue)}</div>
+     <div>PCDAI VALUE: {String(pcDaiValue)} Counter: {counter}</div>
       <Card className="mb-1">
         <AccordionItemHeading>
           <AccordionItemButton>
