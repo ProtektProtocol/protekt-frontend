@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useReducer } from 'react';
 import numeral from 'numeral';
 import { ethers } from "ethers";
 import _ from "lodash";
@@ -75,18 +75,22 @@ function ProtektDepositCard({
   const gasPrice = useGasPrice("fast");
   const contracts = useContractLoader(web3Context.provider);
   const [requery,setRequery] = useState(0)
-  console.log(requery)
-  console.log(item)
+  // const [,forceUpdate] = useReducer(x=>x+1,0)
+
   const coverage = useCompoundDaiCoverageMetrics(
     item,
     contracts,
     tokenPrices,
     lendingMarketMetrics[0]
   );
+
+
   const claimsManager = useClaimsManager(
     item,
     contracts
   );
+
+
   const accountBalances = useAccountBalances(
     requery,
     web3Context,
@@ -100,9 +104,6 @@ function ProtektDepositCard({
 
   console.log('logging account balances')
   console.log(accountBalances)
-  
-  
-  
 
   async function handleDepositTx(amount, cb) {
     if(web3Context.ready) {
@@ -162,7 +163,11 @@ function ProtektDepositCard({
                             "Deposit" : 
                               "Approve"
                     }
-              onRequery={()=>setRequery(prevState=>prevState + 1)}
+              onRequery={()=>{
+                setRequery(prevState=>prevState + 1)
+              }}
+              actionCount={requery}
+              key={accountBalances}
             />
           </Grid.Col>
           <Grid.Col width={5} offset={1}>
@@ -179,7 +184,11 @@ function ProtektDepositCard({
               label={`Your deposits: ${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.pTokenDecimals)).format('0.00')} ${item.pTokenSymbol}`}
               buttonIcon={ "upload" }
               buttonLabel={ "Withdraw" }
-              onRequery={()=>setRequery(prevState=>prevState + 1)}
+              onRequery={()=>{
+                setRequery(prevState=>prevState + 1)
+              }}
+              actionCount={requery}
+              key={accountBalances}
             />
           </Grid.Col>
         </Grid.Row>
@@ -189,7 +198,9 @@ function ProtektDepositCard({
   }
 
   return ( (coverage.loading) ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
-    <AccordionItem>
+    <AccordionItem
+      key={accountBalances}
+    >
       <Card className="mb-1">
         <AccordionItemHeading>
           <AccordionItemButton>
@@ -240,7 +251,12 @@ function ProtektDepositCard({
             coverage={coverage}
             claimsManager={claimsManager}
             accountBalances={accountBalances}
-            onRequery={()=>setRequery(prevState=>prevState + 1)}
+            onRequery={()=>{
+                console.log('forcing update')
+                setRequery(prevState=>prevState + 1)
+              }}
+            actionCount={requery}
+            key={accountBalances}
           />
           <Card.Body>
             <Grid.Row>

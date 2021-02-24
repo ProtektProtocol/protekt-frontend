@@ -50,9 +50,8 @@ function DepositWithdrawTokensForm({
         setLoading(true);
         const afterMine = async (error) => {
           await sleep(15000)
-          onRequery()
-          console.log('on Requery hit')
           setLoading(false);
+          onRequery()
         }
         handleSubmit(values.numbers, afterMine);
       }}

@@ -1,6 +1,6 @@
 // @flow
 
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import numeral from 'numeral';
 import { ethers } from "ethers";
 
@@ -35,7 +35,14 @@ function ProtektHoldingSection({
   claimsManager,
   accountBalances,
   onRequery,
+  actionCount
 }: Props): React.Component {
+
+  const [count, updateCount] = useState(actionCount);
+
+  useEffect(() => {
+    updateCount(actionCount)
+  }, [actionCount])
 
 
   async function handleDepositTx(amount, cb) {
@@ -76,7 +83,9 @@ function ProtektHoldingSection({
   console.log('logging balance holdings', accountBalances[item.pTokenSymbol]["token"])
 
   return (
-    <Card.Body>
+    <Card.Body
+      key={accountBalances}
+    >
       <Grid.Row>
         <Grid.Col width={6}>
           <h5 className="m-0 text-muted">{`YOUR DEPOSITS`}</h5>
@@ -124,7 +133,9 @@ function ProtektHoldingSection({
                             "Approve"
                   }
             onRequery={onRequery}
+            key={accountBalances}
           />
+          <p>Action Count {count}</p>
         </Grid.Col>
         <Grid.Col width={5} offset={1}>
           <h5 className="m-0 text-muted">{`SUBMIT CLAIM`}</h5>
@@ -154,6 +165,7 @@ function ProtektHoldingSection({
             buttonIcon={ "upload" }
             buttonLabel={ "Withdraw" }
             onRequery={onRequery}
+            key={accountBalances}
           />
         </Grid.Col>
       </Grid.Row>
