@@ -81,31 +81,27 @@ function StakingDepositCard({
 
 
   // Called after a successful transaction
-  async function handleTxSuccess() {
-    /*
-      This doing nothing possibly remove?
-    */
-  }
 
-  async function handleDepositTx(amount) {
+  async function handleDepositTx(amount, cb) {
     if(web3Context.ready) {
-      const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
+      const tx = Transactor(web3Context.provider, cb, gasPrice);
       let weiAmount = ethers.utils.parseUnits(amount.toString(), item.reserveTokenDecimals);
       const allowanceAmount = await contracts[item.reserveTokenSymbol]["allowance"](...[web3Context.address, item.shieldTokenAddress]);
 
       if(weiAmount.gt(allowanceAmount)) {
-        tx(contracts[item.reserveTokenSymbol]["approve"](item.shieldTokenAddress, ethers.utils.parseUnits('1000000',item.reserveTokenDecimals)));
+        tx(contracts[item.reserveTokenSymbol]["approve"](item.shieldTokenAddress, ethers.utils.parseUnits('10000000',item.reserveTokenDecimals)),cb);
       } else {
-        tx(contracts[item.shieldTokenSymbol]["deposit"](weiAmount));
+        console.log(allowanceAmount)
+        tx(contracts[item.shieldTokenSymbol]["deposit"](weiAmount),cb);
       }
     }
   }
 
-  async function handleWithdrawTx(amount) {
+  async function handleWithdrawTx(amount,cb) {
     if(web3Context.ready && amount > 0) {
-      const tx = Transactor(web3Context.provider, handleTxSuccess, gasPrice);
+      const tx = Transactor(web3Context.provider, cb, gasPrice);
       let weiAmount = ethers.utils.parseUnits(amount.toString(), item.shieldTokenDecimals);
-      tx(contracts[item.shieldTokenSymbol]["withdraw"](weiAmount));
+      tx(contracts[item.shieldTokenSymbol]["withdraw"](weiAmount),cb);
     }
   }
 
@@ -186,7 +182,7 @@ function StakingDepositCard({
               web3Context={web3Context}
               tokenPrices={tokenPrices}
               contracts={contracts}
-              handleSubmit={handleWithdrawTx}
+              handleSubmit={handleDepositTx}
               label={`Your wallet: ${numeral(ethers.utils.formatUnits(accountBalances[item.reserveTokenSymbol]["token"],item.reserveTokenDecimals)).format('0.00')} ${item.reserveTokenSymbol.toUpperCase()}`}
               buttonIcon={ accountBalances[item.reserveTokenSymbol] && 
                             accountBalances[item.reserveTokenSymbol]["allowance"] &&

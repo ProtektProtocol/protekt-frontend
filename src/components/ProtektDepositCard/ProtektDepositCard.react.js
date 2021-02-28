@@ -110,7 +110,12 @@ function ProtektDepositCard({
       if(weiAmount.gt(allowanceAmount)) {
         tx(contracts[item.coreTokenSymbol]["approve"](item.pTokenAddress, ethers.utils.parseUnits('1000000',item.coreTokenDecimals)), cb);
       } else {
-        tx(contracts[item.pTokenSymbol]["depositCoreTokens(uint256)"](weiAmount), cb);
+        if(item.coreTokenSymbol === "dai"){
+          tx(contracts[item.pTokenSymbol]["depositCoreTokens(uint256)"](weiAmount), cb);
+        }else{
+          tx(contracts[item.pTokenSymbol]["deposit"](weiAmount), cb);
+        }
+        
       }
     }
   }
