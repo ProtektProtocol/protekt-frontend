@@ -1,11 +1,13 @@
 // @flow
 
-import React, { useState, useEffect, useContext, useReducer } from 'react';
+import React, { useState, useEffect, useContext, useReducer, Fragment } from 'react';
 import numeral from 'numeral';
 import { ethers } from "ethers";
 import _ from "lodash";
 
 import Account from "../Account";
+
+import { Accordion, Card } from "react-bootstrap";
 
 import ContentLoader from 'react-content-loader'
 
@@ -22,14 +24,11 @@ import {
   Text,
   Tag
 } from "tabler-react";
-import Card from "../tablerReactAlt/src/components/Card";
 
 import {
   useGasPrice,
   useCompoundDaiCoverageMetrics,
-  useAccountBalances,
   useContractLoader,
-  useContractReader,
   useClaimsManager,
   useInterval
 } from "../../hooks";
@@ -188,8 +187,10 @@ function ProtektDepositCard({
   }
 
   return ( (coverage.loading) ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
+    <Accordion>
       <Card className="mb-1">
-            <Card.Body>
+        <Accordion.Toggle as={Card.Header} eventKey="0">
+        <Card.Body className="accordion__button">
               <Grid.Row alignItems="center" justifyContent="center">
                 <Grid.Col width={2}>
                   <Avatar
@@ -224,7 +225,9 @@ function ProtektDepositCard({
                 </Grid.Col>
               </Grid.Row>
             </Card.Body>
-
+        </Accordion.Toggle>
+        <Accordion.Collapse eventKey="0">
+          <Fragment>
           <ProtektHoldingSection
             item={item}
             tokenPrices={tokenPrices}
@@ -262,7 +265,11 @@ function ProtektDepositCard({
                     renderDepositCard() :
                       (<div></div>)
           }
+          </Fragment>
+        </Accordion.Collapse> 
       </Card>
+    </Accordion>
+      
   )
 }
 

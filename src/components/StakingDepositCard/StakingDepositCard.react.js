@@ -1,6 +1,6 @@
 // @flow
 
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, Fragment } from 'react';
 import numeral from 'numeral';
 import { ethers } from "ethers";
 import _ from "lodash";
@@ -16,7 +16,7 @@ import {
   Tag
 } from "tabler-react";
 
-import Card from "../tablerReactAlt/src/components/Card";
+// import Card from "../tablerReactAlt/src/components/Card";
 import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
 
 import {
@@ -30,6 +30,8 @@ import {
 import { Transactor } from "../../utils";
 import { Web3Context } from '../../App.react';
 import { infuraProvider } from "../../config";
+
+import { Accordion, Card } from "react-bootstrap";
 
 import {GetAccountBalances} from '../../utils/';
 
@@ -232,8 +234,10 @@ function StakingDepositCard({
   }
 
   return ( coverage.loading ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
+    <Accordion>
       <Card>
-            <Card.Body>
+        <Accordion.Toggle as={Card.Header} eventKey="0">
+          <Card.Body className="accordion__button">
               <Grid.Row alignItems="center" justifyContent="center">
                 <Grid.Col width={2} className="text-center">
                   <Text>{item.id}</Text>
@@ -276,7 +280,10 @@ function StakingDepositCard({
                 </Grid.Col>
               </Grid.Row>
             </Card.Body>
-          { (web3Context.ready &&
+        </Accordion.Toggle>
+        <Accordion.Collapse eventKey="0">
+        <Fragment>
+        { (web3Context.ready &&
               accountBalances.ready &&
                 accountBalances[item.shieldTokenSymbol]["token"] !== "0") ?
                   renderHoldingsCard() : <div></div>
@@ -313,7 +320,10 @@ function StakingDepositCard({
                   </div>      
                 )
           }
+          </Fragment>
+        </Accordion.Collapse>
       </Card>
+    </Accordion>
   )
 }
 
