@@ -94,6 +94,8 @@ function StakingDepositCard({
         tx(contracts[item.reserveTokenSymbol]["approve"](item.shieldTokenAddress, ethers.utils.parseUnits('10000000',item.reserveTokenDecimals)),cb);
       } else {
         console.log(allowanceAmount)
+        // let symbol = await contracts[item.shieldTokenSymbol].symbol()
+        console.log(contracts[item.shieldTokenSymbol])
         tx(contracts[item.shieldTokenSymbol]["deposit"](weiAmount),cb);
       }
     }
