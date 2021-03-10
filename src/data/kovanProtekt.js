@@ -69,7 +69,7 @@ const data = {
           backedByDisplay: 'wETH (Not re-invested)',
           strategyDisplay: 'Deposits not re-invested',
           claimsManagerDisplay: 'Claims are investigated for a period of 1 week, and the payout decision is made by a DAO vote.',
-          coverageDisplay: `Protection against 1) smart contract bugs that allow hackers to steal or lock DAI and 2) risk that admin keys are stolen or used to withdraw DAI. Not covered: 1) Risk of a Maker hack or DAI lossing its peg. 2) Risk of flash loan or other financial exploit.`,
+          coverageDisplay: `Protection against 1) smart contract bugs that allow hackers to steal or lock USDC and 2) risk that admin keys are stolen or used to withdraw USDC. Not covered: USDC lossing its peg. 2) Risk of flash loan or other financial exploit.`,
   
         //   // Core Token
           coreToken: 'usdc',
