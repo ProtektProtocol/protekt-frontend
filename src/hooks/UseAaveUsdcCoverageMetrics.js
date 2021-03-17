@@ -5,28 +5,97 @@ import numeral from 'numeral';
 import { ethers } from "ethers";
 import { usePoller } from "eth-hooks";
 
-async function getProtocolAPR(symbol) {
+import BN from "bn.js"
+
+// aave constants
+const SECONDS_PER_YEAR = new BN('31536000');
+
+
+
+async function getProtocolAPR() {
   let apr = 0;
   try {
-    const response = await axios.get('https://api.compound.finance/api/v2/ctoken?meta=true&network=mainnet');
+    const response = await axios.get(`https://aave-api-v2.aave.com/data/liquidity/v2?poolId=0xb53c1a33016b2dc2ff3653530bff1848a515c8c5`);
 
-    let temp = response.data.cToken.filter(function (e) {
-      if(symbol === 'cdai') {
-        symbol = 'cDAI'
-      } else if(symbol === 'cusdc') {
-        symbol = 'cUSDC'
+    console.log('logging response in getProtocolAPR')
+    console.log(response)
+
+    for(let element of response.data){
+      if(element['aTokenAddress'] === "0xbcca60bb61934080951369a648fb03df4f96263c"){
+        apr = element['avg91DaysLiquidityRate']
+        console.log(`got apr: ${apr}`)
       }
-      return e.symbol === symbol;
-    });
-
-    apr = _.get(temp[0], 'comp_supply_apy.value', 0);
+    }
   } catch (error) {
     console.error(error);
+    try{
+      apr = await getProtocolAPRFallack()
+    }catch(secondError){
+      console.error(secondError)
+    }
   }
   return apr;
 }
 
-export async function getCompoundDaiCoverageMetrics(item, contracts, tokenPrices, lendingMarket) {
+async function getProtocolAPRFallack(){
+  let aaveData = await fetchAaveSubgraphData("0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48")
+  console.log('logging aave data')
+  console.log(aaveData.reserves)
+  console.log(aaveData.reserves[0].liquidityIndex)
+
+  let archivedRate = calculateAverageRate(
+    aaveData.reserves[0].liquidityIndex,
+    aaveData.reserves[0].paramsHistory[0].liquidityIndex,
+    aaveData.reserves[0].paramsHistory[0].timestamp,
+    aaveData.reserves[0].lastUpdateTimestamp
+  );
+
+  console.log('archived rate:')
+  console.log(archivedRate)
+
+  return archivedRate
+}
+
+async function fetchAaveSubgraphData(tokenId){
+  let response = await fetch("https://api.thegraph.com/subgraphs/name/aave/protocol", {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query: `
+      query GET_DATA {
+        reserves(first: 1, where: {id: "${tokenId}"} ) {
+          id
+          lastUpdateTimestamp
+          liquidityIndex
+          variableBorrowIndex
+          paramsHistory(first: 1, orderDirection: asc, orderBy: timestamp){
+            timestamp
+            liquidityIndex
+            variableBorrowIndex
+          }
+        }
+      }`
+    }),
+  })
+  response = await response.json()
+  return response.data
+}
+
+function calculateAverageRate(index0, index1, timestamp0, timestamp1){
+
+  return valueToBigNumber(index1)
+  .div(index0)
+  .minus('1')
+  .div(timestamp1 - timestamp0)
+  .times(SECONDS_PER_YEAR)
+  .toString();
+}
+
+function valueToBigNumber(value){
+  return new BN(value)
+}
+
+
+export async function getAaveUsdcCoverageMetrics(item, contracts, tokenPrices, lendingMarket) {
   let _coverage = {
     loading: true,
     pTokenTotalDepositTokens: 0,
@@ -42,6 +111,9 @@ export async function getCompoundDaiCoverageMetrics(item, contracts, tokenPrices
   };
 
   _coverage.protocolAPR = await getProtocolAPR(item.underlyingTokenSymbol);
+
+  console.log('logging coverage apr')
+  console.log(_coverage.protocolAPR)
 
   if(!_.isEmpty(contracts)) {
     try {
@@ -72,7 +144,7 @@ export async function getCompoundDaiCoverageMetrics(item, contracts, tokenPrices
   return _coverage
 }
 
-export function useCompoundDaiCoverageMetrics(
+export function useAaveUsdcCoverageMetrics(
   item,
   contracts,
   tokenPrices,
@@ -91,14 +163,16 @@ export function useCompoundDaiCoverageMetrics(
     netAdjustedAPR: 0
   });
   useEffect(() => {
-    console.log('is dai')
+    console.log('is aave')
     async function run() {
-      const data = await getCompoundDaiCoverageMetrics(
+      const data = await getAaveUsdcCoverageMetrics(
         item,
         contracts,
         tokenPrices,
         lendingMarket
       );
+      console.log('logging data')
+      console.log(data)
       setMetrics(data);
     }
 
@@ -110,7 +184,7 @@ export function useCompoundDaiCoverageMetrics(
   return metrics;
 }
 
-export function usePolledCompoundDaiCoverageMetrics(
+export function usePolledAaveUsdcCoverageMetrics(
   item,
   contracts,
   tokenPrices,
@@ -131,7 +205,7 @@ export function usePolledCompoundDaiCoverageMetrics(
 
   async function run() {
     if(!_.isEmpty(contracts) && !_.isEmpty(tokenPrices)) {
-      const data = await getCompoundDaiCoverageMetrics(
+      const data = await getAaveUsdcCoverageMetrics(
         item,
         contracts,
         tokenPrices,

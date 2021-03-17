@@ -14,6 +14,10 @@ export {
 	getCompoundDaiCoverageMetrics,
 	useCompoundDaiCoverageMetrics,
 	usePolledCompoundDaiCoverageMetrics } from "./UseCompoundDaiCoverageMetrics";
+export{
+	useAaveUsdcCoverageMetrics,
+} from "./UseAaveUsdcCoverageMetrics";
+
 export {
 	getAccountBalances,
 	useAccountBalances,

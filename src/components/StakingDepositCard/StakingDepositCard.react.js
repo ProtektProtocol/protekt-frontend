@@ -22,6 +22,7 @@ import DepositWithdrawTokensForm from "../DepositWithdrawTokensForm";
 import {
   useGasPrice,
   useCompoundDaiCoverageMetrics,
+  useAaveUsdcCoverageMetrics,
   useInterval,
   useClaimsManager,
   useContractLoader,
@@ -53,12 +54,21 @@ function StakingDepositCard({
   const web3Context = useContext(Web3Context);
   const gasPrice = useGasPrice("fast");
   const contracts = useContractLoader(web3Context.provider);
-  const coverage = useCompoundDaiCoverageMetrics(
+
+  // below should be abstracted to a function to set this when more contracts
+  const coverage = item.id === 'Aave-USDC-Manual-kovan' ? useAaveUsdcCoverageMetrics(
+    item,
+    contracts,
+    tokenPrices,
+    lendingMarketMetrics[0]
+  ) : useCompoundDaiCoverageMetrics(
     item,
     contracts,
     tokenPrices,
     lendingMarketMetrics[0]
   );
+
+
   const claimsManager = useClaimsManager(
     item,
     contracts

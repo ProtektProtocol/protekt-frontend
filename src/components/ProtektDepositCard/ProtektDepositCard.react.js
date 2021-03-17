@@ -30,7 +30,8 @@ import {
   useCompoundDaiCoverageMetrics,
   useContractLoader,
   useClaimsManager,
-  useInterval
+  useInterval,
+  useAaveUsdcCoverageMetrics
 } from "../../hooks";
 import { GetAccountBalances, Transactor } from "../../utils";
 import {Web3Context} from '../../App.react';
@@ -69,7 +70,13 @@ function ProtektDepositCard({
   const gasPrice = useGasPrice("fast");
   const contracts = useContractLoader(web3Context.provider);
 
-  const coverage = useCompoundDaiCoverageMetrics(
+  // below should be abstracted to a function to set this when more contracts
+  const coverage = item.id == 'Aave-USDC-Manual-kovan' ? useAaveUsdcCoverageMetrics(
+    item,
+    contracts,
+    tokenPrices,
+    lendingMarketMetrics[0]
+  ) : useCompoundDaiCoverageMetrics(
     item,
     contracts,
     tokenPrices,
