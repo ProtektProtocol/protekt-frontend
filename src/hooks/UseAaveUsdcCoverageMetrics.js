@@ -5,94 +5,59 @@ import numeral from 'numeral';
 import { ethers } from "ethers";
 import { usePoller } from "eth-hooks";
 
-import BN from "bn.js"
+import Web3 from "web3";
 
-// aave constants
-const SECONDS_PER_YEAR = new BN('31536000');
+import { INFURA_LINK, AAVE_PROTOCOL_DATA_PROVIDER_ADDRESS} from "../config";
+
+const aaveDataProviderAbi = [{"inputs":[{"internalType":"contract ILendingPoolAddressesProvider","name":"addressesProvider","type":"address"}],"stateMutability":"nonpayable","type":"constructor"},{"inputs":[],"name":"ADDRESSES_PROVIDER","outputs":[{"internalType":"contract ILendingPoolAddressesProvider","name":"","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getAllATokens","outputs":[{"components":[{"internalType":"string","name":"symbol","type":"string"},{"internalType":"address","name":"tokenAddress","type":"address"}],"internalType":"struct AaveProtocolDataProvider.TokenData[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[],"name":"getAllReservesTokens","outputs":[{"components":[{"internalType":"string","name":"symbol","type":"string"},{"internalType":"address","name":"tokenAddress","type":"address"}],"internalType":"struct AaveProtocolDataProvider.TokenData[]","name":"","type":"tuple[]"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"asset","type":"address"}],"name":"getReserveConfigurationData","outputs":[{"internalType":"uint256","name":"decimals","type":"uint256"},{"internalType":"uint256","name":"ltv","type":"uint256"},{"internalType":"uint256","name":"liquidationThreshold","type":"uint256"},{"internalType":"uint256","name":"liquidationBonus","type":"uint256"},{"internalType":"uint256","name":"reserveFactor","type":"uint256"},{"internalType":"bool","name":"usageAsCollateralEnabled","type":"bool"},{"internalType":"bool","name":"borrowingEnabled","type":"bool"},{"internalType":"bool","name":"stableBorrowRateEnabled","type":"bool"},{"internalType":"bool","name":"isActive","type":"bool"},{"internalType":"bool","name":"isFrozen","type":"bool"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"asset","type":"address"}],"name":"getReserveData","outputs":[{"internalType":"uint256","name":"availableLiquidity","type":"uint256"},{"internalType":"uint256","name":"totalStableDebt","type":"uint256"},{"internalType":"uint256","name":"totalVariableDebt","type":"uint256"},{"internalType":"uint256","name":"liquidityRate","type":"uint256"},{"internalType":"uint256","name":"variableBorrowRate","type":"uint256"},{"internalType":"uint256","name":"stableBorrowRate","type":"uint256"},{"internalType":"uint256","name":"averageStableBorrowRate","type":"uint256"},{"internalType":"uint256","name":"liquidityIndex","type":"uint256"},{"internalType":"uint256","name":"variableBorrowIndex","type":"uint256"},{"internalType":"uint40","name":"lastUpdateTimestamp","type":"uint40"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"asset","type":"address"}],"name":"getReserveTokensAddresses","outputs":[{"internalType":"address","name":"aTokenAddress","type":"address"},{"internalType":"address","name":"stableDebtTokenAddress","type":"address"},{"internalType":"address","name":"variableDebtTokenAddress","type":"address"}],"stateMutability":"view","type":"function"},{"inputs":[{"internalType":"address","name":"asset","type":"address"},{"internalType":"address","name":"user","type":"address"}],"name":"getUserReserveData","outputs":[{"internalType":"uint256","name":"currentATokenBalance","type":"uint256"},{"internalType":"uint256","name":"currentStableDebt","type":"uint256"},{"internalType":"uint256","name":"currentVariableDebt","type":"uint256"},{"internalType":"uint256","name":"principalStableDebt","type":"uint256"},{"internalType":"uint256","name":"scaledVariableDebt","type":"uint256"},{"internalType":"uint256","name":"stableBorrowRate","type":"uint256"},{"internalType":"uint256","name":"liquidityRate","type":"uint256"},{"internalType":"uint40","name":"stableRateLastUpdated","type":"uint40"},{"internalType":"bool","name":"usageAsCollateralEnabled","type":"bool"}],"stateMutability":"view","type":"function"}]
 
 
-
-async function getProtocolAPR() {
+async function getProtocolAPR(item) {
   let apr = 0;
-  try {
-    const response = await axios.get(`https://aave-api-v2.aave.com/data/liquidity/v2?poolId=0xb53c1a33016b2dc2ff3653530bff1848a515c8c5`);
-
-    console.log('logging response in getProtocolAPR')
-    console.log(response)
-
-    for(let element of response.data){
-      if(element['aTokenAddress'] === "0xbcca60bb61934080951369a648fb03df4f96263c"){
-        apr = element['avg91DaysLiquidityRate']
-        console.log(`got apr: ${apr}`)
-      }
-    }
-  } catch (error) {
-    console.error(error);
-    try{
-      apr = await getProtocolAPRFallack()
-    }catch(secondError){
-      console.error(secondError)
-    }
-  }
+   try {
+     const response = await axios.get(`https://aave-api-v2.aave.com/data/liquidity/v2?poolId=0xb53c1a33016b2dc2ff3653530bff1848a515c8c5`);
+     for(let element of response.data){
+       if(element['aTokenAddress'] === "0xbcca60bb61934080951369a648fb03df4f96263c"){
+         apr = element['avg91DaysLiquidityRate'] // which rate to use here?
+       }
+     }
+   } catch (error) {
+     console.error(error);
+     try{
+      apr = await getProtocolAPRFallack(item.coreTokenAddress)
+     }catch(secondError){
+       console.error(secondError)
+     }
+   }
   return apr;
 }
 
-async function getProtocolAPRFallack(){
-  let aaveData = await fetchAaveSubgraphData("0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48")
-  console.log('logging aave data')
-  console.log(aaveData.reserves)
-  console.log(aaveData.reserves[0].liquidityIndex)
-
-  let archivedRate = calculateAverageRate(
-    aaveData.reserves[0].liquidityIndex,
-    aaveData.reserves[0].paramsHistory[0].liquidityIndex,
-    aaveData.reserves[0].paramsHistory[0].timestamp,
-    aaveData.reserves[0].lastUpdateTimestamp
-  );
-
-  console.log('archived rate:')
-  console.log(archivedRate)
-
-  return archivedRate
+/*
+    Fallback for when Aave API doesnt work
+    - call contract directly
+*/
+async function getProtocolAPRFallack(address){
+  let apr = 0
+  const web3 = new Web3(new Web3.providers.HttpProvider(INFURA_LINK));
+  try{
+    let aaveDataProviderContract = new web3.eth.Contract(aaveDataProviderAbi,AAVE_PROTOCOL_DATA_PROVIDER_ADDRESS);
+    const reserveData = await aaveDataProviderContract.methods.getReserveData(address).call();
+    console.log('liquidity rate is...')
+    console.log(reserveData.liquidityRate)
+    /*  
+        Need to do something with this liquidityRate
+        - https://docs.aave.com/developers/the-core-protocol/protocol-data-provider
+        - it says it should be the intetest rate for deposits
+        - but value returns far too large...
+    */
+   return 0
+  }catch(e){
+    console.log(e)
+    return e
+  }
+  return apr
 }
 
-async function fetchAaveSubgraphData(tokenId){
-  let response = await fetch("https://api.thegraph.com/subgraphs/name/aave/protocol", {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query: `
-      query GET_DATA {
-        reserves(first: 1, where: {id: "${tokenId}"} ) {
-          id
-          lastUpdateTimestamp
-          liquidityIndex
-          variableBorrowIndex
-          paramsHistory(first: 1, orderDirection: asc, orderBy: timestamp){
-            timestamp
-            liquidityIndex
-            variableBorrowIndex
-          }
-        }
-      }`
-    }),
-  })
-  response = await response.json()
-  return response.data
-}
-
-function calculateAverageRate(index0, index1, timestamp0, timestamp1){
-
-  return valueToBigNumber(index1)
-  .div(index0)
-  .minus('1')
-  .div(timestamp1 - timestamp0)
-  .times(SECONDS_PER_YEAR)
-  .toString();
-}
-
-function valueToBigNumber(value){
-  return new BN(value)
-}
 
 
 export async function getAaveUsdcCoverageMetrics(item, contracts, tokenPrices, lendingMarket) {
@@ -109,8 +74,7 @@ export async function getAaveUsdcCoverageMetrics(item, contracts, tokenPrices, l
     protocolAPR: 0,
     netAdjustedAPR: (lendingMarket ? lendingMarket.apr : 5) - item.maxBlockFeeAPR
   };
-
-  _coverage.protocolAPR = await getProtocolAPR(item.underlyingTokenSymbol);
+  _coverage.protocolAPR = await getProtocolAPR(item);
 
   console.log('logging coverage apr')
   console.log(_coverage.protocolAPR)
@@ -163,7 +127,6 @@ export function useAaveUsdcCoverageMetrics(
     netAdjustedAPR: 0
   });
   useEffect(() => {
-    console.log('is aave')
     async function run() {
       const data = await getAaveUsdcCoverageMetrics(
         item,
@@ -171,8 +134,6 @@ export function useAaveUsdcCoverageMetrics(
         tokenPrices,
         lendingMarket
       );
-      console.log('logging data')
-      console.log(data)
       setMetrics(data);
     }
 

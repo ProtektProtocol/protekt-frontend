@@ -91,7 +91,6 @@ export function useCompoundDaiCoverageMetrics(
     netAdjustedAPR: 0
   });
   useEffect(() => {
-    console.log('is dai')
     async function run() {
       const data = await getCompoundDaiCoverageMetrics(
         item,

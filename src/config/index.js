@@ -9,3 +9,6 @@ export const INFURA_LINK = env === "production" ?
   `https://mainnet.infura.io/v3/${INFURA_ID}` :
   `https://kovan.infura.io/v3/${INFURA_ID}`
 export const infuraProvider = new JsonRpcProvider(INFURA_LINK);
+
+export const AAVE_PROTOCOL_DATA_PROVIDER_ADDRESS = env === "production" ?
+"0x057835Ad21a177dbdd3090bB1CAE03EaCF78Fc6d" : "0x3c73A5E5785cAC854D468F727c606C07488a29D6"
