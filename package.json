@@ -4,6 +4,7 @@
   "private": true,
   "license": "MIT",
   "dependencies": {
+    "@aave/protocol-js": "^2.6.0",
     "@ethersproject/contracts": "^5.0.9",
     "@ethersproject/providers": "^5.0.19",
     "@ethersproject/units": "^5.0.9",
