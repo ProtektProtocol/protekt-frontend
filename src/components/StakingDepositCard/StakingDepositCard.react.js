@@ -60,7 +60,7 @@ function StakingDepositCard({
     item,
     contracts,
     tokenPrices,
-    lendingMarketMetrics[0]
+    lendingMarketMetrics[1]
   ) : useCompoundDaiCoverageMetrics(
     item,
     contracts,
