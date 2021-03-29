@@ -46,6 +46,7 @@ function ProtektHoldingSection({
       if(weiAmount.gt(allowanceAmount)) {
         tx(contracts[item.coreTokenSymbol]["approve"](item.pTokenAddress, ethers.utils.parseUnits('1000000',item.coreTokenDecimals)), cb);
       } else {
+        console.log('hitting inside is dai')
         tx(contracts[item.pTokenSymbol]["depositCoreTokens(uint256)"](weiAmount), cb);
       }
     }

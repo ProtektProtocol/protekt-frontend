@@ -119,6 +119,7 @@ function ProtektDepositCard({
         console.log(contracts[item.pTokenSymbol])
         console.log(item.coreTokenSymbol)
        if(item.coreTokenSymbol === "dai" || item.coreTokenSymbol === 'usdc'){
+         console.log('hitting inside is dai')
           tx(contracts[item.pTokenSymbol]["depositCoreTokens(uint256)"](weiAmount), cb);
         }else{
           console.log('hit')
