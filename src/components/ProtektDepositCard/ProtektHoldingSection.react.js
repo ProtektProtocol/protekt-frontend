@@ -56,6 +56,9 @@ function ProtektHoldingSection({
     if(web3Context.ready && amount > 0) {
       const tx = Transactor(web3Context.provider, cb, gasPrice);
       let weiAmount = ethers.utils.parseUnits(amount.toString(), item.pTokenDecimals);
+      console.log(item)
+      console.log(`wei amount: ${weiAmount}`)
+      console.log(contracts[item.pTokenSymbol])
       tx(contracts[item.pTokenSymbol]["withdraw"](weiAmount));
     }
   }

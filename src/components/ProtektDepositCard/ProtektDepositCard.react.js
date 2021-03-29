@@ -119,7 +119,6 @@ function ProtektDepositCard({
         console.log(contracts[item.pTokenSymbol])
         console.log(item.coreTokenSymbol)
        if(item.coreTokenSymbol === "dai" || item.coreTokenSymbol === 'usdc'){
-         console.log('hitting inside is dai')
           tx(contracts[item.pTokenSymbol]["depositCoreTokens(uint256)"](weiAmount), cb);
         }else{
           console.log('hit')
@@ -134,6 +133,8 @@ function ProtektDepositCard({
     if(web3Context.ready && amount > 0) {
       const tx = Transactor(web3Context.provider, cb, gasPrice);
       let weiAmount = ethers.utils.parseUnits(amount.toString(), item.pTokenDecimals);
+      console.log(`wei amount: ${weiAmount}`)
+      console.log(contracts[item.pTokenSymbol])
       tx(contracts[item.pTokenSymbol]["withdraw"](weiAmount));
     }
   }
