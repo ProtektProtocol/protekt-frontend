@@ -5,7 +5,6 @@ import { usePoller } from "eth-hooks";
 
 export async function getAccountBalances(address, tokenPrices, contracts, tokens=[], decimals=[], allowances=[], depositedToken=[]) {
   let _balances = {ready: false};
-  console.log('hitting')
   if(!_.isEmpty(address) && !_.isEmpty(contracts)) {
     try {
       for (let i = 0; i < tokens.length; i++) {
