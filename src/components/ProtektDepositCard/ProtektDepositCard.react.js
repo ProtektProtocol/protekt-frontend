@@ -30,7 +30,8 @@ import {
   useCompoundDaiCoverageMetrics,
   useContractLoader,
   useClaimsManager,
-  useInterval
+  useInterval,
+  useAaveUsdcCoverageMetrics
 } from "../../hooks";
 import { GetAccountBalances, Transactor } from "../../utils";
 import {Web3Context} from '../../App.react';
@@ -69,7 +70,13 @@ function ProtektDepositCard({
   const gasPrice = useGasPrice("fast");
   const contracts = useContractLoader(web3Context.provider);
 
-  const coverage = useCompoundDaiCoverageMetrics(
+  // below should be abstracted to a function to set this when more contracts
+  const coverage = item.id == 'Aave-USDC-Manual-kovan' ? useAaveUsdcCoverageMetrics(
+    item,
+    contracts,
+    tokenPrices,
+    lendingMarketMetrics[1]
+  ) : useCompoundDaiCoverageMetrics(
     item,
     contracts,
     tokenPrices,
@@ -126,6 +133,8 @@ function ProtektDepositCard({
     if(web3Context.ready && amount > 0) {
       const tx = Transactor(web3Context.provider, cb, gasPrice);
       let weiAmount = ethers.utils.parseUnits(amount.toString(), item.pTokenDecimals);
+      console.log(`wei amount: ${weiAmount}`)
+      console.log(contracts[item.pTokenSymbol])
       tx(contracts[item.pTokenSymbol]["withdraw"](weiAmount));
     }
   }
