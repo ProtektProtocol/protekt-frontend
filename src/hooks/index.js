@@ -18,6 +18,8 @@ export{
 	useAaveUsdcCoverageMetrics,
 } from "./UseAaveUsdcCoverageMetrics";
 
+export {useCapped} from "./UseCapped";
+
 export {
 	getAccountBalances,
 	useAccountBalances,
