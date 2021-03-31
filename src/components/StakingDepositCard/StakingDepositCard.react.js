@@ -26,7 +26,7 @@ import {
   useInterval,
   useClaimsManager,
   useContractLoader,
-  useContractReader
+  useCapped
 } from "../../hooks";
 import { Transactor } from "../../utils";
 import { Web3Context } from '../../App.react';
@@ -68,6 +68,10 @@ function StakingDepositCard({
     lendingMarketMetrics[0]
   );
 
+  const capped = useCapped(
+    item,
+    contracts
+  )
 
   const claimsManager = useClaimsManager(
     item,
@@ -148,6 +152,9 @@ function StakingDepositCard({
                               "Approve"
                     }
             />
+            {capped.shieldTokenIsCapped && <div>
+              <h6 className="m-0">Deposits on this contract are currently capped at {capped.shieldTokenCap} {item.reserveTokenSymbol}</h6>
+            </div>}
           </Grid.Col>
           <Grid.Col width={5} offset={1}>
             <Header.H4>
@@ -211,6 +218,10 @@ function StakingDepositCard({
                               "Approve"
                     }
             />
+            {capped.shieldTokenIsCapped && <div>
+              <h6 className="m-0">Deposits on this contract are currently capped at {capped.shieldTokenCap} {item.reserveTokenSymbol}</h6>
+              <br/>
+            </div>}
             <h5 className="m-0 text-muted">{`REDEEM EARNINGS`}</h5>
             <Form.Group label={`Check & collect your rewards!`}>
               <Button
@@ -245,7 +256,7 @@ function StakingDepositCard({
     )
   }
 
-  return ( coverage.loading ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
+  return ( (coverage.loading || capped.loading) ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
     <Accordion>
       <Card>
         <Accordion.Toggle as={Card.Header} eventKey="0">

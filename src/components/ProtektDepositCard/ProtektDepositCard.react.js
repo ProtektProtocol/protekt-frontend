@@ -31,7 +31,8 @@ import {
   useContractLoader,
   useClaimsManager,
   useInterval,
-  useAaveUsdcCoverageMetrics
+  useAaveUsdcCoverageMetrics,
+  useCapped
 } from "../../hooks";
 import { GetAccountBalances, Transactor } from "../../utils";
 import {Web3Context} from '../../App.react';
@@ -87,6 +88,12 @@ function ProtektDepositCard({
     item,
     contracts
   );
+
+  const capped = useCapped(
+    item,
+    contracts
+  );
+
 
   const [accountBalances, setAccountBalances] = useState({ready:false})
 
@@ -175,6 +182,9 @@ function ProtektDepositCard({
                               "Approve"
                     }
             />
+          {capped.pTokenIsCapped && <div>
+            <h6 className="m-0">Deposits on this contract are currently capped at {capped.pTokenCap} {item.underlyingTokenSymbol}</h6>
+          </div>}
           </Grid.Col>
           <Grid.Col width={5} offset={1}>
             <Header.H4>
@@ -198,7 +208,7 @@ function ProtektDepositCard({
     )
   }
 
-  return ( (coverage.loading) ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
+  return ( (coverage.loading || capped.loading) ? <Card><Card.Body><Dimmer active loader /></Card.Body></Card> : 
     <Accordion>
       <Card className="mb-1">
         <Accordion.Toggle as={Card.Header} eventKey="0">
@@ -249,6 +259,7 @@ function ProtektDepositCard({
             coverage={coverage}
             claimsManager={claimsManager}
             accountBalances={accountBalances}
+            capped={capped}
           />
           <Card.Body>
             <Grid.Row>

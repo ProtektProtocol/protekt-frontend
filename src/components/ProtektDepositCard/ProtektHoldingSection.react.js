@@ -34,6 +34,7 @@ function ProtektHoldingSection({
   coverage,
   claimsManager,
   accountBalances,
+  capped
 }: Props): React.Component {
 
 
@@ -72,7 +73,7 @@ function ProtektHoldingSection({
 
   if(!accountBalances.ready || accountBalances[item.pTokenSymbol]["token"] === "0") {
     return (<div></div>)
-  } else if(coverage.loading) {
+  } else if(coverage.loading || capped.loading) {
     return (<Card.Body><Dimmer active loader /></Card.Body>)
   }
 
@@ -128,6 +129,11 @@ function ProtektHoldingSection({
                   }
             key={accountBalances}
           />
+          
+          {capped.pTokenIsCapped && <div>
+            <h6 className="m-0">Deposits on this contract are currently capped at {capped.pTokenCap} {item.underlyingTokenSymbol}</h6>
+          </div>}
+          
         </Grid.Col>
         <Grid.Col width={5} offset={1}>
           <h5 className="m-0 text-muted">{`SUBMIT CLAIM`}</h5>
