@@ -3,7 +3,6 @@ import _ from 'lodash';
 import numeral from 'numeral';
 import { ethers } from "ethers";
 import { usePoller } from "eth-hooks";
-import {  getAaveV2Rate } from '../utils/Aave'
 
 
 // async function getProtocolAPR(item) {
