@@ -13,6 +13,7 @@
     "axios": "^0.21.1",
     "bnc-notify": "^1.5.1",
     "bootstrap": "^4.6.0",
+    "bufferutil": "^4.0.3",
     "d3-scale": "^3.0.0",
     "eth-hooks": "^1.1.2",
     "formik": "^2.2.6",
