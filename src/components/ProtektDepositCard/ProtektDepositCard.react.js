@@ -181,6 +181,7 @@ function ProtektDepositCard({
                             "Deposit" : 
                               "Approve"
                     }
+              disabled= {accountBalances[item.coreTokenSymbol]["token"] == 0 ? true : false}
             />
           {capped.pTokenIsCapped && <div>
             <h6 className="m-0">Deposits on this contract are currently capped at {capped.pTokenCap} {item.underlyingTokenSymbol}</h6>
@@ -200,6 +201,7 @@ function ProtektDepositCard({
               label={`Your deposits: ${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.pTokenDecimals)).format('0.00')} ${item.pTokenSymbol}`}
               buttonIcon={ "upload" }
               buttonLabel={ "Withdraw" }
+              disabled= {accountBalances[item.pTokenSymbol]["token"] == 0 ? true : false}
             />
           </Grid.Col>
         </Grid.Row>

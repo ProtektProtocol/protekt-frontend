@@ -127,6 +127,7 @@ function ProtektHoldingSection({
                           "Deposit" : 
                             "Approve"
                   }
+            disabled= {accountBalances[item.coreTokenSymbol]["token"] == 0 ? true : false}
             key={accountBalances}
           />
           
@@ -162,6 +163,7 @@ function ProtektHoldingSection({
             label={`For withdraw: ${numeral(ethers.utils.formatUnits(accountBalances[item.pTokenSymbol]["token"],item.pTokenDecimals)).format('0.00')} ${item.pTokenSymbol.toUpperCase()}`}
             buttonIcon={ "upload" }
             buttonLabel={ "Withdraw" }
+            disabled= {accountBalances[item.pTokenSymbol]["token"] == 0 ? true : false}
             key={accountBalances}
           />
         </Grid.Col>

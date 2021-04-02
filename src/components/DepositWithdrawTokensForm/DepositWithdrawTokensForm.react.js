@@ -36,6 +36,7 @@ function DepositWithdrawTokensForm({
   label,
   buttonIcon,
   buttonLabel,
+  disabled
 }: Props): React.Node {
   const [loading, setLoading] = useState(false);
 
@@ -80,7 +81,7 @@ function DepositWithdrawTokensForm({
                     value="Submit"
                     className="color"
                     icon={ buttonIcon }
-                    disabled={isSubmitting}
+                    disabled={isSubmitting || disabled}
                     loading={loading}
                   >
                     { buttonLabel }

@@ -151,6 +151,7 @@ function StakingDepositCard({
                             "Deposit" : 
                               "Approve"
                     }
+              disabled= {accountBalances[item.reserveTokenSymbol]["token"] == 0 ? true : false}
             />
             {capped.shieldTokenIsCapped && <div>
               <h6 className="m-0">Deposits on this contract are currently capped at {capped.shieldTokenCap} {item.reserveTokenSymbol}</h6>
@@ -170,7 +171,7 @@ function StakingDepositCard({
               label={`Your deposits: ${numeral(ethers.utils.formatUnits(accountBalances[item.shieldTokenSymbol]["token"],item.shieldTokenDecimals)).format('0.00')} ${item.shieldTokenSymbol.toUpperCase()}`}
               buttonIcon={ "upload" }
               buttonLabel={ "Withdraw" }
-              disabled={true}
+              disabled= {accountBalances[item.shieldTokenSymbol]["token"] == 0 ? true : false}
             />
           </Grid.Col>
         </Grid.Row>
@@ -217,6 +218,7 @@ function StakingDepositCard({
                             "Deposit" : 
                               "Approve"
                     }
+              disabled= {accountBalances[item.reserveTokenSymbol]["token"] == 0 ? true : false}
             />
             {capped.shieldTokenIsCapped && <div>
               <h6 className="m-0">Deposits on this contract are currently capped at {capped.shieldTokenCap} {item.reserveTokenSymbol}</h6>
@@ -248,7 +250,7 @@ function StakingDepositCard({
               label={`Your deposits: ${numeral(ethers.utils.formatUnits(accountBalances[item.shieldTokenSymbol]["token"],item.shieldTokenDecimals)).format('0.00')} ${item.shieldTokenSymbol.toUpperCase()}`}
               buttonIcon={ "upload" }
               buttonLabel={ "Withdraw" }
-              disabled={true}
+              disabled= {accountBalances[item.shieldTokenSymbol]["token"] == 0 ? true : false}
             />
           </Grid.Col>
         </Grid.Row>
