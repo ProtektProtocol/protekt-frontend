@@ -15,7 +15,6 @@
     "bootstrap": "^4.6.0",
     "d3-scale": "^3.0.0",
     "eth-hooks": "^1.1.2",
-    "ethereumjs-abi": "^0.6.8",
     "formik": "^2.2.6",
     "graphql-tag": "^2.12.3",
     "install": "^0.13.0",
