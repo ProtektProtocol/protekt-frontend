@@ -39,6 +39,8 @@ a:not([href]):not([tabindex]).btn-primary {
   align-self: center;
 }
 
+
+
 .hide {
   display: none !important;
 }

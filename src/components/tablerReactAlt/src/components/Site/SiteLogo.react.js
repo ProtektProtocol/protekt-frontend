@@ -11,7 +11,7 @@ type Props = {|
 |};
 
 const SiteLogo = (props: Props): React.Node => (
-  <Link to={props.href} className="header-brand">
+  <Link to={props.href} >
     <img src={props.src} alt={props.alt} height="60px" width="auto"/>
   </Link>
 );
