@@ -18,7 +18,7 @@
     "bootstrap": "^4.6.0",
     "d3-scale": "^3.0.0",
     "eth-hooks": "^1.1.2",
-    "ethers": "^5.0.9",
+    "ethers": "^5.1.0",
     "formik": "^2.2.6",
     "graphql-tag": "^2.11.0",
     "install": "^0.13.0",
@@ -56,7 +56,9 @@
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build",
+    "heroku-prebuild": "npm i -f",
+    "heroku-postbuild": "npm run build"
   },
   "devDependencies": {
     "gh-pages": "^2.1.1"
