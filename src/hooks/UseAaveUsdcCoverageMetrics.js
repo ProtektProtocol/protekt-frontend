@@ -4,6 +4,8 @@ import numeral from 'numeral';
 import { ethers } from "ethers";
 import { usePoller } from "eth-hooks";
 
+import {  getAaveV2Rate } from '../utils/Aave'
+
 
 // async function getProtocolAPR(item) {
 //   let apr = 0;
@@ -18,7 +20,8 @@ import { usePoller } from "eth-hooks";
 
 export async function getAaveUsdcCoverageMetrics(item, contracts, tokenPrices, lendingMarket) {
 
-  console.log(lendingMarket)
+  let tokenAPR = await getAaveV2Rate(item.coreTokenSymbol);
+  console.log(item)
   let _coverage = {
     loading: true,
     pTokenTotalDepositTokens: 0,
@@ -30,10 +33,9 @@ export async function getAaveUsdcCoverageMetrics(item, contracts, tokenPrices, l
     coverageFeeAPR: item.maxBlockFeeAPR,
     tempCoverage: 0,
     protocolAPR: 0,
-    netAdjustedAPR: (lendingMarket ? lendingMarket.apr : 5) - item.maxBlockFeeAPR
+    netAdjustedAPR: tokenAPR - item.maxBlockFeeAPR
   };
 
-  //_coverage.protocolAPR = await getProtocolAPR(item); ????
 
   if(!_.isEmpty(contracts)) {
     try {
@@ -44,7 +46,7 @@ export async function getAaveUsdcCoverageMetrics(item, contracts, tokenPrices, l
       _coverage.coverageRatio = _coverage.shieldTokenTotalDepositUsd / _coverage.pTokenTotalDepositUsd;
       _coverage.coverageRatioDisplay = _coverage.coverageRatio > 1 ? '100%' : `${numeral(_coverage.coverageRatio * 100).format('0.00')}%`;
       _coverage.coverageFeeAPR = _coverage.coverageRatio > 1 ? item.maxBlockFeeAPR : item.maxBlockFeeAPR / _coverage.coverageRatio;
-      _coverage.netAdjustedAPR = parseFloat(lendingMarket.apr) + parseFloat(_coverage.protocolAPR) - parseFloat(_coverage.coverageFeeAPR);
+      _coverage.netAdjustedAPR = parseFloat(tokenAPR) + parseFloat(_coverage.protocolAPR) - parseFloat(_coverage.coverageFeeAPR);
       _coverage.loading = false;
       // console.log('----Coverage----')
       // console.log('pTokens',_coverage.pTokenTotalDepositTokens.toString())
