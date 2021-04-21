@@ -13,6 +13,7 @@ import {
 import EarnYieldPage from "./pages/EarnYieldPage.react";
 import StakingPage from "./pages/StakingPage.react";
 import HowItWorksPage from "./pages/HowItWorksPage.react";
+import LaunchPage from "./pages/LaunchPage.react";
 
 import "tabler-react/dist/Tabler.css";
 import "./App.css";
@@ -66,6 +67,7 @@ function App(props: Props): React.Node {
             <Route exact path="/earn-yield" component={EarnYieldPage} />
             <Route exact path="/staking" component={StakingPage} />
             <Route exact path="/About" component={HowItWorksPage} />
+            <Route exact path="/launch" component={LaunchPage} />
             <Redirect to='/earn-yield' />
             <Route component={Error404} />
           </Switch>
