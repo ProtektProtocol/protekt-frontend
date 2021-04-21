@@ -80,7 +80,7 @@ function DepositWithdrawTokensForm({
                     type="submit"
                     value="Submit"
                     className="color"
-                    icon={ buttonIcon }
+                    icon={buttonIcon}
                     disabled={isSubmitting || disabled}
                     loading={loading}
                   >
